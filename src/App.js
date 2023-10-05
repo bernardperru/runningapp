@@ -15,7 +15,6 @@ function App() {
 
   const callActivities = `https://www.strava.com/api/v3/athlete/activities?access_token=`
 
-  
   useEffect(() => {
     (async () => {
       try {
@@ -31,7 +30,7 @@ function App() {
 
   return (
     <div>{activities.map((activity) => {
-      return <h1> {JSON.stringify(activity)} </h1>;
+      return <Activity activity = {activity}> </Activity>;
     })}</div>
   );
 }
