@@ -29,9 +29,18 @@ function App() {
   }, [callRefresh])
 
   return (
-    <div>{activities.map((activity) => {
-      return <Activity activity = {activity}> </Activity>;
-    })}</div>
+    <table>
+       <tr>
+          <th> Date </th>
+          <th> Distance </th>
+          <th> Avg. Cadence </th>
+          <th> Time </th>
+          <th> Avg. Heart Rate</th>
+      </tr>
+      {activities.map((activity) => {
+        return <Activity activity = {activity}> </Activity>;})
+      }
+    </table>
   );
 }
 
