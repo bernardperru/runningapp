@@ -29,6 +29,7 @@ function App() {
   }, [callRefresh])
 
   return (
+    <>
     <table>
        <tr>
           <th> Date </th>
@@ -37,10 +38,11 @@ function App() {
           <th> Time </th>
           <th> Avg. Heart Rate</th>
       </tr>
-      {activities.map((activity) => {
+      {activities.sort((a,b) => (a.distance > b.distance ? -1 : 1)).map((activity) => {
         return <Activity activity = {activity}> </Activity>;})
       }
     </table>
+    </>
   );
 }
 
