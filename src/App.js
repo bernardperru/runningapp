@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import Activity from './Activity'
+import ActivityTable from './ActivityTable';
 
 function App() {
   const [activities, setActivities] = useState([])
@@ -29,21 +29,8 @@ function App() {
   }, [callRefresh])
 
   return (
-    <>
-    <table>
-       <tr>
-          <th> Date </th>
-          <th> Distance </th>
-          <th> Avg. Cadence </th>
-          <th> Time </th>
-          <th> Avg. Heart Rate</th>
-      </tr>
-      {activities.sort((a,b) => (a.distance > b.distance ? -1 : 1)).map((activity) => {
-        return <Activity activity = {activity}> </Activity>;})
-      }
-    </table>
-    </>
-  );
+    <ActivityTable activities = {activities}></ActivityTable>
+  )
 }
 
 export default App;
