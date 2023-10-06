@@ -1,27 +1,46 @@
 import React from 'react';
-import Stats from './Stats';
 
-function ActivityTable(props) {
-    const {activities} = props;
-    let sortedProducts = [...activities];
+function ActivityTable({activities, sortingOption}) {
+    let sortedActivities = [...activities];
+    const [sortedField, setSortedField] = React.useState(null);
 
-    sortedProducts.sort((a,b) => (a.distance > b.distance ? -1 : 1));
-
-    console.log(sortedProducts);
+    if (sortedField !== null) {
+        sortedActivities.sort((a,b) => (a[sortedField] > b[sortedField] ? -1 : 1));
+    }
 
     return (
         <table>
             <thead>
                 <tr>
-                    <th> Date </th>
-                    <th> Distance </th>
-                    <th> Avg. Cadence </th>
-                    <th> Time </th>
-                    <th> Avg. Heart Rate</th>
+                    <th> 
+                        <button type="button" onClick={() => setSortedField('start_date')}>
+                            Date
+                        </button> 
+                    </th>
+                    <th> 
+                        <button type="button" onClick={() => setSortedField('distance')}>
+                            Distance
+                        </button> 
+                    </th>
+                    <th> 
+                        <button type="button" onClick={() => setSortedField('average_cadence')}>
+                            Cadence
+                        </button> 
+                    </th>
+                    <th> 
+                        <button type="button" onClick={() => setSortedField('elapsed_time')}>
+                            Time
+                        </button> 
+                    </th>
+                    <th> 
+                        <button type="button" onClick={() => setSortedField('average_heartrate')}>
+                            Avg. Heartrate
+                        </button> 
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                {activities.map(activity => (
+                {sortedActivities.map(activity => (
                 <tr>
                     <td>{activity.start_date}</td>
                     <td>{(activity.distance / 1000).toFixed(2)} km</td>

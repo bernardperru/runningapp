@@ -29,7 +29,7 @@ function App() {
   }, [callRefresh])
 
   return (
-    <ActivityTable activities = {activities}></ActivityTable>
+    <ActivityTable activities = {activities} sortingOption = {"distance"}></ActivityTable>
   )
 }
 
