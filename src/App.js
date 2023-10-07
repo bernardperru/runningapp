@@ -1,7 +1,8 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
 import ActivityTable from './ActivityTable';
-
+import WeekCum from './WeekCum';
+import Data from './Data';
 function App() {
   const [activities, setActivities] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -14,7 +15,7 @@ function App() {
   const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`
 
   const callActivities = `https://www.strava.com/api/v3/athlete/activities?access_token=`
-
+  let data;
   useEffect(() => {
     (async () => {
       try {
@@ -28,9 +29,15 @@ function App() {
     
   }, [callRefresh])
 
+  const xd = new Data(activities);
+
   return (
-    <ActivityTable activities = {activities} sortingOption = {"distance"}></ActivityTable>
+    <>
+    <WeekCum activities = {activities}></WeekCum>
+    </>
   )
 }
 
 export default App;
+
+//<ActivityTable activities = {activities} sortingOption = {"distance"}></ActivityTable>

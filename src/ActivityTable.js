@@ -3,6 +3,7 @@ import React from 'react';
 function ActivityTable({activities, sortingOption}) {
     let sortedActivities = [...activities];
     const [sortedField, setSortedField] = React.useState(null);
+    const {order, setOrder} = React.useState("asc");
 
     if (sortedField !== null) {
         sortedActivities.sort((a,b) => (a[sortedField] > b[sortedField] ? -1 : 1));
