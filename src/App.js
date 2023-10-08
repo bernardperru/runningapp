@@ -1,8 +1,8 @@
 import './App.css';
 import React, {useState, useEffect} from 'react';
 import ActivityTable from './ActivityTable';
-import WeekCum from './WeekCum';
-import Data from './Data';
+import WeeklyData from './WeeklyData';
+
 function App() {
   const [activities, setActivities] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -29,11 +29,10 @@ function App() {
     
   }, [callRefresh])
 
-  const xd = new Data(activities);
 
   return (
     <>
-    <WeekCum activities = {activities}></WeekCum>
+    <WeeklyData activities = {activities}></WeeklyData>
     </>
   )
 }

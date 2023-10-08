@@ -1,12 +1,4 @@
-
-class Data {
-    constructor(stravaData) {
-        const activities = stravaData;
-        const week = new Week(stravaData);
-    }
-}
-
-function activitiesPerWeek(activities) {
+export function weekDistanceCumulative(activities) {
     const activitiesWithWeek = activities.map(activity => {
         const currentDate = new Date(activity['start_date']);
         const startDate = new Date(currentDate.getFullYear(), 0, 1);
@@ -28,14 +20,5 @@ function activitiesPerWeek(activities) {
         hash[x.key] = hash[x.key] + x.val['distance'];
     })
     
-    return activitiesWithWeek;
+    return hash;
 }
-
-class Week {
-    
-    constructor(activities) {
-        const weekDistance = activitiesPerWeek(activities)
-    }
-}
-
-export default Data;
