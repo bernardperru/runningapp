@@ -22,3 +22,9 @@ export function weekDistanceCumulative(activities) {
     
     return hash;
 }
+
+export function prettyDate(start_date) {
+    const date = new Date(start_date);
+    
+    return date.getDate() + '-' + (parseInt(date.getMonth())+1) + '-' + date.getFullYear();
+} 

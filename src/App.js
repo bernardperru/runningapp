@@ -32,6 +32,7 @@ function App() {
 
   return (
     <>
+    <ActivityTable activities = {activities}></ActivityTable>
     <WeeklyData activities = {activities}></WeeklyData>
     </>
   )

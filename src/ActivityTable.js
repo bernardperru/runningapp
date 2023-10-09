@@ -1,4 +1,5 @@
 import React from 'react';
+import { prettyDate } from './funktioner';
 
 function ActivityTable({activities, sortingOption}) {
     let sortedActivities = [...activities];
@@ -43,7 +44,7 @@ function ActivityTable({activities, sortingOption}) {
             <tbody>
                 {sortedActivities.map(activity => (
                 <tr>
-                    <td>{activity.start_date}</td>
+                    <td>{prettyDate(activity['start_date'])}</td>
                     <td>{(activity.distance / 1000).toFixed(2)} km</td>
                     <td>{activity.average_cadence*2}</td>
                     <td>{(activity.elapsed_time / 60).toFixed(2)} min</td>
@@ -54,5 +55,6 @@ function ActivityTable({activities, sortingOption}) {
         </table>
   );
 }
+
 
 export default ActivityTable;
