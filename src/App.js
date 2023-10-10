@@ -4,6 +4,7 @@ import React, {useState, useEffect} from 'react';
 import ActivityTable from './components/ActivityTable';
 import WeeklyData from './components/WeeklyData';
 import {Route, Routes} from 'react-router-dom';
+import Home from './components/Home';
 
 function App() {
   const [activities, setActivities] = useState([])
@@ -34,13 +35,12 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar>
-        <Routes>
-          <Route path="/activities" element={<ActivityTable activities = {activities} />}/>
-          <Route path="/weekly" element={<WeeklyData activities = {activities} />} />
-        </Routes>
-      </Navbar>
-      <ActivityTable activities = {activities} />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} /> 
+        <Route path="/activities" element={<ActivityTable activities = {activities} />}/>
+        <Route path="/weekly" element={<WeeklyData activities = {activities} />} />
+      </Routes>
     </div>
   )
 }
