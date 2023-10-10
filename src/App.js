@@ -1,7 +1,9 @@
 import './App.css';
+import Navbar from './components/Navbar';
 import React, {useState, useEffect} from 'react';
-import ActivityTable from './ActivityTable';
-import WeeklyData from './WeeklyData';
+import ActivityTable from './components/ActivityTable';
+import WeeklyData from './components/WeeklyData';
+import {Route, Routes} from 'react-router-dom';
 
 function App() {
   const [activities, setActivities] = useState([])
@@ -15,7 +17,7 @@ function App() {
   const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`
 
   const callActivities = `https://www.strava.com/api/v3/athlete/activities?access_token=`
-  let data;
+
   useEffect(() => {
     (async () => {
       try {
@@ -31,10 +33,15 @@ function App() {
 
 
   return (
-    <>
-    <ActivityTable activities = {activities}></ActivityTable>
-    <WeeklyData activities = {activities}></WeeklyData>
-    </>
+    <div className="App">
+      <Navbar>
+        <Routes>
+          <Route path="/activities" element={<ActivityTable activities = {activities} />}/>
+          <Route path="/weekly" element={<WeeklyData activities = {activities} />} />
+        </Routes>
+      </Navbar>
+      <ActivityTable activities = {activities} />
+    </div>
   )
 }
 

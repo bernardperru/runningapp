@@ -1,5 +1,5 @@
 import React from 'react';
-import { prettyDate } from './funktioner';
+import { prettyDate } from '../funktioner';
 
 function ActivityTable({activities, sortingOption}) {
     let sortedActivities = [...activities];

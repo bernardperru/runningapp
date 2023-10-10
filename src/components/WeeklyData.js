@@ -1,5 +1,5 @@
 import React from 'react';
-import { weekDistanceCumulative } from './funktioner';
+import { weekDistanceCumulative } from '../funktioner';
 
 
 function WeeklyData(props) {
