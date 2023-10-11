@@ -3,31 +3,22 @@ import { prettyDate } from '../../funktioner';
 import "./ActivityTable.css";
 
 function ActivityTable({activities}) {
-    let sortedActivities = [...activities];
-    const [sortedField, setSortedField] = React.useState(null);
-    const {order, setOrder} = React.useState("asc");
     const [sort, setSort] = React.useState({keyToSort: "start_date", direction: "asc"});
 
-    if (sortedField !== null) {
-        sortedActivities.sort((a,b) => (a[sortedField] > b[sortedField] ? -1 : 1));
-    }
-
     function handleHeaderClick(sortOpt) {
-        console.log(sortOpt);
         setSort(
         {
             keyToSort: sortOpt,
             direction: 
                 sortOpt === sort.keyToSort ? sort.direction === 'asc' ? 'desc' : 'asc' : 'desc',        
         });
-
     }
 
     function getSortedArray () {
         if (sort.direction === "asc") {
-            return sortedActivities.sort((a,b) => (a[sortedField] > b[sortedField] ? 1 : -1));
+            return activities.sort((a,b) => (a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1));
         }
-        return sortedActivities.sort((a,b) => (a[sortedField] > b[sortedField] ? -1 : 1));
+        return activities.sort((a,b) => (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
     }
 
     return (
