@@ -1,7 +1,7 @@
 import './App.css';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar/Navbar';
 import React, {useState, useEffect} from 'react';
-import ActivityTable from './components/ActivityTable';
+import ActivityTable from './components/Table/ActivityTable';
 import WeeklyData from './components/WeeklyData';
 import {Route, Routes} from 'react-router-dom';
 import Home from './components/Home';
