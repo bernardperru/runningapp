@@ -6,12 +6,40 @@ import { BsFillCaretUpFill, BsFillCaretDownFill } from "react-icons/bs";
 function ActivityTable({activities}) {
     const [sort, setSort] = React.useState({keyToSort: "start_date", direction: "asc"});
 
-    function handleHeaderClick(sortOpt) {
+    const headers = [
+        {
+            id: 1,
+            key: "start_date",
+            label: "Date"
+        },
+        {
+            id: 2,
+            key: "distance",
+            label: "Distance"
+        },
+        {
+            id: 3,
+            key: "average_cadence",
+            label: "Avg. Cadence"
+        },
+        {
+            id: 4,
+            key: "elapsed_time",
+            label: "Time"
+        },
+        {
+            id: 5,
+            key: "average_heartrate",
+            label: "Avg. Heartrate"
+        },
+    ]
+
+    function handleHeaderClick(header) {
         setSort(
         {
-            keyToSort: sortOpt,
+            keyToSort: header.key,
             direction: 
-                sortOpt === sort.keyToSort ? sort.direction === 'asc' ? 'desc' : 'asc' : 'desc',        
+                header.key === sort.keyToSort ? sort.direction === 'asc' ? 'desc' : 'asc' : 'desc',        
         });
     }
 
@@ -26,51 +54,21 @@ function ActivityTable({activities}) {
         <table className="center">
             <thead>
                 <tr> 
-                    <th onClick={() => handleHeaderClick('start_date')}> 
-                        <div className="header-container">
-                            <span>Date</span> 
-                            {
-                                sort.keyToSort === "start_date" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
-                            }
-                        </div>
-                    </th>
-                    <th onClick={() => handleHeaderClick('distance')}> 
-                        <div className="header-container">
-                                <span>Distance</span> 
+                    {headers.map((header, index) => (
+                        <th key={index} onClick={() => handleHeaderClick(header)}> 
+                            <div className="header-container">
+                                <span>{header.label}</span> 
                                 {
-                                    sort.keyToSort === "distance" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
+                                    sort.keyToSort === header.key && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
                                 }
-                        </div>
-                    </th>
-                    <th onClick={() => handleHeaderClick('average_cadence')}>  
-                        <div className="header-container">
-                                <span>Avg. Cadence</span> 
-                                {
-                                    sort.keyToSort === "average_cadence" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
-                                }
-                        </div>
-                    </th>
-                    <th onClick={() => handleHeaderClick('elapsed_time')}> 
-                        <div className="header-container">
-                                <span>Time</span> 
-                                {
-                                    sort.keyToSort === "elapsed_time" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
-                                }
-                        </div>
-                    </th>
-                    <th onClick={() => handleHeaderClick('average_heartrate')}> 
-                        <div className="header-container">
-                                <span>Avg. Heartrate</span> 
-                                {
-                                    sort.keyToSort === "average_heartrate" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
-                                }
-                        </div>
-                    </th>
+                            </div>
+                        </th>
+                    ))}
                 </tr>
             </thead>
             <tbody>
                 {getSortedArray().map(activity => (
-                <tr>
+                <tr key={activity.id}>
                     <td>{prettyDate(activity['start_date'])}</td>
                     <td>{(activity.distance / 1000).toFixed(2)} km</td>
                     <td>{activity.average_cadence*2}</td>
