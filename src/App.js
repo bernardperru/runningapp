@@ -8,7 +8,6 @@ import Home from './components/Home';
 
 function App() {
   const [activities, setActivities] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
   //Strava Credentials
   let clientId = process.env.REACT_APP_CLIENT_ID;
   let clientSecret = process.env.REACT_APP_CLIENT_SECRET;

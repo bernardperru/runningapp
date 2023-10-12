@@ -1,6 +1,7 @@
 import React from 'react';
 import { prettyDate } from '../../funktioner';
 import "./ActivityTable.css";
+import { BsFillCaretUpFill, BsFillCaretDownFill } from "react-icons/bs";
 
 function ActivityTable({activities}) {
     const [sort, setSort] = React.useState({keyToSort: "start_date", direction: "asc"});
@@ -26,19 +27,44 @@ function ActivityTable({activities}) {
             <thead>
                 <tr> 
                     <th onClick={() => handleHeaderClick('start_date')}> 
-                        Date
+                        <div className="header-container">
+                            <span>Date</span> 
+                            {
+                                sort.keyToSort === "start_date" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
+                            }
+                        </div>
                     </th>
                     <th onClick={() => handleHeaderClick('distance')}> 
-                       Distance
+                        <div className="header-container">
+                                <span>Distance</span> 
+                                {
+                                    sort.keyToSort === "distance" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
+                                }
+                        </div>
                     </th>
                     <th onClick={() => handleHeaderClick('average_cadence')}>  
-                       Average Cadence
+                        <div className="header-container">
+                                <span>Avg. Cadence</span> 
+                                {
+                                    sort.keyToSort === "average_cadence" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
+                                }
+                        </div>
                     </th>
                     <th onClick={() => handleHeaderClick('elapsed_time')}> 
-                       Time
+                        <div className="header-container">
+                                <span>Time</span> 
+                                {
+                                    sort.keyToSort === "elapsed_time" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
+                                }
+                        </div>
                     </th>
                     <th onClick={() => handleHeaderClick('average_heartrate')}> 
-                        Avg. Heartrate
+                        <div className="header-container">
+                                <span>Avg. Heartrate</span> 
+                                {
+                                    sort.keyToSort === "average_heartrate" && (sort.direction === "asc" ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>)
+                                }
+                        </div>
                     </th>
                 </tr>
             </thead>
