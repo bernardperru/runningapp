@@ -28,3 +28,29 @@ export function prettyDate(start_date) {
     
     return date.getDate() + '-' + (parseInt(date.getMonth())+1) + '-' + date.getFullYear();
 } 
+
+
+export function addZones(activities) {
+    activities.map(activity => {
+        Object.assign(activity, Zone(activity['average_heartrate']))
+    })
+}
+
+function Zone(heartRate) {
+    console.log(heartRate)
+    if (98 <= heartRate && heartRate <= 116) {
+        return {zone: 1};
+    }
+    else if (117 <= heartRate  && heartRate <= 136) {
+        return {zone: 2};
+    }
+    else if (137 <= heartRate  && heartRate <= 155) {
+        return {zone: 3};
+    }
+    else if (156 <= heartRate  && heartRate <= 175) {
+        return {zone: 4};
+    }
+    else if (175 < heartRate) {
+        return {zone: 5};
+    }
+}

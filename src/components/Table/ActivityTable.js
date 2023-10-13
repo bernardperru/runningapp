@@ -1,10 +1,14 @@
 import React from 'react';
-import { prettyDate } from '../../funktioner';
+import { prettyDate, addZones } from '../../funktioner';
 import "./ActivityTable.css";
 import { BsFillCaretUpFill, BsFillCaretDownFill } from "react-icons/bs";
 
 function ActivityTable({activities}) {
     const [sort, setSort] = React.useState({keyToSort: "start_date", direction: "asc"});
+    addZones(activities)
+    console.log(activities)
+    //expand activities with zones
+
 
     const headers = [
         {
@@ -32,6 +36,11 @@ function ActivityTable({activities}) {
             key: "average_heartrate",
             label: "Avg. Heartrate"
         },
+        {
+            id: 6,
+            key: "zone",
+            label: "Zone"
+        }
     ]
 
     function handleHeaderClick(header) {
@@ -71,9 +80,10 @@ function ActivityTable({activities}) {
                 <tr key={activity.id}>
                     <td>{prettyDate(activity['start_date'])}</td>
                     <td>{(activity.distance / 1000).toFixed(2)} km</td>
-                    <td>{activity.average_cadence*2}</td>
+                    <td>{activity.average_cadence*2} spm</td>
                     <td>{(activity.elapsed_time / 60).toFixed(2)} min</td>
-                    <td>{activity.average_heartrate}</td>
+                    <td>{activity.average_heartrate} bpm</td>
+                    <td>{activity.zone}</td>
                 </tr>
                 ))}
             </tbody>
