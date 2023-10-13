@@ -1,11 +1,11 @@
 import React from 'react';
-import { average } from '../funktioner';
+import './AverageStats.css';
 
 function AverageStats({activityStat, averageOfStats}) {
     return (
-        <div key={activityStat}>
+        <div className='average-stat-container'>
             <span>{activityStat} : </span>
-            <span>{averageOfStats.toFixed(2)}</span>
+            <span>{averageOfStats}</span>
         </div>
     )
 }
