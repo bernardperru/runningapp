@@ -29,15 +29,15 @@ export function prettyDate(start_date) {
     return date.getDate() + '-' + (parseInt(date.getMonth())+1) + '-' + date.getFullYear();
 } 
 
-
+//Adds Zone data field to the activity objects
 export function addZones(activities) {
     activities.map(activity => {
-        Object.assign(activity, Zone(activity['average_heartrate']))
+        Object.assign(activity, zone(activity['average_heartrate'].toFixed(0)))
     })
 }
 
-function Zone(heartRate) {
-    console.log(heartRate)
+//Chooses zone based on heartrate -- Currently static, but can be based on % of max heartrate
+function zone(heartRate) {
     if (98 <= heartRate && heartRate <= 116) {
         return {zone: 1};
     }
@@ -53,4 +53,12 @@ function Zone(heartRate) {
     else if (175 < heartRate) {
         return {zone: 5};
     }
+}
+
+export function average(key, activities) {
+    let accumulator = 0;
+    activities.map(activity => {
+        accumulator += activity[key];
+    })
+    return (accumulator / activities.length);
 }

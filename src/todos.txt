@@ -1,0 +1,13 @@
+1. find out if you can get more than 30 activities
+2. graph for info
+3. Fix so that table headers dont expand when clicked
+4. Weekly average mileage
+    4.1 Current weeks cumulat
+5. Add zones to the activity (function zone(avg heartrate))
+    5.1 
+6. Database with user and max heartrate?
+7. Caching
+8. Transform the data in the activity array when it's fetched
+    - distance should be divided by 1000
+    - time should be divided by 60
+    - cadence should be multiplied by 2
