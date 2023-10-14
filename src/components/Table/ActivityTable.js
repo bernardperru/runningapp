@@ -8,7 +8,7 @@ function ActivityTable({activities}) {
 
     //expand activities with zones
     addZones(activities)
-
+    console.log(activities)
 
     const headers = [
         {

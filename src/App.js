@@ -5,6 +5,7 @@ import ActivityTable from './components/Table/ActivityTable';
 import WeeklyData from './components/WeeklyData';
 import {Route, Routes} from 'react-router-dom';
 import Home from './components/Home';
+import LineChart from './components/ActivityChart';
 
 function App() {
   const [activities, setActivities] = useState([])
@@ -40,6 +41,7 @@ function App() {
         <Route path="/activities" element={<ActivityTable activities = {activities} />}/>
         <Route path="/weekly" element={<WeeklyData activities = {activities} />} />
       </Routes>
+      <LineChart activities={activities}></LineChart>
     </div>
   )
 }

@@ -5,7 +5,7 @@ function AverageStats({activityStat, averageOfStats}) {
     return (
         <div className='average-stat-container'>
             <span>{activityStat} : </span>
-            <span>{averageOfStats}</span>
+            <span> {averageOfStats}</span>
         </div>
     )
 }

@@ -1,8 +1,11 @@
 import React from 'react';
+import {useState, useEffect} from 'react';
 import { weekDistanceCumulative, average } from '../funktioner';
 import AverageStats from './AverageStats';
 
 function WeeklyData(props) {
+    const [activities, setActivities] = useState(props.activities)
+
     const stats = [
         {
             id: 1,
@@ -30,7 +33,6 @@ function WeeklyData(props) {
         }
     ]
 
-
    const hash = weekDistanceCumulative(props.activities);
    let averageMileage = 0;
     Object.keys(hash).map((key) => {
@@ -40,6 +42,7 @@ function WeeklyData(props) {
    averageMileage = ((averageMileage / Object.keys(hash).length) / 1000).toFixed(2); 
    let goalMileage = (averageMileage / 10);
    goalMileage += parseFloat(averageMileage);
+
 
     return (
         <div>  

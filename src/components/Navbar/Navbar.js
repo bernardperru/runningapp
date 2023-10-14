@@ -16,7 +16,7 @@ function Navbar() {
             <span></span>
             <span></span>
         </div>
-        <ul className={menuOpen ? "open" : ""}>
+        <ul className={menuOpen ? "open" : ""}>          
             <li>
                 <NavLink to="/activities">activities</NavLink>
             </li>
