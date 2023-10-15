@@ -1,5 +1,5 @@
 import React from "react";
-import { prettyDate, addZones, average } from "../../funktioner";
+import { prettyDate, addZones, average, format } from "../../funktioner";
 import "./ActivityTable.css";
 import { BsFillCaretUpFill, BsFillCaretDownFill } from "react-icons/bs";
 
@@ -88,10 +88,10 @@ function ActivityTable({ activities }) {
         </tr>
       </thead>
       <tbody>
-        {activities.map((activity) => (
+        {getSortedArray(activities).map((activity) => (
           <tr>
             {headers.map((header) => (
-              <td> {activity[header.key]} </td>
+              <td> {format(header.key, activity[header.key])} </td>
             ))}
           </tr>
         ))}
