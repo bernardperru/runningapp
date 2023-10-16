@@ -6,6 +6,7 @@ import WeeklyData from "./components/WeeklyData";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import LineChart from "./components/ActivityChart";
+import RunMap from "./components/RunMap";
 
 function App() {
   const [activities, setActivities] = useState([]);
@@ -47,11 +48,11 @@ function App() {
           element={<WeeklyData activities={activities} />}
         />
       </Routes>
-      <LineChart activities={activities} x={"average_heartrate"}></LineChart>
+      <RunMap></RunMap>
     </div>
   );
 }
 
 export default App;
-
+//<LineChart activities={activities} x={"average_heartrate"}></LineChart>
 //<ActivityTable activities = {activities} sortingOption = {"distance"}></ActivityTable>
