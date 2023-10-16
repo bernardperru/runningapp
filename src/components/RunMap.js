@@ -1,16 +1,33 @@
 import React from "react";
-import {
-  MapContainer,
-  TileLayer,
-  useMap,
-  Popup,
-  Marker,
-  Polyline,
-} from "react-leaflet";
+import { format } from "../funktioner";
+import { MapContainer, TileLayer, Popup, Polyline } from "react-leaflet";
 import "./RunMap.css";
 import polyline from "@mapbox/polyline";
 function RunMap({ activity }) {
   const pline = polyline.decode(activity["map"]["summary_polyline"]);
+
+  const mapStats = [
+    {
+      id: 1,
+      key: "distance",
+      label: "Distance",
+    },
+    {
+      id: 2,
+      key: "average_cadence",
+      label: "Avg. Cadence",
+    },
+    {
+      id: 3,
+      key: "elapsed_time",
+      label: "Time",
+    },
+    {
+      id: 4,
+      key: "average_heartrate",
+      label: "Avg. Heartrate",
+    },
+  ];
 
   return (
     <div id="map">
@@ -23,7 +40,15 @@ function RunMap({ activity }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Polyline positions={pline}></Polyline>
+        <Polyline positions={pline}>
+          <Popup>
+            {mapStats.map((stat) => (
+              <div key={stat.id}>
+                {stat.label + " : " + format(stat.key, activity[stat.key])}
+              </div>
+            ))}
+          </Popup>
+        </Polyline>
       </MapContainer>
     </div>
   );

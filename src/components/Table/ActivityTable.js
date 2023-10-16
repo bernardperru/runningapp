@@ -86,7 +86,7 @@ function ActivityTable({ activities }) {
     <div>
       {currentActivity.see == true ? (
         <div>
-          <row onClick={() => handleMapClick()}>RETURN KNAP</row>
+          <div onClick={() => handleMapClick()}>RETURN KNAP</div>
           <RunMap activity={currentActivity.activity}></RunMap>
         </div>
       ) : (
@@ -110,9 +110,12 @@ function ActivityTable({ activities }) {
           </thead>
           <tbody>
             {getSortedArray(activities).map((activity) => (
-              <tr onClick={() => handleRowClick(activity)}>
+              <tr key={activity.id} onClick={() => handleRowClick(activity)}>
                 {headers.map((header) => (
-                  <td> {format(header.key, activity[header.key])} </td>
+                  <td key={header.id}>
+                    {" "}
+                    {format(header.key, activity[header.key])}{" "}
+                  </td>
                 ))}
               </tr>
             ))}

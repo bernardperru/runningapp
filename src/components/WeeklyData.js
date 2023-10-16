@@ -43,7 +43,7 @@ function WeeklyData(props) {
 
   return (
     <div>
-      {stats.map((stat, index) => (
+      {stats.map((stat) => (
         <AverageStats
           key={stat.id}
           activityStat={stat.label}
