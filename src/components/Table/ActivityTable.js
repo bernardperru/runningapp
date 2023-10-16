@@ -2,11 +2,17 @@ import React from "react";
 import { prettyDate, addZones, average, format } from "../../funktioner";
 import "./ActivityTable.css";
 import { BsFillCaretUpFill, BsFillCaretDownFill } from "react-icons/bs";
+import RunMap from "../RunMap";
 
 function ActivityTable({ activities }) {
   const [sort, setSort] = React.useState({
     keyToSort: "start_date",
     direction: "asc",
+  });
+
+  const [currentActivity, setActivity] = React.useState({
+    activity: "",
+    see: false,
   });
   //expand activities with zones
   addZones(activities);
@@ -57,6 +63,14 @@ function ActivityTable({ activities }) {
     });
   }
 
+  function handleRowClick(activity) {
+    setActivity({ activity: activity, see: true });
+  }
+
+  function handleMapClick() {
+    setActivity({ see: false });
+  }
+
   function getSortedArray() {
     if (sort.direction === "asc") {
       return activities.sort((a, b) =>
@@ -69,34 +83,43 @@ function ActivityTable({ activities }) {
   }
 
   return (
-    <table className="center">
-      <thead>
-        <tr>
-          {headers.map((header, index) => (
-            <th key={index} onClick={() => handleHeaderClick(header)}>
-              <div className="header-container">
-                <span>{header.label}</span>
-                {sort.keyToSort === header.key &&
-                  (sort.direction === "asc" ? (
-                    <BsFillCaretUpFill />
-                  ) : (
-                    <BsFillCaretDownFill />
-                  ))}
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {getSortedArray(activities).map((activity) => (
-          <tr>
-            {headers.map((header) => (
-              <td> {format(header.key, activity[header.key])} </td>
+    <div>
+      {currentActivity.see == true ? (
+        <div>
+          <row onClick={() => handleMapClick()}>RETURN KNAP</row>
+          <RunMap activity={currentActivity.activity}></RunMap>
+        </div>
+      ) : (
+        <table className="center">
+          <thead>
+            <tr>
+              {headers.map((header, index) => (
+                <th key={index} onClick={() => handleHeaderClick(header)}>
+                  <div className="header-container">
+                    <span>{header.label}</span>
+                    {sort.keyToSort === header.key &&
+                      (sort.direction === "asc" ? (
+                        <BsFillCaretUpFill />
+                      ) : (
+                        <BsFillCaretDownFill />
+                      ))}
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {getSortedArray(activities).map((activity) => (
+              <tr onClick={() => handleRowClick(activity)}>
+                {headers.map((header) => (
+                  <td> {format(header.key, activity[header.key])} </td>
+                ))}
+              </tr>
             ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+          </tbody>
+        </table>
+      )}
+    </div>
   );
 }
 

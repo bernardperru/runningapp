@@ -9,8 +9,8 @@ import {
 } from "react-leaflet";
 import "./RunMap.css";
 import polyline from "@mapbox/polyline";
-function RunMap({ activities }) {
-  const pline = polyline.decode(activities[0]["map"]["summary_polyline"]);
+function RunMap({ activity }) {
+  const pline = polyline.decode(activity["map"]["summary_polyline"]);
 
   return (
     <div id="map">
