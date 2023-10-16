@@ -48,11 +48,11 @@ function App() {
           element={<WeeklyData activities={activities} />}
         />
       </Routes>
-      <RunMap></RunMap>
     </div>
   );
 }
 
 export default App;
+//<RunMap activities={activities}></RunMap>
 //<LineChart activities={activities} x={"average_heartrate"}></LineChart>
 //<ActivityTable activities = {activities} sortingOption = {"distance"}></ActivityTable>

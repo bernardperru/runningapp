@@ -1,7 +1,17 @@
 import React from "react";
-import { MapContainer, TileLayer, useMap, Popup, Marker } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  useMap,
+  Popup,
+  Marker,
+  Polyline,
+} from "react-leaflet";
 import "./RunMap.css";
-function RunMap() {
+import polyline from "@mapbox/polyline";
+function RunMap({ activities }) {
+  const pline = polyline.decode(activities[0]["map"]["summary_polyline"]);
+
   return (
     <div id="map">
       <MapContainer
@@ -13,11 +23,7 @@ function RunMap() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        <Polyline positions={pline}></Polyline>
       </MapContainer>
     </div>
   );
