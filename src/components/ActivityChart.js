@@ -23,9 +23,10 @@ ChartJS.register(
   Legend
 );
 
-function LineChart({ activities }) {
-  console.log(activities);
+function LineChart({ activities, x }) {
+  activities = activities.map((activity) => activity).reverse();
   const options = {
+    type: "line",
     responsive: true,
     plugins: {
       legend: {
@@ -37,27 +38,18 @@ function LineChart({ activities }) {
       },
     },
   };
-  const labels = activities
-    .map((activity) => {
-      return prettyDate(activity.start_date);
-    })
-    .reverse();
+
+  const labels = activities.map((activity) => {
+    return prettyDate(activity.start_date);
+  });
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Date",
+        label: x,
         data: activities.map((activity) => {
-          return activity.start_date;
-        }),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "Distance",
-        data: activities.map((activity) => {
-          return activity.distance;
+          return activity[x];
         }),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
@@ -66,11 +58,7 @@ function LineChart({ activities }) {
   };
 
   console.log(data);
-  return (
-    <Line options={options} data={data}>
-      {" "}
-    </Line>
-  );
+  return <Line options={options} data={data}></Line>;
 }
 
 export default LineChart;

@@ -47,7 +47,7 @@ function App() {
           element={<WeeklyData activities={activities} />}
         />
       </Routes>
-      <LineChart activities={activities}></LineChart>
+      <LineChart activities={activities} x={"average_heartrate"}></LineChart>
     </div>
   );
 }
