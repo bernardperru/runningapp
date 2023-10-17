@@ -2,7 +2,7 @@ import React from "react";
 import { prettyDate, addZones, average, format } from "../../funktioner";
 import "./ActivityTable.css";
 import { BsFillCaretUpFill, BsFillCaretDownFill } from "react-icons/bs";
-import RunMap from "../RunMap";
+import RunMap from "../Map/RunMap";
 
 function ActivityTable({ activities }) {
   const [sort, setSort] = React.useState({
@@ -15,8 +15,8 @@ function ActivityTable({ activities }) {
     see: false,
   });
   //expand activities with zones
-  addZones(activities);
-  console.log(activities);
+  //addZones(activities);
+  //console.log(activities);
 
   const headers = [
     {
@@ -113,7 +113,6 @@ function ActivityTable({ activities }) {
               <tr key={activity.id} onClick={() => handleRowClick(activity)}>
                 {headers.map((header) => (
                   <td key={header.id}>
-                    {" "}
                     {format(header.key, activity[header.key])}{" "}
                   </td>
                 ))}

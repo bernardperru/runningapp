@@ -1,3 +1,4 @@
+//Divides the activities into weeks, and accumulates the distance for each week
 export function weekDistanceCumulative(activities) {
   const activitiesWithWeek = activities.map((activity) => {
     const currentDate = new Date(activity["start_date"]);
@@ -7,37 +8,39 @@ export function weekDistanceCumulative(activities) {
 
     const weekNumber = Math.ceil(days / 7);
 
-    return { key: weekNumber, val: activity };
+    return weekNumber;
   });
 
-  let hash = {};
+  let uniqueWeeks = [];
 
   activitiesWithWeek.map((x) => {
-    if (hash[x.key] == undefined) {
-      hash[x.key] = 0;
+    if (!uniqueWeeks.includes(x)) {
+      uniqueWeeks.push(x);
     }
-    hash[x.key] = hash[x.key] + x.val["distance"];
   });
 
-  return hash;
+  return uniqueWeeks;
 }
 
-export function prettyDate(start_date) {
-  const date = new Date(start_date);
+function weekNumber(activity) {
+  const currentDate = new Date(activity["start_date"]);
+  const startDate = new Date(currentDate.getFullYear(), 0, 1);
+  const days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
+  const weekNumber = Math.ceil(days / 7);
 
-  return (
-    date.getDate() +
-    "-" +
-    (parseInt(date.getMonth()) + 1) +
-    "-" +
-    date.getFullYear()
-  );
+  return { week: weekNumber };
 }
 
 //Adds Zone data field to the activity objects
 export function addZones(activities) {
   activities.map((activity) => {
     Object.assign(activity, zone(activity["average_heartrate"].toFixed(0)));
+  });
+}
+
+export function addWeekNumbers(activities) {
+  activities.map((activity) => {
+    Object.assign(activity, weekNumber(activity));
   });
 }
 
@@ -56,12 +59,21 @@ function zone(heartRate) {
   }
 }
 
-export function average(key, activities) {
+export function average(key, conditional, activities, type) {
   let accumulator = 0;
+  let i = 0;
   activities.map((activity) => {
-    accumulator += activity[key];
+    if (activity.week == conditional) {
+      accumulator += activity[key];
+      i++;
+    }
   });
-  return accumulator / activities.length;
+
+  if (type == "avg") {
+    return accumulator / i;
+  }
+
+  return accumulator;
 }
 
 export function format(key, value) {
@@ -71,11 +83,22 @@ export function format(key, value) {
     case "average_cadence":
       return (value * 2).toFixed(0) + " spm";
     case "elapsed_time":
-      return (value / 60).toFixed(2) + " min";
+      const hours = Math.floor(value / 3600);
+      value = value - hours * 3600;
+      const minutes = Math.floor(value / 60);
+      const seconds = value - minutes * 60;
+      return hours + ":" + minutes + ":" + seconds.toFixed(0) + "";
     case "average_heartrate":
       return value.toFixed(0) + " bpm";
     case "start_date":
-      return prettyDate(value);
+      const date = new Date(value);
+      return (
+        date.getDate() +
+        "-" +
+        (parseInt(date.getMonth()) + 1) +
+        "-" +
+        date.getFullYear()
+      );
     default:
       return value;
   }

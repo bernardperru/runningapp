@@ -2,11 +2,10 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import React, { useState, useEffect } from "react";
 import ActivityTable from "./components/Table/ActivityTable";
-import WeeklyData from "./components/WeeklyData";
+import WeeklyData from "./components/Stats/WeeklyData";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
-import LineChart from "./components/ActivityChart";
-import RunMap from "./components/RunMap";
+import { addZones, addWeekNumbers } from "./funktioner";
 
 function App() {
   const [activities, setActivities] = useState([]);
@@ -33,6 +32,9 @@ function App() {
       }
     })();
   }, [callRefresh]);
+
+  addZones(activities);
+  addWeekNumbers(activities);
 
   return (
     <div className="App">
