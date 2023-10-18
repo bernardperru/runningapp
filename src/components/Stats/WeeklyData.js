@@ -1,6 +1,7 @@
 import React from "react";
 import { weekDistanceCumulative, average, format } from "../../funktioner";
 import AverageStats from "./AverageStats";
+import "./WeeklyData.css";
 
 function WeeklyData(props) {
   const stats = [
@@ -34,23 +35,27 @@ function WeeklyData(props) {
   const weeks = weekDistanceCumulative(props.activities).reverse();
 
   return (
-    <span>
+    <div>
       {weeks.map((week) => (
-        <span key={week}>
-          {week}
+        <div key={week} className="weekcard">
+          <h1 className="weektitle">{week}</h1>
           {stats.map((stat) => (
-            <AverageStats
-              key={stat.id}
-              activityStat={stat.label}
-              averageOfStats={format(
-                stat.key,
-                average(stat.key, week, props.activities, stat.type)
-              )}
-            ></AverageStats>
+            <div className="weekstats">
+              <ul>
+                <AverageStats
+                  key={stat.id}
+                  activityStat={stat.label}
+                  averageOfStats={format(
+                    stat.key,
+                    average(stat.key, week, props.activities, stat.type)
+                  )}
+                ></AverageStats>
+              </ul>
+            </div>
           ))}
-        </span>
+        </div>
       ))}
-    </span>
+    </div>
   );
 }
 
