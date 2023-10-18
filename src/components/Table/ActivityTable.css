@@ -17,8 +17,16 @@ table thead tr {
   background-color: lightblue;
 }
 
+table thead tr th:hover {
+  background-color: cyan;
+}
+
 table tbody tr {
   background-color: whitesmoke;
+}
+
+table tbody tr:hover {
+  background-color: grey;
 }
 
 table tbody tr td {

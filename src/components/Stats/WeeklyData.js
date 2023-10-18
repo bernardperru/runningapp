@@ -4,6 +4,10 @@ import AverageStats from "./AverageStats";
 import "./WeeklyData.css";
 
 function WeeklyData(props) {
+  function handleCardClick() {
+    console.log("clicked card");
+  }
+
   const stats = [
     {
       id: 1,
@@ -37,7 +41,7 @@ function WeeklyData(props) {
   return (
     <div>
       {weeks.map((week) => (
-        <div key={week} className="weekcard">
+        <div key={week} className="weekcard" onClick={() => handleCardClick()}>
           <h1 className="weektitle">{week}</h1>
           {stats.map((stat) => (
             <div className="weekstats">
