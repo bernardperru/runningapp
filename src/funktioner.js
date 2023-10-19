@@ -1,5 +1,5 @@
-//Divides the activities into weeks, and accumulates the distance for each week
-export function weekDistanceCumulative(activities) {
+//returns an array of week numbers - Used to iterate
+export function getWeeks(activities) {
   const activitiesWithWeek = activities.map((activity) => {
     const currentDate = new Date(activity["start_date"]);
     const startDate = new Date(currentDate.getFullYear(), 0, 1);
@@ -22,6 +22,13 @@ export function weekDistanceCumulative(activities) {
   return uniqueWeeks;
 }
 
+// Adds week number data field to the activity objects
+export function addWeekNumbers(activities) {
+  activities.map((activity) => {
+    Object.assign(activity, weekNumber(activity));
+  });
+}
+
 function weekNumber(activity) {
   const currentDate = new Date(activity["start_date"]);
   const startDate = new Date(currentDate.getFullYear(), 0, 1);
@@ -35,12 +42,6 @@ function weekNumber(activity) {
 export function addZones(activities) {
   activities.map((activity) => {
     Object.assign(activity, zone(activity["average_heartrate"].toFixed(0)));
-  });
-}
-
-export function addWeekNumbers(activities) {
-  activities.map((activity) => {
-    Object.assign(activity, weekNumber(activity));
   });
 }
 
@@ -59,11 +60,12 @@ function zone(heartRate) {
   }
 }
 
-export function average(key, conditional, activities, type) {
+//Averages ou
+export function average(key, week, activities, type) {
   let accumulator = 0;
   let i = 0;
   activities.map((activity) => {
-    if (activity.week == conditional) {
+    if (activity.week == week) {
       accumulator += activity[key];
       i++;
     }
