@@ -4,8 +4,13 @@ import AverageStats from "./AverageStats";
 import "./WeeklyData.css";
 
 function WeeklyData(props) {
-  function handleCardClick() {
-    console.log("clicked card");
+  const [weekView, setWeek] = React.useState({
+    weekNumber: 0,
+    see: false,
+  });
+
+  function handleCardClick(week) {
+    setWeek({ weekNumber: week, see: true });
   }
 
   const stats = [
@@ -36,29 +41,37 @@ function WeeklyData(props) {
   ];
 
   //list of week numbers to get average per week
-  const weeks = weekDistanceCumulative(props.activities).reverse();
+  const weeks = weekDistanceCumulative(props.activities);
 
   return (
     <div>
-      {weeks.map((week) => (
-        <div key={week} className="weekcard" onClick={() => handleCardClick()}>
-          <h1 className="weektitle">{week}</h1>
-          {stats.map((stat) => (
-            <div className="weekstats">
-              <ul>
-                <AverageStats
-                  key={stat.id}
-                  activityStat={stat.label}
-                  averageOfStats={format(
-                    stat.key,
-                    average(stat.key, week, props.activities, stat.type)
-                  )}
-                ></AverageStats>
-              </ul>
-            </div>
-          ))}
-        </div>
-      ))}
+      {weekView.see == true ? (
+        <div>{weekView.weekNumber}</div>
+      ) : (
+        weeks.map((week) => (
+          <div
+            key={week}
+            className="weekcard"
+            onClick={() => handleCardClick(week)}
+          >
+            <h1 className="weektitle">{week}</h1>
+            {stats.map((stat) => (
+              <div className="weekstats">
+                <ul>
+                  <AverageStats
+                    key={stat.id}
+                    activityStat={stat.label}
+                    averageOfStats={format(
+                      stat.key,
+                      average(stat.key, week, props.activities, stat.type)
+                    )}
+                  ></AverageStats>
+                </ul>
+              </div>
+            ))}
+          </div>
+        ))
+      )}
     </div>
   );
 }
