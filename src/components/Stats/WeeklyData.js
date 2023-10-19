@@ -1,6 +1,7 @@
 import React from "react";
 import { weekDistanceCumulative, average, format } from "../../funktioner";
-import AverageStats from "./AverageStats";
+import WeekAverageCard from "./WeekAverageCard";
+import ActivityCard from "./ActivityCard";
 import "./WeeklyData.css";
 
 function WeeklyData(props) {
@@ -45,8 +46,16 @@ function WeeklyData(props) {
 
   return (
     <div>
-      {weekView.see == true ? (
-        <div>{weekView.weekNumber}</div>
+      {weekView.see ? (
+        <div>
+          {props.activities.map((activity) =>
+            activity.week == weekView.weekNumber ? (
+              <ActivityCard activity={activity}></ActivityCard>
+            ) : (
+              <></>
+            )
+          )}
+        </div>
       ) : (
         weeks.map((week) => (
           <div
@@ -58,14 +67,14 @@ function WeeklyData(props) {
             {stats.map((stat) => (
               <div className="weekstats">
                 <ul>
-                  <AverageStats
+                  <WeekAverageCard
                     key={stat.id}
                     activityStat={stat.label}
                     averageOfStats={format(
                       stat.key,
                       average(stat.key, week, props.activities, stat.type)
                     )}
-                  ></AverageStats>
+                  ></WeekAverageCard>
                 </ul>
               </div>
             ))}
