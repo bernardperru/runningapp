@@ -34,7 +34,6 @@ function WeeklyData({ activities }) {
         viewSingleActivity: false,
       });
     }
-    console.log(view);
   }
 
   function handleWeekCardClick(weekNumber) {
@@ -44,8 +43,6 @@ function WeeklyData({ activities }) {
       viewSingleWeek: true,
       viewSingleActivity: false,
     });
-    console.log("clicked on a week card");
-    console.log(view);
   }
 
   function handleActivityCardClick(activity) {
@@ -55,15 +52,16 @@ function WeeklyData({ activities }) {
       viewSingleWeek: false,
       viewSingleActivity: true,
     });
-    console.log("clicked on an activity inside a week");
-    console.log(view);
   }
 
   const weeks = getWeeks(activities);
 
   return (
     <div>
-      <div onClick={() => handleBackButtonClick()}>back button template</div>
+      {(view.viewSingleWeek || view.viewSingleActivity) && (
+        <div onClick={() => handleBackButtonClick()}>back button template</div>
+      )}
+
       {view.viewAllWeeks &&
         weeks.map((weekNumber) => (
           <div key={weekNumber} onClick={() => handleWeekCardClick(weekNumber)}>
@@ -89,7 +87,9 @@ function WeeklyData({ activities }) {
         </div>
       )}
       {view.viewSingleActivity && (
-        <RunMap activity={activity.activity}></RunMap>
+        <div>
+          <RunMap activity={activity.activity}></RunMap>
+        </div>
       )}
     </div>
   );
