@@ -2,42 +2,94 @@ import React from "react";
 import { getWeeks } from "../../funktioner";
 import WeekCard from "./WeekCard";
 import ActivityCard from "./ActivityCard";
+import RunMap from "../Map/RunMap";
 import "./WeeklyData.css";
 
 function WeeklyData({ activities }) {
   const [view, setView] = React.useState({
-    weekNumber: 0,
-    viewAll: true,
+    viewAllWeeks: true,
+    viewSingleWeek: false,
+    viewSingleActivity: false,
   });
 
-  function handleCardClick(week) {
-    setView({ weekNumber: week, viewAll: false });
+  const [activity, setActivity] = React.useState({
+    activity: "",
+  });
+
+  const [week, setWeek] = React.useState({
+    weekNumber: 0,
+  });
+
+  function handleBackButtonClick() {
+    if (view.viewSingleActivity) {
+      setView({
+        viewAllWeeks: false,
+        viewSingleWeek: true,
+        viewSingleActivity: false,
+      });
+    } else if (view.viewSingleWeek) {
+      setView({
+        viewAllWeeks: true,
+        viewSingleWeek: false,
+        viewSingleActivity: false,
+      });
+    }
+    console.log(view);
+  }
+
+  function handleWeekCardClick(weekNumber) {
+    setWeek({ weekNumber: weekNumber });
+    setView({
+      viewAllWeeks: false,
+      viewSingleWeek: true,
+      viewSingleActivity: false,
+    });
+    console.log("clicked on a week card");
+    console.log(view);
+  }
+
+  function handleActivityCardClick(activity) {
+    setActivity({ activity: activity });
+    setView({
+      viewAllWeeks: false,
+      viewSingleWeek: false,
+      viewSingleActivity: true,
+    });
+    console.log("clicked on an activity inside a week");
+    console.log(view);
   }
 
   const weeks = getWeeks(activities);
 
   return (
     <div>
-      {view.viewAll == false ? (
-        <div>
-          {activities.map((activity) =>
-            activity.week == view.weekNumber ? (
-              <ActivityCard activity={activity}></ActivityCard>
-            ) : (
-              <div></div>
-            )
-          )}
-        </div>
-      ) : (
-        weeks.map((week) => (
-          <div onClick={() => handleCardClick(week)}>
+      <div onClick={() => handleBackButtonClick()}>back button template</div>
+      {view.viewAllWeeks &&
+        weeks.map((weekNumber) => (
+          <div key={weekNumber} onClick={() => handleWeekCardClick(weekNumber)}>
             <WeekCard
-              key={week}
-              weekNumber={week}
+              weekNumber={weekNumber}
               activities={activities}
             ></WeekCard>
           </div>
-        ))
+        ))}
+      {view.viewSingleWeek && (
+        <div>
+          {activities.map(
+            (activity) =>
+              activity.week === week.weekNumber && (
+                <div onClick={() => handleActivityCardClick(activity)}>
+                  <ActivityCard
+                    key={activity.id}
+                    activity={activity}
+                  ></ActivityCard>
+                </div>
+              )
+          )}
+        </div>
+      )}
+      {view.viewSingleActivity && (
+        <RunMap activity={activity.activity}></RunMap>
       )}
     </div>
   );

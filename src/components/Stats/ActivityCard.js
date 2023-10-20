@@ -39,7 +39,9 @@ function ActivityCard({ activity }) {
   return (
     <ul className="activity-card">
       {headers.map((header) => (
-        <li>{format(header.key, activity[header.key])}</li>
+        <li>
+          {header.label} : {format(header.key, activity[header.key])}
+        </li>
       ))}
     </ul>
   );

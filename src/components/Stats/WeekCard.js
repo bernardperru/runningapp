@@ -35,7 +35,7 @@ function WeekCard({ weekNumber, activities }) {
       <h1>{weekNumber}</h1>
       <ul>
         {stats.map((stat) => (
-          <li>
+          <li key={stat.id}>
             <span>
               {stat.label}
               {" : "}
