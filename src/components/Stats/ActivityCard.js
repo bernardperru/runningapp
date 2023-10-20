@@ -39,7 +39,7 @@ function ActivityCard({ activity }) {
   return (
     <ul className="activity-card">
       {headers.map((header) => (
-        <li>
+        <li key={header.id}>
           {header.label} : {format(header.key, activity[header.key])}
         </li>
       ))}

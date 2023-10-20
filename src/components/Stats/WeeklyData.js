@@ -4,6 +4,7 @@ import WeekCard from "./WeekCard";
 import ActivityCard from "./ActivityCard";
 import RunMap from "../Map/RunMap";
 import "./WeeklyData.css";
+import { BsArrowReturnLeft } from "react-icons/bs";
 
 function WeeklyData({ activities }) {
   const [view, setView] = React.useState({
@@ -59,9 +60,10 @@ function WeeklyData({ activities }) {
   return (
     <div>
       {(view.viewSingleWeek || view.viewSingleActivity) && (
-        <div onClick={() => handleBackButtonClick()}>back button template</div>
+        <BsArrowReturnLeft
+          onClick={() => handleBackButtonClick()}
+        ></BsArrowReturnLeft>
       )}
-
       {view.viewAllWeeks &&
         weeks.map((weekNumber) => (
           <div key={weekNumber} onClick={() => handleWeekCardClick(weekNumber)}>
@@ -76,11 +78,11 @@ function WeeklyData({ activities }) {
           {activities.map(
             (activity) =>
               activity.week === week.weekNumber && (
-                <div onClick={() => handleActivityCardClick(activity)}>
-                  <ActivityCard
-                    key={activity.id}
-                    activity={activity}
-                  ></ActivityCard>
+                <div
+                  key={activity.id}
+                  onClick={() => handleActivityCardClick(activity)}
+                >
+                  <ActivityCard activity={activity}></ActivityCard>
                 </div>
               )
           )}
