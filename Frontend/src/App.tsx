@@ -5,10 +5,11 @@ import ActivityTable from "./components/Table/ActivityTable";
 import WeeklyData from "./components/Stats/WeeklyData";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
-import { addZones, addWeekNumbers } from "./funktioner";
+import { formatStravaActivities } from "./funktioner";
+import { Activity, StravaActivity } from "./Activity";
 
 function App() {
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
   //Strava Credentials
   let clientId = process.env.REACT_APP_CLIENT_ID;
   let clientSecret = process.env.REACT_APP_CLIENT_SECRET;
@@ -25,16 +26,13 @@ function App() {
         const data = await fetch(callRefresh, { method: "POST" });
         const json = await data.json();
         const data1 = await fetch(callActivities + json.access_token);
-        const json1 = await data1.json();
-        setActivities(json1);
+        const json1: StravaActivity[] = await data1.json();
+        setActivities(json1.map(formatStravaActivities));
       } catch (error) {
         console.error("Error:", error);
       }
     })();
   }, [callRefresh]);
-
-  addZones(activities);
-  addWeekNumbers(activities);
 
   return (
     <div className="App">
@@ -49,11 +47,15 @@ function App() {
           path="/weekly"
           element={<WeeklyData activities={activities} />}
         />
+        <Route
+          path="/weekly/:weekNumber"
+          element={<WeeklyData activities={activities} />}
+        />
       </Routes>
     </div>
   );
 }
-
+//
 export default App;
 //<RunMap activities={activities}></RunMap>
 //<LineChart activities={activities} x={"average_heartrate"}></LineChart>

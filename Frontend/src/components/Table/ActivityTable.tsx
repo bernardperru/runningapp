@@ -1,61 +1,45 @@
 import React from "react";
-import { prettyDate, addZones, average, format } from "../../funktioner";
+import { format } from "../../funktioner";
 import "./ActivityTable.css";
 import { BsFillCaretUpFill, BsFillCaretDownFill } from "react-icons/bs";
 import RunMap from "../Map/RunMap";
+import { Activity } from "@/Activity";
 
-function ActivityTable({ activities }) {
-  const [sort, setSort] = React.useState({
+const labels: { [key in keyof Activity]: string } = {
+  average_heartrate: "Avg. Heartrate",
+  average_cadence: "Avg. Cadence",
+  distance: "Distance",
+  elapsed_time: "Time",
+  id: "Id",
+  start_date: "Date",
+  week: "Week",
+  zone: "Zone",
+};
+
+const ActivityTable: React.FunctionComponent<{ activities: Activity[] }> = ({
+  activities,
+}) => {
+  const [sort, setSort] = React.useState<{
+    keyToSort: keyof Activity;
+    direction: "asc" | "desc";
+  }>({
     keyToSort: "start_date",
     direction: "asc",
   });
 
-  const [currentActivity, setActivity] = React.useState({
-    activity: "",
+  const [currentActivity, setActivity] = React.useState<{
+    activity: Activity | null;
+    see: boolean;
+  }>({
+    activity: null,
     see: false,
   });
-  //expand activities with zones
-  //addZones(activities);
-  //console.log(activities);
 
-  const headers = [
-    {
-      id: 1,
-      key: "start_date",
-      label: "Date",
-    },
-    {
-      id: 2,
-      key: "distance",
-      label: "Distance",
-    },
-    {
-      id: 3,
-      key: "average_cadence",
-      label: "Avg. Cadence",
-    },
-    {
-      id: 4,
-      key: "elapsed_time",
-      label: "Time",
-    },
-    {
-      id: 5,
-      key: "average_heartrate",
-      label: "Avg. Heartrate",
-    },
-    {
-      id: 6,
-      key: "zone",
-      label: "Zone",
-    },
-  ];
-
-  function handleHeaderClick(header) {
+  function handleHeaderClick(key: keyof Activity) {
     setSort({
-      keyToSort: header.key,
+      keyToSort: key,
       direction:
-        header.key === sort.keyToSort
+        key === sort.keyToSort
           ? sort.direction === "asc"
             ? "desc"
             : "asc"
@@ -63,12 +47,12 @@ function ActivityTable({ activities }) {
     });
   }
 
-  function handleRowClick(activity) {
+  function handleRowClick(activity: Activity) {
     setActivity({ activity: activity, see: true });
   }
 
   function handleMapClick() {
-    setActivity({ see: false });
+    setActivity({ activity: null, see: false });
   }
 
   function getSortedArray() {
@@ -82,6 +66,12 @@ function ActivityTable({ activities }) {
     );
   }
 
+  const keys = (Object.keys(activities[0]) as (keyof Activity)[]).filter(
+    (key) => {
+      return labels[key];
+    }
+  );
+
   return (
     <div>
       {currentActivity.see == true ? (
@@ -93,11 +83,11 @@ function ActivityTable({ activities }) {
         <table className="center">
           <thead>
             <tr>
-              {headers.map((header, index) => (
-                <th key={index} onClick={() => handleHeaderClick(header)}>
+              {keys.map((key, index) => (
+                <th key={index} onClick={() => handleHeaderClick(key)}>
                   <div className="header-container">
-                    <span>{header.label}</span>
-                    {sort.keyToSort === header.key &&
+                    <span>{labels[key]}</span>
+                    {sort.keyToSort === key &&
                       (sort.direction === "asc" ? (
                         <BsFillCaretUpFill />
                       ) : (
@@ -109,11 +99,12 @@ function ActivityTable({ activities }) {
             </tr>
           </thead>
           <tbody>
-            {getSortedArray(activities).map((activity) => (
+            {getSortedArray().map((activity) => (
               <tr key={activity.id} onClick={() => handleRowClick(activity)}>
-                {headers.map((header) => (
-                  <td key={header.id}>
-                    {format(header.key, activity[header.key])}{" "}
+                {keys.map((key, index) => (
+                  <td key={index}>
+                    {format(key, activity[key])}
+                    {""}
                   </td>
                 ))}
               </tr>
@@ -123,6 +114,6 @@ function ActivityTable({ activities }) {
       )}
     </div>
   );
-}
+};
 
 export default ActivityTable;

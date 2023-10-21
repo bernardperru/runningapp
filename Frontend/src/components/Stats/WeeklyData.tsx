@@ -5,6 +5,7 @@ import ActivityCard from "./ActivityCard";
 import RunMap from "../Map/RunMap";
 import "./WeeklyData.css";
 import { BsArrowReturnLeft } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 function WeeklyData({ activities }) {
   const [view, setView] = React.useState({
@@ -67,10 +68,12 @@ function WeeklyData({ activities }) {
       {view.viewAllWeeks &&
         weeks.map((weekNumber) => (
           <div key={weekNumber} onClick={() => handleWeekCardClick(weekNumber)}>
-            <WeekCard
-              weekNumber={weekNumber}
-              activities={activities}
-            ></WeekCard>
+            <Link to={"/weekly/" + weekNumber}>
+              <WeekCard
+                weekNumber={weekNumber}
+                activities={activities}
+              ></WeekCard>
+            </Link>
           </div>
         ))}
       {view.viewSingleWeek && (
