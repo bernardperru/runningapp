@@ -11,3 +11,5 @@ export type Activity = StravaActivity & {
   week: number;
   zone: number;
 };
+
+interface map {}

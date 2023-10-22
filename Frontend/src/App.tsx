@@ -2,11 +2,13 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import React, { useState, useEffect } from "react";
 import ActivityTable from "./components/Table/ActivityTable";
-import WeeklyData from "./components/Stats/WeeklyData";
+import MonthPage from "./components/Stats/MonthPage";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import { formatStravaActivities } from "./funktioner";
 import { Activity, StravaActivity } from "./Activity";
+import WeekPage from "./components/Stats/WeekPage";
+import RunMap from "./components/Map/RunMap";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -27,6 +29,7 @@ function App() {
         const json = await data.json();
         const data1 = await fetch(callActivities + json.access_token);
         const json1: StravaActivity[] = await data1.json();
+        console.log(json1);
         setActivities(json1.map(formatStravaActivities));
       } catch (error) {
         console.error("Error:", error);
@@ -43,14 +46,14 @@ function App() {
           path="/activities"
           element={<ActivityTable activities={activities} />}
         />
-        <Route
-          path="/weekly"
-          element={<WeeklyData activities={activities} />}
-        />
+        {/* shows every week with sums of runs */}
+        <Route path="/weekly" element={<MonthPage activities={activities} />} />
+        {/* shows every singly activity in a week*/}
         <Route
           path="/weekly/:weekNumber"
-          element={<WeeklyData activities={activities} />}
+          element={<WeekPage activities={activities} />}
         />
+        {/* <Route path="/weekly/:weekNumber/map" element={<RunMap activities={activities}/>}   */}
       </Routes>
     </div>
   );

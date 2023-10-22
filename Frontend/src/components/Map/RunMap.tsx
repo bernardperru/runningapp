@@ -3,6 +3,7 @@ import { format } from "../../funktioner";
 import { MapContainer, TileLayer, Popup, Polyline } from "react-leaflet";
 import "./RunMap.css";
 import polyline from "@mapbox/polyline";
+
 function RunMap({ activity }) {
   const pline = polyline.decode(activity["map"]["summary_polyline"]);
 
