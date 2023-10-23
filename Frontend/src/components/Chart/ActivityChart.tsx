@@ -9,6 +9,9 @@ import {
 	Title,
 	Tooltip,
 	Legend,
+	ChartTypeRegistry,
+	ChartData,
+	ChartOptions,
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
@@ -18,16 +21,17 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const LineChart: React.FunctionComponent<{ activities: Activity[]; x: keyof Activity }> = ({ activities, x }) => {
 	activities = activities.map(activity => activity).reverse();
-	const options: ChartConfiguration = {
-		type: 'line',
+
+	const options: ChartOptions<keyof ChartTypeRegistry> = {
 		responsive: true,
+		indexAxis: 'x' as const,
 		plugins: {
 			legend: {
-				position: 'top',
+				position: 'top' as const,
 			},
 			title: {
 				display: true,
-				text: 'Chart.js Line Chart',
+				text: 'Chart.js Chart',
 			},
 		},
 	};
@@ -36,21 +40,22 @@ const LineChart: React.FunctionComponent<{ activities: Activity[]; x: keyof Acti
 		return activity.start_date;
 	});
 
-	const data = {
+	const data: ChartData<keyof ChartTypeRegistry> = {
 		labels,
 		datasets: [
 			{
-				label: x,
+				label: 'distance',
 				data: activities.map(activity => {
-					return activity[x];
+					return activity['distance'];
 				}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: 'rgba(53, 162, 235, 0.5)',
 			},
 		],
 	};
+	console.log('i was here');
 
-	return <Line options={options} data={data}></Line>;
+	return <Line options={options} data={data as ChartData<'line'>}></Line>;
 };
 
 export default LineChart;

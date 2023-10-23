@@ -14,6 +14,7 @@ const labels: { [key in keyof Activity]: string } = {
 	start_date: 'Date',
 	week: 'Week',
 	zone: 'Zone',
+	map: '',
 };
 
 const ActivityTable: React.FunctionComponent<{ activities: Activity[] }> = ({ activities }) => {
