@@ -59,49 +59,53 @@ function zone(heartRate: number) {
 }
 
 //Averages ou
-export function average(key: keyof Activity, week: number, activities: Activity[], type: 'avg' | 'sum' | 'none') {
+export function average(
+	key: keyof Activity,
+	week: number,
+	activities: Activity[],
+	type: 'avg' | 'sum' | 'none'
+): number {
 	let accumulator = 0;
 	let i = 0;
 	activities.map(activity => {
 		const temp = activity[key];
-		if (activity.week == week && typeof temp === 'number') {
+		if (activity.week === week && typeof temp === 'number') {
 			accumulator += temp;
 			i++;
 		}
 	});
 
-	if (type == 'avg') {
+	if (type === 'avg') {
 		return accumulator / i;
-	} else if (type == 'sum') {
-		accumulator;
 	}
-
-	return 0;
+	return accumulator;
 }
 
-export function format<T extends keyof Activity>(key: T, value: Activity[T]): string | undefined {
-	if (key.toString() !== 'map') {
-		switch (key) {
-			case 'distance':
-				return (parseFloat(value.toString()) / 1000).toFixed(2) + ' km';
-			case 'average_cadence':
-				return (parseFloat(value.toString()) * 2).toFixed(0) + ' spm';
-			case 'elapsed_time':
-				const hours = Math.floor(parseFloat(value.toString()) / 3600);
-				const newValue = parseFloat(value.toString()) - hours * 3600;
-				const minutes = Math.floor(newValue / 60);
-				const seconds = newValue - minutes * 60;
-				return hours + ':' + minutes + ':' + seconds.toFixed(0) + '';
-			case 'average_heartrate':
-				return parseFloat(value.toString()).toFixed(0) + ' bpm';
-			case 'start_date':
-				if (typeof value === 'number' || typeof value === 'string') {
-					const date = new Date(value);
-					return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
-				}
-				return value.toString();
-			default:
-				return value.toString();
-		}
+export function format<T extends keyof Activity>(key: T, value: Activity[T]) {
+	console.log(key + value);
+
+	switch (key) {
+		case 'distance':
+			return (parseFloat(value.toString()) / 1000).toFixed(2) + ' km';
+		case 'average_cadence':
+			return (parseFloat(value.toString()) * 2).toFixed(0) + ' spm';
+		case 'elapsed_time':
+			const hours = Math.floor(parseFloat(value.toString()) / 3600);
+			const newValue = parseFloat(value.toString()) - hours * 3600;
+			const minutes = Math.floor(newValue / 60);
+			const seconds = newValue - minutes * 60;
+			return hours + ':' + minutes + ':' + seconds.toFixed(0) + '';
+		case 'average_heartrate':
+			return parseFloat(value.toString()).toFixed(0) + ' bpm';
+		case 'start_date':
+			if (typeof value === 'number' || typeof value === 'string') {
+				const date = new Date(value);
+				return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+			}
+			return value.toString();
+		case 'map':
+			return 'map';
+		default:
+			return value.toString();
 	}
 }

@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Popup, Polyline } from 'react-leaflet';
 import './RunMap.css';
 import polyline from '@mapbox/polyline';
 import { Activity } from '@/Activity';
+import { useParams } from 'react-router-dom';
 
 type label = {
 	label: string;
@@ -22,8 +23,14 @@ const mapStats: { [key in keyof Activity]: label } = {
 	map: { label: 'Map', type: 'none' },
 };
 
-const RunMap: React.FunctionComponent<{ activity: Activity }> = ({ activity }) => {
-	const pline = polyline.decode(activity['map']['summary_polyline']);
+const RunMap: React.FunctionComponent<{ activities: Activity[] }> = ({ activities }) => {
+	let { weekNumber, activityId } = useParams();
+
+	let activity = activities.filter(activity => {
+		return activity.id.toString() === activityId;
+	});
+
+	const pline = polyline.decode(activity[0]['map']['summary_polyline']);
 
 	const keys = (Object.keys(activity) as (keyof Activity)[]).filter(key => {
 		return mapStats[key];
@@ -41,7 +48,7 @@ const RunMap: React.FunctionComponent<{ activity: Activity }> = ({ activity }) =
 						{keys.map(
 							key =>
 								mapStats[key].type !== 'none' && (
-									<div key={key}>{mapStats[key].label + ' : ' + format(key, activity[key])}</div>
+									<div key={key}>{mapStats[key].label + ' : ' + format(key, activity[0][key])}</div>
 								)
 						)}
 					</Popup>

@@ -48,7 +48,7 @@ function App() {
 				<Route path="/weekly" element={<MonthPage activities={activities} />} />
 				{/* shows every singly activity in a week*/}
 				<Route path="/weekly/:weekNumber" element={<WeekPage activities={activities} />} />
-				{/* <Route path="/weekly/:weekNumber/map" element={<RunMap activities={activities}/>}   */}
+				<Route path="/weekly/:weekNumber/:activityId" element={<RunMap activities={activities}></RunMap>} />
 			</Routes>
 		</div>
 	);
