@@ -1,0 +1,72 @@
+type Query {
+  getActivity: Activity!
+}
+
+type Map {
+  id: String
+  summary_polyline: String
+  resource_state: Float
+}
+
+type Coords {
+  long: Float
+  lat: Float
+}
+
+type Athlete {
+  id: Float
+  resource_state: Float
+}
+
+type Activity {
+  resource_state: Float
+  athlete: Athlete
+  name: String
+  distance: Float
+  moving_time: Float
+  elapsed_time: Float
+  total_elevation_gain: Float
+  type: String
+  sport_type: String
+  workout_type: String
+  id: Float
+  start_date: String
+  start_date_local: String
+  timezone: String
+  utc_offset: Float
+  location_city: String
+  location_state: String
+  location_country: String
+  achievement_count: Float
+  kudos_count: Float
+  comment_count: Float
+  athlete_count: Float
+  photo_count: Float
+  map: Map
+  trainer: Boolean
+  commute: Boolean
+  manual: Boolean
+  private: Boolean
+  visibility: String
+  flagged: Boolean
+  gear_id: String
+  start_latlng: [Float!]
+  end_latlng: [Float!]
+  average_speed: Float
+  max_speed: Float
+  average_cadence: Float
+  has_heartrate: Boolean
+  average_heartrate: Float
+  max_heartrate: Float
+  heartrate_opt_out: Boolean
+  display_hide_heartrate_option: Boolean
+  elev_high: Float
+  elev_low: Float
+  upload_id: Float
+  upload_id_str: String
+  external_id: String
+  from_accepted_tag: Boolean
+  pr_count: Float
+  total_photo_count: Float
+  has_kudoed: Boolean
+}

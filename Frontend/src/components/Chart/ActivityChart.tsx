@@ -53,7 +53,6 @@ const LineChart: React.FunctionComponent<{ activities: Activity[]; x: keyof Acti
 			},
 		],
 	};
-	console.log('i was here');
 
 	return <Line options={options} data={data as ChartData<'line'>}></Line>;
 };

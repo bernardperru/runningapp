@@ -1,0 +1,20 @@
+{
+  "name": "runningapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "graphql": "^16.8.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "API",
+    "Frontend"
+  ]
+}

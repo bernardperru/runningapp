@@ -6,16 +6,27 @@
   "type": "module",
   "scripts": {
     "compile": "tsc",
-    "start": "npm run compile && node ./dist/index.js"
+    "start": "yarn compile && yarn codegen && node ./dist/src/index.js",
+    "codegen": "graphql-codegen",
+    "codegen:watch": "graphql-codegen --watch",
+    "build:watch": "tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "dev": "concurrently 'yarn codegen:watch' 'yarn build:watch'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.9.4",
-    "graphql": "^16.8.1"
+    "@graphql-tools/load-files": "^7.0.0",
+    "@graphql-tools/schema": "^10.0.0",
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/introspection": "4.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@parcel/watcher": "^2.3.0",
     "@types/node": "^20.8.7",
     "typescript": "^5.2.2"
   }

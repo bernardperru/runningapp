@@ -9,10 +9,12 @@ import { formatStravaActivities } from './funktioner';
 import { Activity, StravaActivity } from './Activity';
 import WeekPage from './components/Stats/WeekView/WeekPage';
 import RunMap from './components/Map/RunMap';
-import LineChart from './components/Chart/ActivityChart';
+import { useExampleQueryQuery } from './graphql';
 
 function App() {
 	const [activities, setActivities] = useState<Activity[]>([]);
+	const { data } = useExampleQueryQuery();
+	console.log(data);
 	//Strava Credentials
 	let clientId = process.env.REACT_APP_CLIENT_ID;
 	let clientSecret = process.env.REACT_APP_CLIENT_SECRET;
