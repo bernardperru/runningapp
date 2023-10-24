@@ -1,0 +1,10 @@
+query GetActivity {
+	getActivity {
+		start_date
+		id
+		average_heartrate
+		average_cadence
+		distance
+		elapsed_time
+	}
+}

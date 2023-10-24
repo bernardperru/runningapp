@@ -9,12 +9,13 @@ import { formatStravaActivities } from './funktioner';
 import { Activity, StravaActivity } from './Activity';
 import WeekPage from './components/Stats/WeekView/WeekPage';
 import RunMap from './components/Map/RunMap';
-import { useExampleQueryQuery } from './graphql';
+import { GetActivityQueryVariables, useGetActivityQuery } from './graphql';
 
 function App() {
 	const [activities, setActivities] = useState<Activity[]>([]);
-	const { data } = useExampleQueryQuery();
-	console.log(data);
+	const { data, loading } = useGetActivityQuery();
+	type Test = GetActivityQueryVariables['getActivity'];
+
 	//Strava Credentials
 	let clientId = process.env.REACT_APP_CLIENT_ID;
 	let clientSecret = process.env.REACT_APP_CLIENT_SECRET;
@@ -32,7 +33,6 @@ function App() {
 				const json = await data.json();
 				const data1 = await fetch(callActivities + json.access_token);
 				const json1: StravaActivity[] = await data1.json();
-				console.log(json1);
 				setActivities(json1.map(formatStravaActivities));
 			} catch (error) {
 				console.error('Error:', error);
