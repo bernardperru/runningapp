@@ -19,10 +19,7 @@ const stats: { [key in keyof Activity]: label } = {
 	map: { label: 'Map', type: 'none' },
 };
 
-const WeekCard: React.FunctionComponent<{ weekNumber: number; activities: Activity[] }> = ({
-	weekNumber,
-	activities,
-}) => {
+const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber }) => {
 	const keys = (Object.keys(activities[0]) as (keyof Activity)[]).filter(key => {
 		return stats[key];
 	});

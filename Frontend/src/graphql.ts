@@ -17,99 +17,42 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type Activity = {
+export type GQLActivity = {
   __typename?: 'Activity';
-  achievement_count?: Maybe<Scalars['Float']['output']>;
-  athlete?: Maybe<Athlete>;
-  athlete_count?: Maybe<Scalars['Float']['output']>;
-  average_cadence?: Maybe<Scalars['Float']['output']>;
-  average_heartrate?: Maybe<Scalars['Float']['output']>;
-  average_speed?: Maybe<Scalars['Float']['output']>;
-  comment_count?: Maybe<Scalars['Float']['output']>;
-  commute?: Maybe<Scalars['Boolean']['output']>;
-  display_hide_heartrate_option?: Maybe<Scalars['Boolean']['output']>;
-  distance?: Maybe<Scalars['Float']['output']>;
-  elapsed_time?: Maybe<Scalars['Float']['output']>;
-  elev_high?: Maybe<Scalars['Float']['output']>;
-  elev_low?: Maybe<Scalars['Float']['output']>;
-  end_latlng?: Maybe<Array<Scalars['Float']['output']>>;
-  external_id?: Maybe<Scalars['String']['output']>;
-  flagged?: Maybe<Scalars['Boolean']['output']>;
-  from_accepted_tag?: Maybe<Scalars['Boolean']['output']>;
-  gear_id?: Maybe<Scalars['String']['output']>;
-  has_heartrate?: Maybe<Scalars['Boolean']['output']>;
-  has_kudoed?: Maybe<Scalars['Boolean']['output']>;
-  heartrate_opt_out?: Maybe<Scalars['Boolean']['output']>;
-  id?: Maybe<Scalars['Float']['output']>;
-  kudos_count?: Maybe<Scalars['Float']['output']>;
-  location_city?: Maybe<Scalars['String']['output']>;
-  location_country?: Maybe<Scalars['String']['output']>;
-  location_state?: Maybe<Scalars['String']['output']>;
-  manual?: Maybe<Scalars['Boolean']['output']>;
-  map?: Maybe<Map>;
-  max_heartrate?: Maybe<Scalars['Float']['output']>;
-  max_speed?: Maybe<Scalars['Float']['output']>;
-  moving_time?: Maybe<Scalars['Float']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  photo_count?: Maybe<Scalars['Float']['output']>;
-  pr_count?: Maybe<Scalars['Float']['output']>;
-  private?: Maybe<Scalars['Boolean']['output']>;
-  resource_state?: Maybe<Scalars['Float']['output']>;
-  sport_type?: Maybe<Scalars['String']['output']>;
-  start_date?: Maybe<Scalars['String']['output']>;
-  start_date_local?: Maybe<Scalars['String']['output']>;
-  start_latlng?: Maybe<Array<Scalars['Float']['output']>>;
-  timezone?: Maybe<Scalars['String']['output']>;
-  total_elevation_gain?: Maybe<Scalars['Float']['output']>;
-  total_photo_count?: Maybe<Scalars['Float']['output']>;
-  trainer?: Maybe<Scalars['Boolean']['output']>;
-  type?: Maybe<Scalars['String']['output']>;
-  upload_id?: Maybe<Scalars['Float']['output']>;
-  upload_id_str?: Maybe<Scalars['String']['output']>;
-  utc_offset?: Maybe<Scalars['Float']['output']>;
-  visibility?: Maybe<Scalars['String']['output']>;
-  workout_type?: Maybe<Scalars['String']['output']>;
+  average_cadence: Scalars['Float']['output'];
+  average_heartrate: Scalars['Float']['output'];
+  distance: Scalars['Float']['output'];
+  elapsed_time: Scalars['Float']['output'];
+  id: Scalars['Float']['output'];
+  map: GQLMap;
+  start_date: Scalars['String']['output'];
 };
 
-export type Athlete = {
-  __typename?: 'Athlete';
-  id?: Maybe<Scalars['Float']['output']>;
-  resource_state?: Maybe<Scalars['Float']['output']>;
-};
-
-export type Book = {
+export type GQLBook = {
   __typename?: 'Book';
   name: Scalars['String']['output'];
 };
 
-export type Coords = {
-  __typename?: 'Coords';
-  lat?: Maybe<Scalars['Float']['output']>;
-  long?: Maybe<Scalars['Float']['output']>;
-};
-
-export type Map = {
+export type GQLMap = {
   __typename?: 'Map';
-  id?: Maybe<Scalars['String']['output']>;
-  resource_state?: Maybe<Scalars['Float']['output']>;
-  summary_polyline?: Maybe<Scalars['String']['output']>;
+  summary_polyline: Scalars['String']['output'];
 };
 
-export type Query = {
+export type GQLQuery = {
   __typename?: 'Query';
-  getActivity: Activity;
-  getBooks?: Maybe<Array<Book>>;
+  getActivity: Array<GQLActivity>;
+  getBooks?: Maybe<Array<GQLBook>>;
 };
 
-export type GetActivityQueryVariables = Exact<{ [key: string]: never; }>;
+export type GQLGetActivityQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetActivityQuery = { __typename?: 'Query', getActivity: { __typename?: 'Activity', start_date?: string | null, id?: number | null, average_heartrate?: number | null, average_cadence?: number | null, distance?: number | null, elapsed_time?: number | null } };
+export type GQLGetActivityQuery = { __typename?: 'Query', getActivity: Array<{ __typename?: 'Activity', start_date: string, id: number, average_heartrate: number, average_cadence: number, distance: number, elapsed_time: number, map: { __typename?: 'Map', summary_polyline: string } }> };
 
-export type ExampleQueryQueryVariables = Exact<{ [key: string]: never; }>;
+export type GQLExampleQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ExampleQueryQuery = { __typename?: 'Query', getBooks?: Array<{ __typename?: 'Book', name: string }> | null };
+export type GQLExampleQueryQuery = { __typename?: 'Query', getBooks?: Array<{ __typename?: 'Book', name: string }> | null };
 
 
 export const GetActivityDocument = gql`
@@ -121,6 +64,9 @@ export const GetActivityDocument = gql`
     average_cadence
     distance
     elapsed_time
+    map {
+      summary_polyline
+    }
   }
 }
     `;
@@ -140,17 +86,17 @@ export const GetActivityDocument = gql`
  *   },
  * });
  */
-export function useGetActivityQuery(baseOptions?: Apollo.QueryHookOptions<GetActivityQuery, GetActivityQueryVariables>) {
+export function useGetActivityQuery(baseOptions?: Apollo.QueryHookOptions<GQLGetActivityQuery, GQLGetActivityQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetActivityQuery, GetActivityQueryVariables>(GetActivityDocument, options);
+        return Apollo.useQuery<GQLGetActivityQuery, GQLGetActivityQueryVariables>(GetActivityDocument, options);
       }
-export function useGetActivityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetActivityQuery, GetActivityQueryVariables>) {
+export function useGetActivityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLGetActivityQuery, GQLGetActivityQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetActivityQuery, GetActivityQueryVariables>(GetActivityDocument, options);
+          return Apollo.useLazyQuery<GQLGetActivityQuery, GQLGetActivityQueryVariables>(GetActivityDocument, options);
         }
 export type GetActivityQueryHookResult = ReturnType<typeof useGetActivityQuery>;
 export type GetActivityLazyQueryHookResult = ReturnType<typeof useGetActivityLazyQuery>;
-export type GetActivityQueryResult = Apollo.QueryResult<GetActivityQuery, GetActivityQueryVariables>;
+export type GetActivityQueryResult = Apollo.QueryResult<GQLGetActivityQuery, GQLGetActivityQueryVariables>;
 export const ExampleQueryDocument = gql`
     query ExampleQuery {
   getBooks {
@@ -174,14 +120,14 @@ export const ExampleQueryDocument = gql`
  *   },
  * });
  */
-export function useExampleQueryQuery(baseOptions?: Apollo.QueryHookOptions<ExampleQueryQuery, ExampleQueryQueryVariables>) {
+export function useExampleQueryQuery(baseOptions?: Apollo.QueryHookOptions<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ExampleQueryQuery, ExampleQueryQueryVariables>(ExampleQueryDocument, options);
+        return Apollo.useQuery<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>(ExampleQueryDocument, options);
       }
-export function useExampleQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExampleQueryQuery, ExampleQueryQueryVariables>) {
+export function useExampleQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ExampleQueryQuery, ExampleQueryQueryVariables>(ExampleQueryDocument, options);
+          return Apollo.useLazyQuery<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>(ExampleQueryDocument, options);
         }
 export type ExampleQueryQueryHookResult = ReturnType<typeof useExampleQueryQuery>;
 export type ExampleQueryLazyQueryHookResult = ReturnType<typeof useExampleQueryLazyQuery>;
-export type ExampleQueryQueryResult = Apollo.QueryResult<ExampleQueryQuery, ExampleQueryQueryVariables>;
+export type ExampleQueryQueryResult = Apollo.QueryResult<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>;

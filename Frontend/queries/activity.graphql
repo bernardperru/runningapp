@@ -6,5 +6,8 @@ query GetActivity {
 		average_cadence
 		distance
 		elapsed_time
+		map {
+			summary_polyline
+		}
 	}
 }

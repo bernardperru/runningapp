@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "API",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
@@ -9,7 +9,7 @@
     "start": "yarn compile && yarn codegen && node ./dist/src/index.js",
     "codegen": "graphql-codegen",
     "codegen:watch": "graphql-codegen --watch",
-    "build:watch": "tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "start:watch": "tsc-watch --onSuccess \"node ./dist/src/index.js\"",
     "dev": "concurrently 'yarn codegen:watch' 'yarn build:watch'"
   },
   "keywords": [],
@@ -19,7 +19,8 @@
     "@apollo/server": "^4.9.4",
     "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/schema": "^10.0.0",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "tsc-watch": "^6.0.4"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
@@ -28,6 +29,7 @@
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@parcel/watcher": "^2.3.0",
     "@types/node": "^20.8.7",
+    "concurrently": "^8.2.2",
     "typescript": "^5.2.2"
   }
 }
