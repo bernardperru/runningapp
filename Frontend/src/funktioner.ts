@@ -51,31 +51,32 @@ function zone(heartRate: number) {
 }
 
 //Averages ou
-// export function average(
-// 	key: keyof Omit<GQLActivity, '__typename | map | id | start_date'>,
-// 	week: number,
-// 	activities: GQLActivity[],
-// 	type: 'avg' | 'sum' | 'none'
-// ): number {
-// 	let accumulator = 0;
-// 	let i = 0;
-// 	activities.map(activity => {
-// 		const temp = activity[key];
-// 		if (activity.week === week && typeof temp === 'number') {
-// 			accumulator += temp;
-// 			i++;
-// 		}
-// 	});
+export function average(
+	key: keyof Omit<GQLActivity, '__typename | map | id | start_date'>,
+	week: number,
+	activities: GQLActivity[],
+	type: 'avg' | 'sum' | 'none'
+): number {
+	let accumulator = 0;
+	let i = 0;
+	activities.map(activity => {
+		const temp = activity[key];
+		console.log(week + ' ' + activity.week);
 
-// 	if (type === 'avg') {
-// 		return accumulator / i;
-// 	}
-// 	return accumulator;
-// }
+		if (activity.week === week && typeof temp === 'number') {
+			console.log(activity[key]);
+			accumulator += temp;
+			i++;
+		}
+	});
+
+	if (type === 'avg') {
+		return accumulator / i;
+	}
+	return accumulator;
+}
 
 export function format(key: keyof GQLActivity, value: number | string) {
-	console.log(key + value);
-
 	switch (key) {
 		case 'distance':
 			return (parseFloat(value.toString()) / 1000).toFixed(2) + ' km';

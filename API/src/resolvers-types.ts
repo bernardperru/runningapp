@@ -24,6 +24,8 @@ export type GQLActivity = {
   id: Scalars['Float']['output'];
   map: GQLMap;
   start_date: Scalars['String']['output'];
+  week: Scalars['Float']['output'];
+  zone: Scalars['Float']['output'];
 };
 
 export type GQLBook = {
@@ -142,6 +144,8 @@ export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolv
   id?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   map?: Resolver<GQLResolversTypes['Map'], ParentType, ContextType>;
   start_date?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  week?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
+  zone?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

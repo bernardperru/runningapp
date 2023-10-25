@@ -1,13 +1,16 @@
 import React from 'react';
 import { average, format } from '../../../funktioner';
 import { Activity } from '@/Activity';
+import { Link, useParams } from 'react-router-dom';
+import { GQLActivity, useGetActivityQuery } from '../../../graphql';
 
 type label = {
 	label: string;
 	type: 'avg' | 'sum' | 'none';
 };
 
-const stats: { [key in keyof Activity]: label } = {
+const stats: { [key in keyof GQLActivity]: label } = {
+	__typename: { label: 'Activity', type: 'none' },
 	distance: { label: 'Distance', type: 'sum' },
 	elapsed_time: { label: 'Time', type: 'sum' },
 	average_heartrate: { label: 'Average Heartrate', type: 'avg' },
@@ -20,29 +23,33 @@ const stats: { [key in keyof Activity]: label } = {
 };
 
 const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber }) => {
-	const keys = (Object.keys(activities[0]) as (keyof Activity)[]).filter(key => {
-		return stats[key];
-	});
+	const { data, loading, error } = useGetActivityQuery({ variables: {} });
 
-	return (
-		<div className="weekcard">
-			<h1>{weekNumber}</h1>
-			<ul>
-				{keys.map(
-					(key, index) =>
-						stats[key].type !== 'none' && (
-							<li key={index}>
-								<span>
-									{stats[key].label}
-									{' : '}
-									<span>{format(key, average(key, weekNumber, activities, stats[key].type))}</span>
-								</span>
-							</li>
-						)
-				)}
-			</ul>
-		</div>
-	);
+	if (data !== undefined) {
+		const keys = (Object.keys(data.getActivity[0]) as (keyof GQLActivity)[]).filter(key => {
+			return stats[key];
+		});
+
+		return (
+			<div className="weekcard">
+				<h1>{weekNumber}</h1>
+				<ul>
+					{keys.map(
+						(key, index) =>
+							stats[key].type !== 'none' && (
+								<li key={index}>
+									<span>
+										{stats[key].label}
+										{' : '}
+										<span>{format(key, average(key, weekNumber, data.getActivity, stats[key].type))}</span>
+									</span>
+								</li>
+							)
+					)}
+				</ul>
+			</div>
+		);
+	}
 };
 
 export default WeekCard;

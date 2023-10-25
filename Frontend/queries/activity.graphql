@@ -9,5 +9,7 @@ query GetActivity {
 		map {
 			summary_polyline
 		}
+		week
+		zone
 	}
 }

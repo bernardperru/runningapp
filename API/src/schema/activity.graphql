@@ -14,4 +14,6 @@ type Activity {
   map: Map!
   average_cadence: Float!
   average_heartrate: Float!
+  week: Float!
+  zone: Float!
 }

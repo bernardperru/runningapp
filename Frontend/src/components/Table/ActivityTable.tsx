@@ -6,6 +6,7 @@ import RunMap from '../Map/RunMap';
 import { GQLActivity, useGetActivityQuery } from '../../graphql';
 
 const labels: { [key in keyof GQLActivity]: string } = {
+	__typename: 'Activity',
 	start_date: 'Date',
 	average_heartrate: 'Avg. Heartrate',
 	average_cadence: 'Avg. Cadence',
@@ -13,13 +14,15 @@ const labels: { [key in keyof GQLActivity]: string } = {
 	elapsed_time: 'Time',
 	id: 'Id',
 	map: '',
+	zone: 'Zone',
+	week: 'Week',
 };
 
 const ActivityTable: React.FunctionComponent = () => {
 	const { data, loading, error } = useGetActivityQuery({ variables: {} });
 
 	const [sort, setSort] = React.useState<{
-		keyToSort: keyof Omit<GQLActivity, '__typename'>;
+		keyToSort: keyof Omit<GQLActivity, ''>;
 		direction: 'asc' | 'desc';
 	}>({
 		keyToSort: 'start_date',
@@ -53,7 +56,6 @@ const ActivityTable: React.FunctionComponent = () => {
 		if (data !== undefined) {
 			const sortedData = [...data?.getActivity];
 			if (sort.direction == 'asc') {
-				console.log(sort.keyToSort);
 				return sortedData.sort((a, b) => a && b && (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
 			}
 			return sortedData.sort((a, b) => a && b && (a['start_date'] > b['start_date'] ? 1 : -1));

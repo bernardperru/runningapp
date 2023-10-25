@@ -8,6 +8,7 @@ const config: CodegenConfig = {
 		'./src/graphql.ts': {
 			plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
 			config: {
+				nonOptionalTypename: true,
 				typesPrefix: 'GQL',
 			},
 		},

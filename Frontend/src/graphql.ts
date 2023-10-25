@@ -18,7 +18,7 @@ export type Scalars = {
 };
 
 export type GQLActivity = {
-  __typename?: 'Activity';
+  __typename: 'Activity';
   average_cadence: Scalars['Float']['output'];
   average_heartrate: Scalars['Float']['output'];
   distance: Scalars['Float']['output'];
@@ -26,20 +26,22 @@ export type GQLActivity = {
   id: Scalars['Float']['output'];
   map: GQLMap;
   start_date: Scalars['String']['output'];
+  week: Scalars['Float']['output'];
+  zone: Scalars['Float']['output'];
 };
 
 export type GQLBook = {
-  __typename?: 'Book';
+  __typename: 'Book';
   name: Scalars['String']['output'];
 };
 
 export type GQLMap = {
-  __typename?: 'Map';
+  __typename: 'Map';
   summary_polyline: Scalars['String']['output'];
 };
 
 export type GQLQuery = {
-  __typename?: 'Query';
+  __typename: 'Query';
   getActivity: Array<GQLActivity>;
   getBooks?: Maybe<Array<GQLBook>>;
 };
@@ -47,12 +49,12 @@ export type GQLQuery = {
 export type GQLGetActivityQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetActivityQuery = { __typename?: 'Query', getActivity: Array<{ __typename?: 'Activity', start_date: string, id: number, average_heartrate: number, average_cadence: number, distance: number, elapsed_time: number, map: { __typename?: 'Map', summary_polyline: string } }> };
+export type GQLGetActivityQuery = { __typename: 'Query', getActivity: Array<{ __typename: 'Activity', start_date: string, id: number, average_heartrate: number, average_cadence: number, distance: number, elapsed_time: number, week: number, zone: number, map: { __typename: 'Map', summary_polyline: string } }> };
 
 export type GQLExampleQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLExampleQueryQuery = { __typename?: 'Query', getBooks?: Array<{ __typename?: 'Book', name: string }> | null };
+export type GQLExampleQueryQuery = { __typename: 'Query', getBooks?: Array<{ __typename: 'Book', name: string }> | null };
 
 
 export const GetActivityDocument = gql`
@@ -67,6 +69,8 @@ export const GetActivityDocument = gql`
     map {
       summary_polyline
     }
+    week
+    zone
   }
 }
     `;

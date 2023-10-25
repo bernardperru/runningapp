@@ -12,6 +12,8 @@ const activity: GQLActivity[] = [
     },
     average_cadence: 82.1,
     average_heartrate: 182.7,
+    week: 42,
+    zone: 5,
   },
   {
     distance: 10005.1,
@@ -24,6 +26,8 @@ const activity: GQLActivity[] = [
     },
     average_cadence: 82.1,
     average_heartrate: 182.7,
+    week: 42,
+    zone: 5,
   },
 ];
 

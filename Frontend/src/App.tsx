@@ -5,7 +5,6 @@ import ActivityTable from './components/Table/ActivityTable';
 import MonthPage from './components/Stats/MonthView/MonthPage';
 import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
-import { formatStravaActivities } from './funktioner';
 import { Activity, StravaActivity } from './Activity';
 import WeekPage from './components/Stats/WeekView/WeekPage';
 import RunMap from './components/Map/RunMap';
@@ -15,14 +14,6 @@ function App() {
 	const [activities, setActivities] = useState<Activity[]>([]);
 	const { data, loading } = useGetActivityQuery();
 
-	if (!loading) {
-		console.log(data);
-		if (data !== undefined) {
-			const sortedData = [...data?.getActivity].sort((a, b) => (a.start_date > b.start_date ? -1 : 1));
-			console.log(sortedData);
-		}
-		console.log(data);
-	}
 	//Strava Credentials
 	/*
 	let clientId = process.env.REACT_APP_CLIENT_ID;
@@ -55,9 +46,9 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/activities" element={<ActivityTable />} />
-				{/* <Route path="/weekly" element={<MonthPage />} />
+				<Route path="/weekly" element={<MonthPage />} />
 				<Route path="/weekly/:weekNumber" element={<WeekPage />} />
-				<Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} /> */}
+				{/* <Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} /> */}
 			</Routes>
 		</div>
 	);

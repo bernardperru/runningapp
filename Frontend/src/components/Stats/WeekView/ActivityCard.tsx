@@ -2,33 +2,42 @@ import React from 'react';
 import { format } from '../../../funktioner';
 import './ActivityCard.css';
 import { Activity } from '@/Activity';
+import { Link, useParams } from 'react-router-dom';
+import { GQLActivity, useGetActivityQuery } from '../../../graphql';
 
-const labels: { [key in keyof Activity]: string } = {
+const labels: { [key in keyof GQLActivity]: string } = {
+	__typename: 'Activity',
 	average_heartrate: 'Avg. Heartrate',
 	average_cadence: 'Avg. Cadence',
 	distance: 'Distance',
 	elapsed_time: 'Time',
 	id: 'Id',
 	start_date: 'Date',
+	map: 'Map',
 	week: 'Week',
 	zone: 'Zone',
-	map: 'Map',
 };
 
-const ActivityCard: React.FunctionComponent<{ activity: Activity }> = ({ activity }) => {
-	const keys = (Object.keys(activity) as (keyof Activity)[]).filter(key => {
-		return labels[key];
-	});
+const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activityId }) => {
+	const { data, loading, error } = useGetActivityQuery({ variables: {} });
 
-	return (
-		<ul className="activity-card">
-			{keys.map(key => (
-				<li key={key}>
-					{labels[key]} : {format(key, activity[key])}
-				</li>
-			))}
-		</ul>
-	);
+	if (data !== undefined) {
+		const keys = Object.keys(data.getActivity[0] as GQLActivity);
+
+		const activity = data.getActivity.filter(a => {
+			return a.id === activityId;
+		})[0];
+
+		return (
+			<ul className="activity-card">
+				{keys.map((key, index) => (
+					<li key={index}>
+						{key} : {activity.average_cadence}
+					</li>
+				))}
+			</ul>
+		);
+	}
 };
 
 export default ActivityCard;
