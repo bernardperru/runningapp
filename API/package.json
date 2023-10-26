@@ -16,9 +16,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@apollo/datasource-rest": "^6.2.2",
     "@apollo/server": "^4.9.4",
     "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/schema": "^10.0.0",
+    "dotenv": "^16.3.1",
+    "fetch": "^1.1.0",
     "lodash-es": "^4.17.21",
     "tsc-watch": "^6.0.4"
   },
