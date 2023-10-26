@@ -5,13 +5,14 @@ import './RunMap.css';
 import polyline from '@mapbox/polyline';
 import { Activity } from '@/Activity';
 import { useParams } from 'react-router-dom';
+import { GQLActivity, useGetActivityQuery } from '../../graphql';
 
 type label = {
 	label: string;
 	type: 'avg' | 'sum' | 'none';
 };
 
-const mapStats: { [key in keyof Activity]: label } = {
+const mapStats: { [key in keyof Omit<GQLActivity, '__typename' | 'map'>]: label } = {
 	distance: { label: 'Distance', type: 'sum' },
 	elapsed_time: { label: 'Time', type: 'sum' },
 	average_heartrate: { label: 'Average Heartrate', type: 'avg' },
@@ -20,42 +21,47 @@ const mapStats: { [key in keyof Activity]: label } = {
 	start_date: { label: 'Date', type: 'none' },
 	week: { label: 'Week', type: 'none' },
 	zone: { label: 'Zone', type: 'none' },
-	map: { label: 'Map', type: 'none' },
 };
 
-const RunMap: React.FunctionComponent<{ activities: Activity[] }> = ({ activities }) => {
+const RunMap: React.FunctionComponent = () => {
+	const { data, loading, error } = useGetActivityQuery({ variables: {} });
 	let { weekNumber, activityId } = useParams();
+	if (loading) {
+		return <div>loading</div>;
+	}
 
-	let activity = activities.filter(activity => {
-		return activity.id.toString() === activityId;
-	});
+	if (data !== undefined) {
+		const activity = data.getActivity.filter(a => {
+			return a.id.toString() === activityId;
+		})[0];
 
-	const pline = polyline.decode(activity[0]['map']['summary_polyline']);
+		const pline = polyline.decode(activity['map']['summary_polyline']);
+		console.log(pline);
+		const keys = (Object.keys(activity) as (keyof Omit<GQLActivity, '__typename' | 'map'>)[]).filter(key => {
+			return mapStats[key];
+		});
 
-	const keys = (Object.keys(activity) as (keyof Activity)[]).filter(key => {
-		return mapStats[key];
-	});
-
-	return (
-		<div id="map">
-			<MapContainer center={pline[0]} zoom={13} scrollWheelZoom={false}>
-				<TileLayer
-					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-				/>
-				<Polyline positions={pline}>
-					<Popup>
-						{keys.map(
-							key =>
-								mapStats[key].type !== 'none' && (
-									<div key={key}>{mapStats[key].label + ' : ' + format(key, activity[0][key])}</div>
-								)
-						)}
-					</Popup>
-				</Polyline>
-			</MapContainer>
-		</div>
-	);
+		return (
+			<div id="map">
+				<MapContainer center={pline[0]} zoom={13} scrollWheelZoom={false}>
+					<TileLayer
+						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+					/>
+					<Polyline positions={pline}>
+						<Popup>
+							{keys.map(
+								key =>
+									mapStats[key].type !== 'none' && (
+										<div key={key}>{mapStats[key].label + ' : ' + format(key, activity[key])}</div>
+									)
+							)}
+						</Popup>
+					</Polyline>
+				</MapContainer>
+			</div>
+		);
+	}
 };
 
 export default RunMap;

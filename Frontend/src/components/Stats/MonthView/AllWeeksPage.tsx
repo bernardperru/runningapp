@@ -1,12 +1,10 @@
 import React from 'react';
-import { getWeeks } from '../../../funktioner';
-import './MonthPage.css';
+import './AllWeeksPage.css';
 import { Link } from 'react-router-dom';
-import { Activity } from '@/Activity';
 import WeekCard from './WeekCard';
 import { useGetActivityQuery } from '../../../graphql';
 
-const WeeklyData: React.FunctionComponent = () => {
+const AllWeeksPage: React.FunctionComponent = () => {
 	const { data, loading } = useGetActivityQuery();
 
 	if (data !== undefined) {
@@ -24,4 +22,4 @@ const WeeklyData: React.FunctionComponent = () => {
 	}
 };
 
-export default WeeklyData;
+export default AllWeeksPage;

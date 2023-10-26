@@ -2,13 +2,14 @@ import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import React, { useState, useEffect } from 'react';
 import ActivityTable from './components/Table/ActivityTable';
-import MonthPage from './components/Stats/MonthView/MonthPage';
+import MonthPage from './components/Stats/MonthView/AllWeeksPage';
 import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import { Activity, StravaActivity } from './Activity';
 import WeekPage from './components/Stats/WeekView/WeekPage';
 import RunMap from './components/Map/RunMap';
 import { useGetActivityQuery, GQLActivity } from './graphql';
+import AllWeeksPage from './components/Stats/MonthView/AllWeeksPage';
 
 function App() {
 	const [activities, setActivities] = useState<Activity[]>([]);
@@ -46,9 +47,9 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/activities" element={<ActivityTable />} />
-				<Route path="/weekly" element={<MonthPage />} />
+				<Route path="/weekly" element={<AllWeeksPage />} />
 				<Route path="/weekly/:weekNumber" element={<WeekPage />} />
-				{/* <Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} /> */}
+				<Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} />
 			</Routes>
 		</div>
 	);

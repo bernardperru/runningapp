@@ -5,21 +5,18 @@ import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import RunMap from '../Map/RunMap';
 import { GQLActivity, useGetActivityQuery } from '../../graphql';
 
-const labels: { [key in keyof GQLActivity]: string } = {
-	__typename: 'Activity',
+const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>]: string } = {
 	start_date: 'Date',
-	average_heartrate: 'Avg. Heartrate',
-	average_cadence: 'Avg. Cadence',
 	distance: 'Distance',
 	elapsed_time: 'Time',
-	id: 'Id',
-	map: '',
+	average_heartrate: 'Avg. Heartrate',
+	average_cadence: 'Avg. Cadence',
 	zone: 'Zone',
 	week: 'Week',
 };
 
 const ActivityTable: React.FunctionComponent = () => {
-	const { data, loading, error } = useGetActivityQuery({ variables: {} });
+	const { data, loading, error } = useGetActivityQuery();
 
 	const [sort, setSort] = React.useState<{
 		keyToSort: keyof Omit<GQLActivity, ''>;
@@ -37,7 +34,7 @@ const ActivityTable: React.FunctionComponent = () => {
 		see: false,
 	});
 
-	function handleHeaderClick(key: keyof Omit<GQLActivity, '__typename'>) {
+	function handleHeaderClick(key: keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>) {
 		setSort({
 			keyToSort: key,
 			direction: key === sort.keyToSort ? (sort.direction === 'asc' ? 'desc' : 'asc') : 'desc',
@@ -72,40 +69,37 @@ const ActivityTable: React.FunctionComponent = () => {
 	}
 
 	if (data !== undefined) {
+		const keys = (Object.keys(data.getActivity[0]) as (keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>)[]).filter(
+			key => {
+				return labels[key];
+			}
+		);
+		console.log(keys);
 		return (
 			<div>
 				<table className="center">
 					<thead>
 						<tr>
-							{(Object.keys(data.getActivity[0]) as []).map(
-								(key, index) =>
-									key !== 'map' &&
-									key !== 'id' &&
-									key !== '__typename' && (
-										<th key={index} onClick={() => handleHeaderClick(key)}>
-											<div className="header-container">
-												<span>{labels[key]}</span>
-												{sort.keyToSort === key &&
-													(sort.direction === 'asc' ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />)}
-											</div>
-										</th>
-									)
-							)}
+							{keys.map((key, index) => (
+								<th key={index} onClick={() => handleHeaderClick(key)}>
+									<div className="header-container">
+										<span>{labels[key]}</span>
+										{sort.keyToSort === key &&
+											(sort.direction === 'asc' ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />)}
+									</div>
+								</th>
+							))}
 						</tr>
 					</thead>
 					<tbody>
 						{getSortedArray().map(activity => (
 							<tr key={activity.id} onClick={() => handleRowClick(activity)}>
-								{(Object.keys(labels) as []).map(
-									(key, index) =>
-										key !== 'map' &&
-										key !== 'id' && (
-											<td key={index}>
-												{<div>{activity[key]}</div>}
-												{''}
-											</td>
-										)
-								)}
+								{keys.map((key, index) => (
+									<td key={index}>
+										<div>{format(key, activity[key])}</div>
+										{''}
+									</td>
+								))}
 							</tr>
 						))}
 					</tbody>
