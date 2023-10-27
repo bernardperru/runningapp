@@ -7,6 +7,7 @@ type Map {
 }
 
 type Activity {
+  stravaId: Int!
   distance: Float!
   elapsed_time: Float!
   start_date: String!

@@ -10,7 +10,7 @@
     "codegen": "graphql-codegen",
     "codegen:watch": "graphql-codegen --watch",
     "start:watch": "tsc-watch --onSuccess \"node ./dist/src/index.js\"",
-    "dev": "concurrently 'yarn codegen:watch' 'yarn build:watch'"
+    "dev": "concurrently \"yarn codegen:watch\" \"yarn build:watch\""
   },
   "keywords": [],
   "author": "",

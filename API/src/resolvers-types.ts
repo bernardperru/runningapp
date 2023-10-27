@@ -1,44 +1,58 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo } from "graphql";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
 };
 
 export type GQLActivity = {
-  __typename?: 'Activity';
-  average_cadence: Scalars['Float']['output'];
-  average_heartrate: Scalars['Float']['output'];
-  distance: Scalars['Float']['output'];
-  elapsed_time: Scalars['Float']['output'];
+  __typename?: "Activity";
+  average_cadence: Scalars["Float"]["output"];
+  average_heartrate: Scalars["Float"]["output"];
+  distance: Scalars["Float"]["output"];
+  elapsed_time: Scalars["Float"]["output"];
   map: GQLMap;
-  start_date: Scalars['String']['output'];
-  week: Scalars['Int']['output'];
-  zone: Scalars['Int']['output'];
+  start_date: Scalars["String"]["output"];
+  stravaId: Scalars["Int"]["output"];
+  week: Scalars["Int"]["output"];
+  zone: Scalars["Int"]["output"];
 };
 
 export type GQLBook = {
-  __typename?: 'Book';
-  name: Scalars['String']['output'];
+  __typename?: "Book";
+  name: Scalars["String"]["output"];
 };
 
 export type GQLMap = {
-  __typename?: 'Map';
-  summary_polyline: Scalars['String']['output'];
+  __typename?: "Map";
+  summary_polyline: Scalars["String"]["output"];
 };
 
 export type GQLQuery = {
-  __typename?: 'Query';
+  __typename?: "Query";
   getActivity: Array<GQLActivity>;
   getBooks?: Maybe<Array<GQLBook>>;
 };
@@ -48,11 +62,12 @@ export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
-
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -75,9 +90,25 @@ export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
-  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
-  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs
+> {
+  subscribe: SubscriptionSubscribeFn<
+    { [key in TKey]: TResult },
+    TParent,
+    TContext,
+    TArgs
+  >;
+  resolve?: SubscriptionResolveFn<
+    TResult,
+    { [key in TKey]: TResult },
+    TContext,
+    TArgs
+  >;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -85,12 +116,26 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
+export type SubscriptionObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs
+> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
-  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+export type SubscriptionResolver<
+  TResult,
+  TKey extends string,
+  TParent = {},
+  TContext = {},
+  TArgs = {}
+> =
+  | ((
+      ...args: any[]
+    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
@@ -99,11 +144,20 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo
+) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
+export type DirectiveResolverFn<
+  TResult = {},
+  TParent = {},
+  TContext = {},
+  TArgs = {}
+> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
@@ -111,57 +165,88 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-
-
 /** Mapping between all available schema types and the resolvers types */
 export type GQLResolversTypes = ResolversObject<{
   Activity: ResolverTypeWrapper<GQLActivity>;
   Book: ResolverTypeWrapper<GQLBook>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Boolean: ResolverTypeWrapper<Scalars["Boolean"]["output"]>;
+  Float: ResolverTypeWrapper<Scalars["Float"]["output"]>;
+  Int: ResolverTypeWrapper<Scalars["Int"]["output"]>;
   Map: ResolverTypeWrapper<GQLMap>;
   Query: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']['output']>;
+  String: ResolverTypeWrapper<Scalars["String"]["output"]>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type GQLResolversParentTypes = ResolversObject<{
   Activity: GQLActivity;
   Book: GQLBook;
-  Boolean: Scalars['Boolean']['output'];
-  Float: Scalars['Float']['output'];
-  Int: Scalars['Int']['output'];
+  Boolean: Scalars["Boolean"]["output"];
+  Float: Scalars["Float"]["output"];
+  Int: Scalars["Int"]["output"];
   Map: GQLMap;
   Query: {};
-  String: Scalars['String']['output'];
+  String: Scalars["String"]["output"];
 }>;
 
-export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Activity'] = GQLResolversParentTypes['Activity']> = ResolversObject<{
-  average_cadence?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  average_heartrate?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  distance?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  elapsed_time?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  map?: Resolver<GQLResolversTypes['Map'], ParentType, ContextType>;
-  start_date?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  week?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  zone?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+export type GQLActivityResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Activity"] = GQLResolversParentTypes["Activity"]
+> = ResolversObject<{
+  average_cadence?: Resolver<
+    GQLResolversTypes["Float"],
+    ParentType,
+    ContextType
+  >;
+  average_heartrate?: Resolver<
+    GQLResolversTypes["Float"],
+    ParentType,
+    ContextType
+  >;
+  distance?: Resolver<GQLResolversTypes["Float"], ParentType, ContextType>;
+  elapsed_time?: Resolver<GQLResolversTypes["Float"], ParentType, ContextType>;
+  map?: Resolver<GQLResolversTypes["Map"], ParentType, ContextType>;
+  start_date?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
+  stravaId?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  week?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
+  zone?: Resolver<GQLResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type GQLBookResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Book'] = GQLResolversParentTypes['Book']> = ResolversObject<{
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLBookResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Book"] = GQLResolversParentTypes["Book"]
+> = ResolversObject<{
+  name?: Resolver<GQLResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type GQLMapResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Map'] = GQLResolversParentTypes['Map']> = ResolversObject<{
-  summary_polyline?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+export type GQLMapResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Map"] = GQLResolversParentTypes["Map"]
+> = ResolversObject<{
+  summary_polyline?: Resolver<
+    GQLResolversTypes["String"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
-  getActivity?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  getBooks?: Resolver<Maybe<Array<GQLResolversTypes['Book']>>, ParentType, ContextType>;
+export type GQLQueryResolvers<
+  ContextType = any,
+  ParentType extends GQLResolversParentTypes["Query"] = GQLResolversParentTypes["Query"]
+> = ResolversObject<{
+  getActivity?: Resolver<
+    Array<GQLResolversTypes["Activity"]>,
+    ParentType,
+    ContextType
+  >;
+  getBooks?: Resolver<
+    Maybe<Array<GQLResolversTypes["Book"]>>,
+    ParentType,
+    ContextType
+  >;
 }>;
 
 export type GQLResolvers<ContextType = any> = ResolversObject<{
@@ -170,4 +255,3 @@ export type GQLResolvers<ContextType = any> = ResolversObject<{
   Map?: GQLMapResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
 }>;
-

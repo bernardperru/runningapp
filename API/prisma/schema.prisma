@@ -12,20 +12,21 @@ datasource db {
 
 model Activity {
   id  Int @id @default(autoincrement())
+  stravaId Int @unique
   distance Float
   elapsed_time Float
   start_date String
-  map String
+  map Map?
   average_cadence Float
   average_heartrate Float
   week Int
   zone Int
 }
 
-// model Map {
-//   id                Int  @id @default(autoincrement())
-//   summary_polyline  String
-//   activity          Activity  @relation(fields: [activityId], references: [id])
-//   activityId        Int @unique
-// }
+model Map {
+  id                Int  @id @default(autoincrement())
+  summary_polyline  String
+  activity          Activity  @relation(fields: [activityId], references: [id])
+  activityId        Int @unique
+}
 
