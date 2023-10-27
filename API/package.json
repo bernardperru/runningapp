@@ -20,9 +20,12 @@
     "@apollo/server": "^4.9.4",
     "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/schema": "^10.0.0",
+    "@prisma/client": "^5.5.2",
     "dotenv": "^16.3.1",
     "fetch": "^1.1.0",
     "lodash-es": "^4.17.21",
+    "prisma": "^5.5.2",
+    "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4"
   },
   "devDependencies": {

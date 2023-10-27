@@ -1,8 +1,6 @@
 import * as dotenv from "dotenv";
-import { GQLResolvers, GQLActivity } from "./resolvers-types";
+import { GQLActivity } from "./resolvers-types";
 import { getZone, getWeek } from "./functions.js";
-
-import { access } from "fs";
 
 export class StravaAPI {
   public async getListActivities(): Promise<GQLActivity[]> {

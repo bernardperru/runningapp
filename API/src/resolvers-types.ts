@@ -21,11 +21,10 @@ export type GQLActivity = {
   average_heartrate: Scalars['Float']['output'];
   distance: Scalars['Float']['output'];
   elapsed_time: Scalars['Float']['output'];
-  id: Scalars['Float']['output'];
   map: GQLMap;
   start_date: Scalars['String']['output'];
-  week: Scalars['Float']['output'];
-  zone: Scalars['Float']['output'];
+  week: Scalars['Int']['output'];
+  zone: Scalars['Int']['output'];
 };
 
 export type GQLBook = {
@@ -120,6 +119,7 @@ export type GQLResolversTypes = ResolversObject<{
   Book: ResolverTypeWrapper<GQLBook>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Map: ResolverTypeWrapper<GQLMap>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -131,6 +131,7 @@ export type GQLResolversParentTypes = ResolversObject<{
   Book: GQLBook;
   Boolean: Scalars['Boolean']['output'];
   Float: Scalars['Float']['output'];
+  Int: Scalars['Int']['output'];
   Map: GQLMap;
   Query: {};
   String: Scalars['String']['output'];
@@ -141,11 +142,10 @@ export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolv
   average_heartrate?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   distance?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   elapsed_time?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  id?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   map?: Resolver<GQLResolversTypes['Map'], ParentType, ContextType>;
   start_date?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  week?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  zone?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
+  week?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  zone?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
