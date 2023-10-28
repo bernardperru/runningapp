@@ -19,7 +19,9 @@ export class StravaAPI {
       const data1 = await fetch(callActivities + json["access_token"]);
       const json1 = (await data1.json()) as GQLActivity[];
       json1.map((activity) => {
-        activity.zone = getZone(activity.average_heartrate);
+        activity.average_cadence = Math.floor(activity.average_cadence * 2);
+        activity.average_heartrate = Math.floor(activity.average_heartrate);
+        activity.zone = Math.floor(getZone(activity.average_heartrate));
         activity.week = getWeek(activity.start_date);
       });
       return json1;
