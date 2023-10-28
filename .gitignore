@@ -1,3 +1,6 @@
 node_modules
 
 API/prisma/dev.db
+yarn-error.log
+API/prisma/migrations/20231028092935_init/migration.sql
+API/prisma/migrations/20231028114300_init/migration.sql
