@@ -22,26 +22,15 @@ export type GQLActivity = {
   distance: Scalars['Float']['output'];
   elapsed_time: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
-  map: GQLMap;
   start_date: Scalars['String']['output'];
+  summary_polyline: Scalars['String']['output'];
   week: Scalars['Int']['output'];
   zone: Scalars['Int']['output'];
 };
 
-export type GQLBook = {
-  __typename?: 'Book';
-  name: Scalars['String']['output'];
-};
-
-export type GQLMap = {
-  __typename?: 'Map';
-  summary_polyline: Scalars['String']['output'];
-};
-
 export type GQLQuery = {
   __typename?: 'Query';
-  getActivity: Array<GQLActivity>;
-  getBooks?: Maybe<Array<GQLBook>>;
+  getActivities: Array<GQLActivity>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -117,11 +106,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type GQLResolversTypes = ResolversObject<{
   Activity: ResolverTypeWrapper<GQLActivity>;
-  Book: ResolverTypeWrapper<GQLBook>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  Map: ResolverTypeWrapper<GQLMap>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 }>;
@@ -129,11 +116,9 @@ export type GQLResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type GQLResolversParentTypes = ResolversObject<{
   Activity: GQLActivity;
-  Book: GQLBook;
   Boolean: Scalars['Boolean']['output'];
   Float: Scalars['Float']['output'];
   Int: Scalars['Int']['output'];
-  Map: GQLMap;
   Query: {};
   String: Scalars['String']['output'];
 }>;
@@ -144,32 +129,19 @@ export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolv
   distance?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   elapsed_time?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  map?: Resolver<GQLResolversTypes['Map'], ParentType, ContextType>;
   start_date?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  summary_polyline?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   week?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   zone?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type GQLBookResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Book'] = GQLResolversParentTypes['Book']> = ResolversObject<{
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type GQLMapResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Map'] = GQLResolversParentTypes['Map']> = ResolversObject<{
-  summary_polyline?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
-  getActivity?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  getBooks?: Resolver<Maybe<Array<GQLResolversTypes['Book']>>, ParentType, ContextType>;
+  getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
 }>;
 
 export type GQLResolvers<ContextType = any> = ResolversObject<{
   Activity?: GQLActivityResolvers<ContextType>;
-  Book?: GQLBookResolvers<ContextType>;
-  Map?: GQLMapResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
 }>;
 

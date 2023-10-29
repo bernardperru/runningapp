@@ -55,7 +55,7 @@ export function format(key: keyof GQLActivity, value: string | number) {
 		case 'distance':
 			return (parseFloat(value.toString()) / 1000).toFixed(2) + ' km';
 		case 'average_cadence':
-			return (parseFloat(value.toString()) * 2).toFixed(0) + ' spm';
+			return parseFloat(value.toString()) + ' spm';
 		case 'elapsed_time':
 			const hours = Math.floor(parseFloat(value.toString()) / 3600);
 			const newValue = parseFloat(value.toString()) - hours * 3600;
@@ -67,8 +67,8 @@ export function format(key: keyof GQLActivity, value: string | number) {
 		case 'start_date':
 			const date = new Date(value);
 			return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
-		case 'map':
-			return 'map';
+		case 'summary_polyline':
+			return '';
 		default:
 			return value.toString();
 	}

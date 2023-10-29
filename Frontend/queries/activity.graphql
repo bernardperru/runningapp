@@ -1,14 +1,12 @@
-query GetActivity {
-	getActivity {
-		start_date
+query getActivities {
+	getActivities {
 		id
-		average_heartrate
-		average_cadence
 		distance
 		elapsed_time
-		map {
-			summary_polyline
-		}
+		start_date
+		summary_polyline
+		average_cadence
+		average_heartrate
 		week
 		zone
 	}

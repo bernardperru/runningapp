@@ -24,51 +24,33 @@ export type GQLActivity = {
   distance: Scalars['Float']['output'];
   elapsed_time: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
-  map: GQLMap;
   start_date: Scalars['String']['output'];
-  week: Scalars['Float']['output'];
-  zone: Scalars['Float']['output'];
-};
-
-export type GQLBook = {
-  __typename: 'Book';
-  name: Scalars['String']['output'];
-};
-
-export type GQLMap = {
-  __typename: 'Map';
   summary_polyline: Scalars['String']['output'];
+  week: Scalars['Int']['output'];
+  zone: Scalars['Int']['output'];
 };
 
 export type GQLQuery = {
   __typename: 'Query';
-  getActivity: Array<GQLActivity>;
-  getBooks?: Maybe<Array<GQLBook>>;
+  getActivities: Array<GQLActivity>;
 };
 
-export type GQLGetActivityQueryVariables = Exact<{ [key: string]: never; }>;
+export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetActivityQuery = { __typename: 'Query', getActivity: Array<{ __typename: 'Activity', start_date: string, id: number, average_heartrate: number, average_cadence: number, distance: number, elapsed_time: number, week: number, zone: number, map: { __typename: 'Map', summary_polyline: string } }> };
-
-export type GQLExampleQueryQueryVariables = Exact<{ [key: string]: never; }>;
+export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, week: number, zone: number }> };
 
 
-export type GQLExampleQueryQuery = { __typename: 'Query', getBooks?: Array<{ __typename: 'Book', name: string }> | null };
-
-
-export const GetActivityDocument = gql`
-    query GetActivity {
-  getActivity {
-    start_date
+export const GetActivitiesDocument = gql`
+    query getActivities {
+  getActivities {
     id
-    average_heartrate
-    average_cadence
     distance
     elapsed_time
-    map {
-      summary_polyline
-    }
+    start_date
+    summary_polyline
+    average_cadence
+    average_heartrate
     week
     zone
   }
@@ -76,62 +58,28 @@ export const GetActivityDocument = gql`
     `;
 
 /**
- * __useGetActivityQuery__
+ * __useGetActivitiesQuery__
  *
- * To run a query within a React component, call `useGetActivityQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetActivityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetActivitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActivitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetActivityQuery({
+ * const { data, loading, error } = useGetActivitiesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetActivityQuery(baseOptions?: Apollo.QueryHookOptions<GQLGetActivityQuery, GQLGetActivityQueryVariables>) {
+export function useGetActivitiesQuery(baseOptions?: Apollo.QueryHookOptions<GQLGetActivitiesQuery, GQLGetActivitiesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GQLGetActivityQuery, GQLGetActivityQueryVariables>(GetActivityDocument, options);
+        return Apollo.useQuery<GQLGetActivitiesQuery, GQLGetActivitiesQueryVariables>(GetActivitiesDocument, options);
       }
-export function useGetActivityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLGetActivityQuery, GQLGetActivityQueryVariables>) {
+export function useGetActivitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLGetActivitiesQuery, GQLGetActivitiesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GQLGetActivityQuery, GQLGetActivityQueryVariables>(GetActivityDocument, options);
+          return Apollo.useLazyQuery<GQLGetActivitiesQuery, GQLGetActivitiesQueryVariables>(GetActivitiesDocument, options);
         }
-export type GetActivityQueryHookResult = ReturnType<typeof useGetActivityQuery>;
-export type GetActivityLazyQueryHookResult = ReturnType<typeof useGetActivityLazyQuery>;
-export type GetActivityQueryResult = Apollo.QueryResult<GQLGetActivityQuery, GQLGetActivityQueryVariables>;
-export const ExampleQueryDocument = gql`
-    query ExampleQuery {
-  getBooks {
-    name
-  }
-}
-    `;
-
-/**
- * __useExampleQueryQuery__
- *
- * To run a query within a React component, call `useExampleQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useExampleQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useExampleQueryQuery({
- *   variables: {
- *   },
- * });
- */
-export function useExampleQueryQuery(baseOptions?: Apollo.QueryHookOptions<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>(ExampleQueryDocument, options);
-      }
-export function useExampleQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>(ExampleQueryDocument, options);
-        }
-export type ExampleQueryQueryHookResult = ReturnType<typeof useExampleQueryQuery>;
-export type ExampleQueryLazyQueryHookResult = ReturnType<typeof useExampleQueryLazyQuery>;
-export type ExampleQueryQueryResult = Apollo.QueryResult<GQLExampleQueryQuery, GQLExampleQueryQueryVariables>;
+export type GetActivitiesQueryHookResult = ReturnType<typeof useGetActivitiesQuery>;
+export type GetActivitiesLazyQueryHookResult = ReturnType<typeof useGetActivitiesLazyQuery>;
+export type GetActivitiesQueryResult = Apollo.QueryResult<GQLGetActivitiesQuery, GQLGetActivitiesQueryVariables>;

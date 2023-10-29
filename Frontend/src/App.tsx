@@ -5,12 +5,9 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import WeekPage from './components/Stats/WeekView/WeekPage';
 import RunMap from './components/Map/RunMap';
-import { useGetActivityQuery, GQLActivity } from './graphql';
 import AllWeeksPage from './components/Stats/MonthView/AllWeeksPage';
 
 function App() {
-	const { data, loading } = useGetActivityQuery();
-
 	return (
 		<div className="App">
 			<Navbar />

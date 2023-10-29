@@ -1,5 +1,0 @@
-query ExampleQuery {
-	getBooks {
-		name
-	}
-}

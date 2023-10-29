@@ -1,18 +1,18 @@
 import React from 'react';
-import { format } from '../../funktioner';
+import { format } from '../../functions';
 import { MapContainer, TileLayer, Popup, Polyline } from 'react-leaflet';
 import './RunMap.css';
 import polyline from '@mapbox/polyline';
 import { Activity } from '@/Activity';
 import { useParams } from 'react-router-dom';
-import { GQLActivity, useGetActivityQuery } from '../../graphql';
+import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 
 type label = {
 	label: string;
 	type: 'avg' | 'sum' | 'none';
 };
 
-const mapStats: { [key in keyof Omit<GQLActivity, '__typename' | 'map'>]: label } = {
+const mapStats: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline'>]: label } = {
 	distance: { label: 'Distance', type: 'sum' },
 	elapsed_time: { label: 'Time', type: 'sum' },
 	average_heartrate: { label: 'Average Heartrate', type: 'avg' },
@@ -24,22 +24,24 @@ const mapStats: { [key in keyof Omit<GQLActivity, '__typename' | 'map'>]: label 
 };
 
 const RunMap: React.FunctionComponent = () => {
-	const { data, loading, error } = useGetActivityQuery({ variables: {} });
+	const { data, loading, error } = useGetActivitiesQuery({ variables: {} });
 	let { weekNumber, activityId } = useParams();
 	if (loading) {
 		return <div>loading</div>;
 	}
 
 	if (data !== undefined) {
-		const activity = data.getActivity.filter(a => {
+		const activity = data.getActivities.filter(a => {
 			return a.id.toString() === activityId;
 		})[0];
 
-		const pline = polyline.decode(activity['map']['summary_polyline']);
+		const pline = polyline.decode(activity['summary_polyline']);
 		console.log(pline);
-		const keys = (Object.keys(activity) as (keyof Omit<GQLActivity, '__typename' | 'map'>)[]).filter(key => {
-			return mapStats[key];
-		});
+		const keys = (Object.keys(activity) as (keyof Omit<GQLActivity, '__typename' | 'summary_polyline'>)[]).filter(
+			key => {
+				return mapStats[key];
+			}
+		);
 
 		return (
 			<div id="map">

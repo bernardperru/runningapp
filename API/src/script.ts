@@ -12,7 +12,7 @@ async function main() {
       distance: activity.distance,
       elapsed_time: activity.elapsed_time,
       start_date: activity.start_date,
-      summary_polyline: activity.map.summary_polyline,
+      summary_polyline: activity.summary_polyline,
       average_cadence: activity.average_cadence,
       average_heartrate: activity.average_heartrate,
       week: activity.week,

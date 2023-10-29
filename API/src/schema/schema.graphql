@@ -1,7 +1,0 @@
-type Query {
-  getBooks: [Book!]
-}
-
-type Book {
-  name: String!
-}

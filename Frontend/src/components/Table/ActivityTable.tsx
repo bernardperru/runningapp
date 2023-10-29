@@ -1,11 +1,11 @@
 import React from 'react';
-import { format } from '../../funktioner';
+import { format } from '../../functions';
 import './ActivityTable.css';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import RunMap from '../Map/RunMap';
-import { GQLActivity, useGetActivityQuery } from '../../graphql';
+import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 
-const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>]: string } = {
+const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id'>]: string } = {
 	start_date: 'Date',
 	distance: 'Distance',
 	elapsed_time: 'Time',
@@ -16,7 +16,7 @@ const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>]: s
 };
 
 const ActivityTable: React.FunctionComponent = () => {
-	const { data, loading, error } = useGetActivityQuery();
+	const { data, loading, error } = useGetActivitiesQuery();
 
 	const [sort, setSort] = React.useState<{
 		keyToSort: keyof Omit<GQLActivity, ''>;
@@ -51,11 +51,11 @@ const ActivityTable: React.FunctionComponent = () => {
 
 	function getSortedArray() {
 		if (data !== undefined) {
-			const sortedData = [...data?.getActivity];
+			const sortedData = [...data?.getActivities];
 			if (sort.direction == 'asc') {
-				return sortedData.sort((a, b) => a && b && (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
+				return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
 			}
-			return sortedData.sort((a, b) => a && b && (a['start_date'] > b['start_date'] ? 1 : -1));
+			return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1));
 		}
 		return [];
 	}
@@ -69,11 +69,11 @@ const ActivityTable: React.FunctionComponent = () => {
 	}
 
 	if (data !== undefined) {
-		const keys = (Object.keys(data.getActivity[0]) as (keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>)[]).filter(
-			key => {
-				return labels[key];
-			}
-		);
+		const keys = (
+			Object.keys(data.getActivities[0]) as (keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id'>)[]
+		).filter(key => {
+			return labels[key];
+		});
 		console.log(keys);
 		return (
 			<div>

@@ -16,15 +16,15 @@ import {
 
 import { Line } from 'react-chartjs-2';
 import { Activity } from '@/Activity';
-import { useGetActivityQuery, GQLActivity } from '../../graphql';
+import { useGetActivitiesQuery, GQLActivity } from '../../graphql';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const LineChart: React.FunctionComponent<{ key: keyof GQLActivity }> = ({ key }) => {
-	const { data, loading } = useGetActivityQuery();
+	const { data, loading } = useGetActivitiesQuery();
 
 	if (data !== undefined) {
-		const activities = [...data?.getActivity];
+		const activities = [...data?.getActivities];
 
 		const options: ChartOptions<keyof ChartTypeRegistry> = {
 			responsive: true,

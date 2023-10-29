@@ -1,9 +1,5 @@
 type Query {
-  getActivity: [Activity!]!
-}
-
-type Map {
-  summary_polyline: String!
+  getActivities: [Activity!]!
 }
 
 type Activity {
@@ -11,7 +7,7 @@ type Activity {
   distance: Float!
   elapsed_time: Float!
   start_date: String!
-  map: Map!
+  summary_polyline: String!
   average_cadence: Float!
   average_heartrate: Float!
   week: Int!

@@ -1,11 +1,11 @@
 import React from 'react';
-import { format } from '../../../funktioner';
+import { format } from '../../../functions';
 import './ActivityCard.css';
 import { Activity } from '@/Activity';
 import { Link, useParams } from 'react-router-dom';
-import { GQLActivity, useGetActivityQuery } from '../../../graphql';
+import { GQLActivity, useGetActivitiesQuery } from '../../../graphql';
 
-const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>]: string } = {
+const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id'>]: string } = {
 	average_heartrate: 'Avg. Heartrate',
 	average_cadence: 'Avg. Cadence',
 	distance: 'Distance',
@@ -16,16 +16,16 @@ const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>]: s
 };
 
 const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activityId }) => {
-	const { data, loading, error } = useGetActivityQuery({ variables: {} });
+	const { data, loading, error } = useGetActivitiesQuery({ variables: {} });
 
 	if (data !== undefined) {
-		const keys = (Object.keys(data.getActivity[0]) as (keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>)[]).filter(
-			key => {
-				return labels[key];
-			}
-		);
+		const keys = (
+			Object.keys(data.getActivities[0]) as (keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id'>)[]
+		).filter(key => {
+			return labels[key];
+		});
 
-		const activity = data.getActivity.filter(a => {
+		const activity = data.getActivities.filter(a => {
 			return a.id === activityId;
 		})[0];
 
