@@ -1,6 +1,6 @@
 import { StravaAPI } from "../StravaAPI.js";
 import { GQLResolvers, GQLActivity } from "../resolvers-types";
-import { getActivities } from "../prismaQueries.js";
+import { getActivities, addAndGetActivities } from "../prismaQueries.js";
 const stravaAPI = new StravaAPI();
 // const prisma = new PrismaClient();
 
@@ -8,6 +8,7 @@ export const activityResolver: GQLResolvers = {
   Query: {
     // getActivities: () => stravaAPI.getListActivities(),
     getActivities: () => getActivities(),
+    // getNewActivities: () => addAndGetActivities(),
   },
 };
 

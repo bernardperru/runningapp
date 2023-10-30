@@ -33,17 +33,29 @@ export type GQLActivity = {
 export type GQLQuery = {
   __typename: 'Query';
   getActivities: Array<GQLActivity>;
+  getNewActivities: Array<GQLActivity>;
 };
 
 export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, week: number, zone: number }> };
+export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, week: number, zone: number }>, getNewActivities: Array<{ __typename: 'Activity', id: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, week: number, zone: number }> };
 
 
 export const GetActivitiesDocument = gql`
     query getActivities {
   getActivities {
+    id
+    distance
+    elapsed_time
+    start_date
+    summary_polyline
+    average_cadence
+    average_heartrate
+    week
+    zone
+  }
+  getNewActivities {
     id
     distance
     elapsed_time

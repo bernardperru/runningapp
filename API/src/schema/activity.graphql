@@ -1,5 +1,6 @@
 type Query {
   getActivities: [Activity!]!
+  getNewActivities: [Activity!]!
 }
 
 type Activity {

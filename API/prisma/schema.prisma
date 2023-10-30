@@ -12,7 +12,7 @@ datasource db {
 
 model Activity {
   id  Int @id @default(autoincrement())
-  stravaId Float 
+  stravaId Float @unique
   distance Float
   elapsed_time Float
   start_date String

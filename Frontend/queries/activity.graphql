@@ -10,4 +10,16 @@ query getActivities {
 		week
 		zone
 	}
+
+	getNewActivities {
+		id
+		distance
+		elapsed_time
+		start_date
+		summary_polyline
+		average_cadence
+		average_heartrate
+		week
+		zone
+	}
 }
