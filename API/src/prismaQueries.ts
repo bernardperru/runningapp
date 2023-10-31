@@ -39,10 +39,10 @@ export async function addAndGetActivities() {
 
 async function upsertActivity(activity: Prisma.ActivityCreateManyInput) {
   const upsertActivities = await prisma.activity.upsert({
-    where: { stravaId: activity.id },
+    where: { stravaId: activity.stravaId },
     update: {},
     create: {
-      stravaId: activity.id,
+      stravaId: activity.stravaId,
       distance: activity.distance,
       elapsed_time: activity.elapsed_time,
       start_date: activity.start_date,

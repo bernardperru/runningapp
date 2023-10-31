@@ -23,6 +23,7 @@ export class StravaAPI {
         activity.average_heartrate = Math.floor(activity.average_heartrate);
         activity.zone = Math.floor(getZone(activity.average_heartrate));
         activity.week = getWeek(activity.start_date);
+        activity.summary_polyline = activity["map"]["summary_polyline"];
       });
       return json1;
     } catch (error) {
