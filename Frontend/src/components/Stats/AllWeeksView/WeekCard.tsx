@@ -28,23 +28,25 @@ const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber 
 		});
 
 		return (
-			<div className="bg-white shadow-sm rounded-md w-1/4 mt-12 mb-5 mx-5 p-5 text-center hover:bg-blue-400 float-left">
-				<h1>{weekNumber}</h1>
-				<ul>
-					{keys.map(
-						(key, index) =>
-							stats[key].type !== 'none' && (
-								<li key={index}>
-									<span>
-										{stats[key].label}
-										{' : '}
-										<span>{format(key, average(key, weekNumber, data.getActivities, stats[key].type))}</span>
-										<span></span>
-									</span>
-								</li>
-							)
-					)}
-				</ul>
+			<div className="bg-white shadow-lg rounded-md flex justify-center items-center px-5 py-7 hover:bg-blue-400">
+				<div>
+					<h1 className="text-center text-2xl font-sans border-b-2 border-black max-w-fit">{weekNumber}</h1>
+					<ul>
+						{keys.map(
+							(key, index) =>
+								stats[key].type !== 'none' && (
+									<li key={index}>
+										<span>
+											{stats[key].label}
+											{' : '}
+											<span>{format(key, average(key, weekNumber, data.getActivities, stats[key].type))}</span>
+											<span></span>
+										</span>
+									</li>
+								)
+						)}
+					</ul>
+				</div>
 			</div>
 		);
 	}

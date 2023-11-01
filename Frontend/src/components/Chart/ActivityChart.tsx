@@ -15,7 +15,6 @@ import {
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
-import { Activity } from '@/Activity';
 import { useGetActivitiesQuery, GQLActivity } from '../../graphql';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);

@@ -3,7 +3,6 @@ import { format } from '../../functions';
 import { MapContainer, TileLayer, Popup, Polyline } from 'react-leaflet';
 import './RunMap.css';
 import polyline from '@mapbox/polyline';
-import { Activity } from '@/Activity';
 import { useParams } from 'react-router-dom';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 
