@@ -1,8 +1,5 @@
 import React from 'react';
 import { format } from '../../../functions';
-import './ActivityCard.css';
-import { Activity } from '@/Activity';
-import { Link, useParams } from 'react-router-dom';
 import { GQLActivity, useGetActivitiesQuery } from '../../../graphql';
 
 const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id'>]: string } = {
@@ -30,7 +27,7 @@ const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activit
 		})[0];
 
 		return (
-			<ul className="activity-card">
+			<ul className="bg-white shadow-sm rounded-md w-1/4 mt-12 mb-5 mx-5 p-5 text-center hover:bg-blue-400 float-left">
 				{keys.map((key, index) => (
 					<li key={index}>
 						{labels[key]} : {format(key, activity[key])}

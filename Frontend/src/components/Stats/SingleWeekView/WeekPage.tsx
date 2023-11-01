@@ -1,9 +1,7 @@
 import React from 'react';
 import ActivityCard from './ActivityCard';
-import './WeekPage.css';
 import { Link, useParams } from 'react-router-dom';
-import { Activity } from '@/Activity';
-import { GQLActivity, useGetActivitiesQuery } from '../../../graphql';
+import { useGetActivitiesQuery } from '../../../graphql';
 
 const WeekPage: React.FunctionComponent = () => {
 	let { weekNumber } = useParams();

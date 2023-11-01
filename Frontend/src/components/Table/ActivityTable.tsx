@@ -1,6 +1,5 @@
 import React from 'react';
 import { format } from '../../functions';
-import './ActivityTable.css';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import RunMap from '../Map/RunMap';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
@@ -82,7 +81,7 @@ const ActivityTable: React.FunctionComponent = () => {
 						<tr>
 							{keys.map((key, index) => (
 								<th key={index} onClick={() => handleHeaderClick(key)}>
-									<div className="border border-slate-600 flex bg-blue-100 hover:bg-sky-400 ">
+									<div className="border border-slate-600 flex bg-blue-100 hover:bg-sky-400">
 										<span>{labels[key]}</span>
 										{sort.keyToSort === key &&
 											(sort.direction === 'asc' ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />)}
