@@ -77,12 +77,12 @@ const ActivityTable: React.FunctionComponent = () => {
 		console.log(keys);
 		return (
 			<div>
-				<table className="center">
+				<table className="table-auto border-collapse border-spacing-2 border border-slate-500 m-auto">
 					<thead>
 						<tr>
 							{keys.map((key, index) => (
 								<th key={index} onClick={() => handleHeaderClick(key)}>
-									<div className="header-container">
+									<div className="border border-slate-600 flex bg-blue-100 hover:bg-sky-400 ">
 										<span>{labels[key]}</span>
 										{sort.keyToSort === key &&
 											(sort.direction === 'asc' ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />)}
@@ -93,9 +93,9 @@ const ActivityTable: React.FunctionComponent = () => {
 					</thead>
 					<tbody>
 						{getSortedArray().map(activity => (
-							<tr key={activity.id} onClick={() => handleRowClick(activity)}>
+							<tr key={activity.id} onClick={() => handleRowClick(activity)} className="hover:bg-sky-400">
 								{keys.map((key, index) => (
-									<td key={index}>
+									<td key={index} className="border border-slate-900 px-8">
 										<div>{format(key, activity[key])}</div>
 										{''}
 									</td>

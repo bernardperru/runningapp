@@ -1,8 +1,7 @@
-import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import ActivityTable from './components/Table/ActivityTable';
 import { Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './components/Home/Home';
 import WeekPage from './components/Stats/SingleWeekView/WeekPage';
 import RunMap from './components/Map/RunMap';
 import AllWeeksPage from './components/Stats/AllWeeksView/AllWeeksPage';
