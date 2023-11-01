@@ -8,7 +8,7 @@ const AllWeeksPage: React.FunctionComponent = () => {
 	const { data, loading } = useGetActivitiesQuery();
 
 	if (data !== undefined) {
-		const weeks = [...new Set(data.getActivities.map(element => element.week))];
+		const weeks = [...new Set(data.getActivities.map(element => element.week))].sort().reverse();
 
 		return (
 			<div>

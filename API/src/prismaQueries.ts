@@ -1,8 +1,8 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { StravaAPI } from "./StravaAPI.js";
 import { GQLActivity } from "./resolvers-types";
-
 const prisma = new PrismaClient();
+const stravaAPI = new StravaAPI();
 
 export function getActivities() {
   const activities = prisma.activity.findMany();
@@ -11,9 +11,7 @@ export function getActivities() {
 }
 
 export async function addAndGetActivities() {
-  const api = new StravaAPI();
-  const activities = await api.getListActivities();
-
+  const activities = await stravaAPI.getListActivities();
   const data = activities.map((activity) => {
     return {
       stravaId: activity.id,

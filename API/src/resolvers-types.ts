@@ -31,7 +31,6 @@ export type GQLActivity = {
 export type GQLQuery = {
   __typename?: 'Query';
   getActivities: Array<GQLActivity>;
-  getNewActivities: Array<GQLActivity>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -139,7 +138,6 @@ export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolv
 
 export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  getNewActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
 }>;
 
 export type GQLResolvers<ContextType = any> = ResolversObject<{

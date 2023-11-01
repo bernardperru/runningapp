@@ -35,10 +35,7 @@ export function average(
 	let i = 0;
 	activities.map(activity => {
 		const temp = activity[key];
-		console.log(week + ' ' + activity.week);
-
 		if (activity.week === week && typeof temp === 'number') {
-			console.log(activity[key]);
 			accumulator += temp;
 			i++;
 		}
@@ -50,23 +47,31 @@ export function average(
 	return accumulator;
 }
 
+function addZero(value: number): string {
+	if (value < 10) {
+		return '0' + value.toString();
+	}
+	return value.toString();
+}
+
 export function format(key: keyof GQLActivity, value: string | number) {
 	switch (key) {
 		case 'distance':
 			return (parseFloat(value.toString()) / 1000).toFixed(2) + ' km';
 		case 'average_cadence':
-			return parseFloat(value.toString()) + ' spm';
+			return parseFloat(value.toString()).toFixed(0) + ' spm';
 		case 'elapsed_time':
 			const hours = Math.floor(parseFloat(value.toString()) / 3600);
 			const newValue = parseFloat(value.toString()) - hours * 3600;
 			const minutes = Math.floor(newValue / 60);
 			const seconds = newValue - minutes * 60;
-			return hours + ':' + minutes + ':' + seconds.toFixed(0) + '';
+			return addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + '';
 		case 'average_heartrate':
 			return parseFloat(value.toString()).toFixed(0) + ' bpm';
 		case 'start_date':
 			const date = new Date(value);
-			return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
+			return date.toDateString();
+		// return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
 		case 'summary_polyline':
 			return '';
 		default:

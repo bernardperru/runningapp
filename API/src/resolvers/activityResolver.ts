@@ -7,7 +7,7 @@ const stravaAPI = new StravaAPI();
 export const activityResolver: GQLResolvers = {
   Query: {
     // getActivities: () => stravaAPI.getListActivities(),
-    getActivities: () => getActivities(),
+    getActivities: () => addAndGetActivities(),
     // getNewActivities: () => addAndGetActivities(),
   },
 };

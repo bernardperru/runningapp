@@ -3,9 +3,9 @@ import Navbar from './components/Navbar/Navbar';
 import ActivityTable from './components/Table/ActivityTable';
 import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
-import WeekPage from './components/Stats/WeekView/WeekPage';
+import WeekPage from './components/Stats/SingleWeekView/WeekPage';
 import RunMap from './components/Map/RunMap';
-import AllWeeksPage from './components/Stats/MonthView/AllWeeksPage';
+import AllWeeksPage from './components/Stats/AllWeeksView/AllWeeksPage';
 
 function App() {
 	return (
