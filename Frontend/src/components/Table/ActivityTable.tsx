@@ -73,15 +73,18 @@ const ActivityTable: React.FunctionComponent = () => {
 		).filter(key => {
 			return labels[key];
 		});
-		console.log(keys);
+
 		return (
-			<div>
-				<table className="table p-4 bg-white rounded-lg shadow m-auto">
-					<thead>
-						<tr>
+			<div className="h-screen overflow-scroll fixed top-40 left-0 right-0">
+				<table className=" bg-white m-auto">
+					<thead className="sticky top-0 bg-grey-300">
+						<tr className="">
 							{keys.map((key, index) => (
-								<th key={index} className="" onClick={() => handleHeaderClick(key)}>
-									<div className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal flex text-gray-900 hover:bg-sky-400">
+								<th
+									key={index}
+									className="border-2 border-grey-500 p-4 font-normal text-gray-900 hover:bg-sky-400"
+									onClick={() => handleHeaderClick(key)}>
+									<div className="flex">
 										<span>{labels[key]}</span>
 										{sort.keyToSort === key ? (
 											sort.direction === 'asc' ? (
@@ -97,11 +100,11 @@ const ActivityTable: React.FunctionComponent = () => {
 							))}
 						</tr>
 					</thead>
-					<tbody>
+					<tbody className="h-5">
 						{getSortedArray().map(activity => (
-							<tr key={activity.id} onClick={() => handleRowClick(activity)} className="text-gray-700">
+							<tr key={activity.id} onClick={() => handleRowClick(activity)}>
 								{keys.map((key, index) => (
-									<td key={index} className="border p-4">
+									<td key={index} className="border p-4 text-gray-900">
 										<div>{format(key, activity[key])}</div>
 										{''}
 									</td>
