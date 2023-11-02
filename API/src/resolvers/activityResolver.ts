@@ -1,27 +1,49 @@
 import { StravaAPI } from "../StravaAPI.js";
-import { GQLResolvers, GQLActivity } from "../resolvers-types";
-import { getActivities, addAndGetActivities } from "../prismaQueries.js";
+import { GQLResolvers } from "../resolvers-types";
+import { PrismaClient, Prisma } from "@prisma/client";
+
 const stravaAPI = new StravaAPI();
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 export const activityResolver: GQLResolvers = {
   Query: {
-    // getActivities: () => stravaAPI.getListActivities(),
-    getActivities: () => addAndGetActivities(),
-    // getNewActivities: () => addAndGetActivities(),
+    getActivities: async () => {
+      const activities = await stravaAPI.getListActivities();
+      const data = activities.map((activity) => {
+        return {
+          stravaId: activity.id,
+          distance: activity.distance,
+          elapsed_time: activity.elapsed_time,
+          start_date: activity.start_date,
+          summary_polyline: activity.summary_polyline,
+          average_cadence: activity.average_cadence,
+          average_heartrate: activity.average_heartrate,
+          week: activity.week,
+          zone: activity.zone,
+        } satisfies Prisma.ActivityCreateManyInput;
+      });
+
+      await Promise.all(
+        data.map(async (activity) => {
+          await prisma.activity.upsert({
+            where: { stravaId: activity.stravaId },
+            update: {},
+            create: {
+              stravaId: activity.stravaId,
+              distance: activity.distance,
+              elapsed_time: activity.elapsed_time,
+              start_date: activity.start_date,
+              summary_polyline: activity.summary_polyline,
+              average_cadence: activity.average_cadence,
+              average_heartrate: activity.average_heartrate,
+              week: activity.week,
+              zone: activity.zone,
+            },
+          });
+        })
+      );
+      const result = await prisma.activity.findMany();
+      return result;
+    },
   },
 };
-
-// async function xd() {
-//   const activities = await stravaAPI.getListActivities();
-
-//   return stravaAPI.getListActivities();
-// }
-
-// const c = new StravaAPI();
-// const activities: GQLActivity[] = await c.getListActivities();
-
-// activities.map((activity) => {
-//   activity.zone = getZone(activity.average_heartrate);
-//   activity.week = getWeek(activity.start_date);
-// });
