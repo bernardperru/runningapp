@@ -26,17 +26,21 @@ export async function addAndGetActivities() {
     } satisfies Prisma.ActivityCreateManyInput;
   });
 
-  data.map((activity) => {
-    upsertActivity(activity);
+  await Promise.all(
+    data.map((activity) => {
+      return upsertActivity(activity);
+    })
+  ).then(() => {
+    console.log("upsert done");
   });
 
   const result = await prisma.activity.findMany();
-
+  console.log("fetced activities");
   return result;
 }
 
 async function upsertActivity(activity: Prisma.ActivityCreateManyInput) {
-  const upsertActivities = await prisma.activity.upsert({
+  const upsertActivities = prisma.activity.upsert({
     where: { stravaId: activity.stravaId },
     update: {},
     create: {
@@ -52,5 +56,5 @@ async function upsertActivity(activity: Prisma.ActivityCreateManyInput) {
     },
   });
 
-  console.log(upsertActivities);
+  return upsertActivities;
 }
