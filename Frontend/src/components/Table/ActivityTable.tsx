@@ -76,15 +76,22 @@ const ActivityTable: React.FunctionComponent = () => {
 		console.log(keys);
 		return (
 			<div>
-				<table className="table-auto border-collapse border-spacing-2 border border-slate-500 m-auto">
+				<table className="table p-4 bg-white rounded-lg shadow m-auto">
 					<thead>
 						<tr>
 							{keys.map((key, index) => (
-								<th key={index} onClick={() => handleHeaderClick(key)}>
-									<div className="border border-slate-600 flex bg-blue-100 hover:bg-sky-400">
+								<th key={index} className="" onClick={() => handleHeaderClick(key)}>
+									<div className="border p-4 dark:border-dark-5 whitespace-nowrap font-normal flex text-gray-900 hover:bg-sky-400">
 										<span>{labels[key]}</span>
-										{sort.keyToSort === key &&
-											(sort.direction === 'asc' ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />)}
+										{sort.keyToSort === key ? (
+											sort.direction === 'asc' ? (
+												<BsFillCaretUpFill />
+											) : (
+												<BsFillCaretDownFill />
+											)
+										) : (
+											<div className="px-2"></div>
+										)}
 									</div>
 								</th>
 							))}
@@ -92,9 +99,9 @@ const ActivityTable: React.FunctionComponent = () => {
 					</thead>
 					<tbody>
 						{getSortedArray().map(activity => (
-							<tr key={activity.id} onClick={() => handleRowClick(activity)} className="hover:bg-sky-400">
+							<tr key={activity.id} onClick={() => handleRowClick(activity)} className="text-gray-700">
 								{keys.map((key, index) => (
-									<td key={index} className="border border-slate-900 px-8">
+									<td key={index} className="border p-4">
 										<div>{format(key, activity[key])}</div>
 										{''}
 									</td>
