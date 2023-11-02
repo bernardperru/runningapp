@@ -75,14 +75,14 @@ const ActivityTable: React.FunctionComponent = () => {
 		});
 
 		return (
-			<div className="h-screen overflow-scroll fixed top-40 left-0 right-0">
+			<div className="h-screen overflow-scroll fixed top-20 left-0 right-0">
 				<table className=" bg-white m-auto">
-					<thead className="sticky top-0 bg-grey-300">
+					<thead className="bg-grey-300">
 						<tr className="">
 							{keys.map((key, index) => (
 								<th
 									key={index}
-									className="border-2 border-grey-500 p-4 font-normal text-gray-900 hover:bg-sky-400"
+									className=" border-2 border-grey-500 p-4 font-normal text-gray-900 hover:bg-sky-400"
 									onClick={() => handleHeaderClick(key)}>
 									<div className="flex">
 										<span>{labels[key]}</span>
