@@ -10,7 +10,7 @@ const AllWeeksPage: React.FunctionComponent = () => {
 		const weeks = [...new Set(data.getActivities.map(element => element.week))].sort().reverse();
 
 		return (
-			<div className="grid grid-cols-3 gap-4 h-48">
+			<div className="grid grid-cols-4 gap-10 place-items-center">
 				{weeks.map(weekNumber => (
 					<Link to={'/weekly/' + weekNumber}>
 						<WeekCard weekNumber={weekNumber}></WeekCard>

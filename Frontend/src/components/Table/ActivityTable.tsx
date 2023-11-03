@@ -75,7 +75,7 @@ const ActivityTable: React.FunctionComponent = () => {
 		});
 
 		return (
-			<div className="h-screen overflow-scroll fixed top-20 left-0 right-0">
+			<div className="fixed inset-x-1/4 inset-y-20 overflow-scroll box-content h-screen w-fit">
 				<table className=" bg-white m-auto">
 					<thead className="bg-grey-300">
 						<tr className="">
