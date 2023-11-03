@@ -2,12 +2,11 @@ import React from 'react';
 import { format } from '../../../functions';
 import { GQLActivity, useGetActivitiesQuery } from '../../../graphql';
 
-const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id'>]: string } = {
+const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id' | 'start_date'>]: string } = {
 	average_heartrate: 'Avg. Heartrate',
 	average_cadence: 'Avg. Cadence',
 	distance: 'Distance',
 	elapsed_time: 'Time',
-	start_date: 'Date',
 	week: 'Week',
 	zone: 'Zone',
 };
@@ -17,7 +16,10 @@ const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activit
 
 	if (data !== undefined) {
 		const keys = (
-			Object.keys(data.getActivities[0]) as (keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id'>)[]
+			Object.keys(data.getActivities[0]) as (keyof Omit<
+				GQLActivity,
+				'__typename' | 'summary_polyline' | 'id' | 'start_date'
+			>)[]
 		).filter(key => {
 			return labels[key];
 		});
@@ -27,13 +29,18 @@ const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activit
 		})[0];
 
 		return (
-			<ul className="bg-white shadow-sm rounded-md w-1/4 mt-12 mb-5 mx-5 p-5 text-center hover:bg-blue-400 float-left">
-				{keys.map((key, index) => (
-					<li key={index}>
-						{labels[key]} : {format(key, activity[key])}
-					</li>
-				))}
-			</ul>
+			<div className="bg-sky-200 hover:bg-blue-400 shadow-lg rounded-md py-7 px-12 mt-6">
+				<h1 className="text-2xl font-sans border-b-2 border-black w-fit">
+					{format('start_date', activity.start_date)}
+				</h1>
+				<ul className="">
+					{keys.map((key, index) => (
+						<li key={index}>
+							{labels[key]} : {format(key, activity[key])}
+						</li>
+					))}
+				</ul>
+			</div>
 		);
 	}
 };

@@ -8,7 +8,7 @@ const WeekPage: React.FunctionComponent = () => {
 	const { data, loading, error } = useGetActivitiesQuery({ variables: {} });
 	if (data !== undefined) {
 		return (
-			<div>
+			<div className="grid grid-cols-4 gap-10 place-items-center">
 				{data.getActivities.map(
 					activity =>
 						activity.week.toString() === weekNumber && (
