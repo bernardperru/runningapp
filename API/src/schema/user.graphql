@@ -1,0 +1,10 @@
+type Query {
+  postUser: User!
+}
+
+type User {
+  email: String!
+  password: String!
+  refreshToken: String!
+  activities: [Activity!]
+}

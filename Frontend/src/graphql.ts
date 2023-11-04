@@ -19,7 +19,6 @@ export type Scalars = {
 
 export type GQLActivity = {
   __typename: 'Activity';
-  athlete: GQLUser;
   average_cadence: Scalars['Float']['output'];
   average_heartrate: Scalars['Float']['output'];
   distance: Scalars['Float']['output'];
@@ -27,6 +26,7 @@ export type GQLActivity = {
   id: Scalars['Float']['output'];
   start_date: Scalars['String']['output'];
   summary_polyline: Scalars['String']['output'];
+  userId?: Maybe<Scalars['Int']['output']>;
   week: Scalars['Int']['output'];
   zone: Scalars['Int']['output'];
 };
@@ -34,12 +34,14 @@ export type GQLActivity = {
 export type GQLQuery = {
   __typename: 'Query';
   getActivities: Array<GQLActivity>;
+  postUser: GQLUser;
 };
 
 export type GQLUser = {
   __typename: 'User';
   activities?: Maybe<Array<GQLActivity>>;
-  name: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  password: Scalars['String']['output'];
   refreshToken: Scalars['String']['output'];
 };
 

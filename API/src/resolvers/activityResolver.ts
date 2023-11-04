@@ -11,6 +11,7 @@ export const activityResolver: GQLResolvers = {
       const activities = await stravaAPI.getListActivities();
       const data = activities.map((activity) => {
         return {
+          userId: activity.userId,
           stravaId: activity.id,
           distance: activity.distance,
           elapsed_time: activity.elapsed_time,
@@ -29,6 +30,7 @@ export const activityResolver: GQLResolvers = {
             where: { stravaId: activity.stravaId },
             update: {},
             create: {
+              userId: activity.userId,
               stravaId: activity.stravaId,
               distance: activity.distance,
               elapsed_time: activity.elapsed_time,
@@ -42,6 +44,7 @@ export const activityResolver: GQLResolvers = {
           });
         })
       );
+
       const result = await prisma.activity.findMany();
       return result;
     },

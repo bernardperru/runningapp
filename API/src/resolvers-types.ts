@@ -24,6 +24,7 @@ export type GQLActivity = {
   id: Scalars['Float']['output'];
   start_date: Scalars['String']['output'];
   summary_polyline: Scalars['String']['output'];
+  userId: Scalars['Float']['output'];
   week: Scalars['Int']['output'];
   zone: Scalars['Int']['output'];
 };
@@ -31,6 +32,15 @@ export type GQLActivity = {
 export type GQLQuery = {
   __typename?: 'Query';
   getActivities: Array<GQLActivity>;
+  postUser: GQLUser;
+};
+
+export type GQLUser = {
+  __typename?: 'User';
+  activities?: Maybe<Array<GQLActivity>>;
+  email: Scalars['String']['output'];
+  password: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -111,6 +121,7 @@ export type GQLResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  User: ResolverTypeWrapper<GQLUser>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -121,6 +132,7 @@ export type GQLResolversParentTypes = ResolversObject<{
   Int: Scalars['Int']['output'];
   Query: {};
   String: Scalars['String']['output'];
+  User: GQLUser;
 }>;
 
 export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Activity'] = GQLResolversParentTypes['Activity']> = ResolversObject<{
@@ -131,6 +143,7 @@ export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolv
   id?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   start_date?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   summary_polyline?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   week?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   zone?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -138,10 +151,20 @@ export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolv
 
 export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
+  postUser?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
+}>;
+
+export type GQLUserResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['User'] = GQLResolversParentTypes['User']> = ResolversObject<{
+  activities?: Resolver<Maybe<Array<GQLResolversTypes['Activity']>>, ParentType, ContextType>;
+  email?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  password?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  refreshToken?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type GQLResolvers<ContextType = any> = ResolversObject<{
   Activity?: GQLActivityResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
+  User?: GQLUserResolvers<ContextType>;
 }>;
 

@@ -1,8 +1,18 @@
 import * as dotenv from "dotenv";
-import { GQLActivity } from "./resolvers-types";
+import { GQLActivity, GQLUser } from "./resolvers-types";
 import { getZone, getWeek } from "./functions.js";
 
 export class StravaAPI {
+  public async getRefreshToken(authCode: String): Promise<String> {
+    const clientId = process.env.REACT_APP_CLIENT_ID;
+    const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
+
+    const url = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&code=${authCode}&grant_type=authorization_code`;
+
+    //get refresh token with the access token thingy
+    return "";
+  }
+
   public async getListActivities(): Promise<GQLActivity[]> {
     dotenv.config();
     const clientId = process.env.REACT_APP_CLIENT_ID;
@@ -24,6 +34,7 @@ export class StravaAPI {
         activity.zone = Math.floor(getZone(activity.average_heartrate));
         activity.week = getWeek(activity.start_date);
         activity.summary_polyline = activity["map"]["summary_polyline"];
+        activity.userId = activity["athlete"]["id"];
       });
       return json1;
     } catch (error) {
