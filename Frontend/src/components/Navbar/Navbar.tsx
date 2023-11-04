@@ -18,7 +18,7 @@ function Navbar() {
 							<div className="hidden md:block">
 								<div className="flex items-baseline ml-10 space-x-4">
 									<NavLink
-										to="/"
+										to=""
 										className={({ isActive }) =>
 											isActive
 												? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'

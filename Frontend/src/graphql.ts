@@ -19,6 +19,7 @@ export type Scalars = {
 
 export type GQLActivity = {
   __typename: 'Activity';
+  athlete: GQLUser;
   average_cadence: Scalars['Float']['output'];
   average_heartrate: Scalars['Float']['output'];
   distance: Scalars['Float']['output'];
@@ -33,6 +34,13 @@ export type GQLActivity = {
 export type GQLQuery = {
   __typename: 'Query';
   getActivities: Array<GQLActivity>;
+};
+
+export type GQLUser = {
+  __typename: 'User';
+  activities?: Maybe<Array<GQLActivity>>;
+  name: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
 };
 
 export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;

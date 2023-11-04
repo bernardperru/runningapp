@@ -5,13 +5,14 @@ import Home from './components/Home/Home';
 import WeekPage from './components/Stats/SingleWeekView/WeekPage';
 import RunMap from './components/Map/RunMap';
 import AllWeeksPage from './components/Stats/AllWeeksView/AllWeeksPage';
-
+import Redirect from './pages/Redirect';
 function App() {
 	return (
 		<div className="App">
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />
+				<Route path="/redirect/exchange_token" element={<Redirect />} />
 				<Route path="/activities" element={<ActivityTable />} />
 				<Route path="/weekly" element={<AllWeeksPage />} />
 				<Route path="/weekly/:weekNumber" element={<WeekPage />} />
