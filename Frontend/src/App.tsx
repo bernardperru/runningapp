@@ -5,6 +5,7 @@ import Home from './components/Home/Home';
 import WeekPage from './components/Stats/SingleWeekView/WeekPage';
 import RunMap from './components/Map/RunMap';
 import AllWeeksPage from './components/Stats/AllWeeksView/AllWeeksPage';
+import Login from './pages/Login';
 import Redirect from './pages/Redirect';
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 				<Route path="/weekly/:weekNumber" element={<WeekPage />} />
 				<Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} />
 			</Routes>
+			<Login></Login>
 		</div>
 	);
 }
