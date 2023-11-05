@@ -24,13 +24,13 @@ export const activityResolver: GQLResolvers = {
         } satisfies Prisma.ActivityCreateManyInput;
       });
 
-      await Promise.all(
+      const cd = await Promise.all(
         data.map(async (activity) => {
           await prisma.activity.upsert({
             where: { stravaId: activity.stravaId },
             update: {},
             create: {
-              userId: activity.userId,
+              userId: 1,
               stravaId: activity.stravaId,
               distance: activity.distance,
               elapsed_time: activity.elapsed_time,
@@ -45,7 +45,10 @@ export const activityResolver: GQLResolvers = {
         })
       );
 
+      console.log("i am here");
+      console.log(cd);
       const result = await prisma.activity.findMany();
+
       return result;
     },
   },

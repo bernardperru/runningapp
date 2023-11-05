@@ -4,7 +4,7 @@ import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import RunMap from '../Map/RunMap';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 
-const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id'>]: string } = {
+const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id' | 'userId'>]: string } = {
 	start_date: 'Date',
 	distance: 'Distance',
 	elapsed_time: 'Time',
@@ -16,9 +16,10 @@ const labels: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline
 
 const ActivityTable: React.FunctionComponent = () => {
 	const { data, loading, error } = useGetActivitiesQuery();
+	console.log(data);
 
 	const [sort, setSort] = React.useState<{
-		keyToSort: keyof Omit<GQLActivity, ''>;
+		keyToSort: keyof Omit<GQLActivity, 'userId'>;
 		direction: 'asc' | 'desc';
 	}>({
 		keyToSort: 'start_date',
@@ -33,7 +34,7 @@ const ActivityTable: React.FunctionComponent = () => {
 		see: false,
 	});
 
-	function handleHeaderClick(key: keyof Omit<GQLActivity, '__typename' | 'map' | 'id'>) {
+	function handleHeaderClick(key: keyof Omit<GQLActivity, '__typename' | 'map' | 'id' | 'userId'>) {
 		setSort({
 			keyToSort: key,
 			direction: key === sort.keyToSort ? (sort.direction === 'asc' ? 'desc' : 'asc') : 'desc',
@@ -69,7 +70,10 @@ const ActivityTable: React.FunctionComponent = () => {
 
 	if (data !== undefined) {
 		const keys = (
-			Object.keys(data.getActivities[0]) as (keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id'>)[]
+			Object.keys(data.getActivities[0]) as (keyof Omit<
+				GQLActivity,
+				'__typename' | 'summary_polyline' | 'id' | 'userId'
+			>)[]
 		).filter(key => {
 			return labels[key];
 		});

@@ -1,5 +1,6 @@
 type Query {
-  postUser: User!
+  postUser(email: String!, password: String!, refreshToken: String!): String!
+  getUser: User!
 }
 
 type User {

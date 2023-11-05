@@ -1,0 +1,3 @@
+query Query($email: String!, $password: String!, $refreshToken: String!) {
+	postUser(email: $email, password: $password, refreshToken: $refreshToken)
+}

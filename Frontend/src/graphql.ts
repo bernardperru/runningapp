@@ -26,7 +26,7 @@ export type GQLActivity = {
   id: Scalars['Float']['output'];
   start_date: Scalars['String']['output'];
   summary_polyline: Scalars['String']['output'];
-  userId?: Maybe<Scalars['Int']['output']>;
+  userId: Scalars['Float']['output'];
   week: Scalars['Int']['output'];
   zone: Scalars['Int']['output'];
 };
@@ -34,7 +34,15 @@ export type GQLActivity = {
 export type GQLQuery = {
   __typename: 'Query';
   getActivities: Array<GQLActivity>;
-  postUser: GQLUser;
+  getUser: GQLUser;
+  postUser: Scalars['String']['output'];
+};
+
+
+export type GQLQueryPostUserArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  refreshToken: Scalars['String']['input'];
 };
 
 export type GQLUser = {
@@ -48,21 +56,31 @@ export type GQLUser = {
 export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, week: number, zone: number }> };
+export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', zone: number, week: number, average_heartrate: number, average_cadence: number, summary_polyline: string, id: number, userId: number, distance: number, elapsed_time: number, start_date: string }> };
+
+export type GQLQueryQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  refreshToken: Scalars['String']['input'];
+}>;
+
+
+export type GQLQueryQuery = { __typename: 'Query', postUser: string };
 
 
 export const GetActivitiesDocument = gql`
-    query getActivities {
+    query GetActivities {
   getActivities {
+    zone
+    week
+    average_heartrate
+    average_cadence
+    summary_polyline
     id
+    userId
     distance
     elapsed_time
     start_date
-    summary_polyline
-    average_cadence
-    average_heartrate
-    week
-    zone
   }
 }
     `;
@@ -93,3 +111,38 @@ export function useGetActivitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetActivitiesQueryHookResult = ReturnType<typeof useGetActivitiesQuery>;
 export type GetActivitiesLazyQueryHookResult = ReturnType<typeof useGetActivitiesLazyQuery>;
 export type GetActivitiesQueryResult = Apollo.QueryResult<GQLGetActivitiesQuery, GQLGetActivitiesQueryVariables>;
+export const QueryDocument = gql`
+    query Query($email: String!, $password: String!, $refreshToken: String!) {
+  postUser(email: $email, password: $password, refreshToken: $refreshToken)
+}
+    `;
+
+/**
+ * __useQueryQuery__
+ *
+ * To run a query within a React component, call `useQueryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQueryQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *      refreshToken: // value for 'refreshToken'
+ *   },
+ * });
+ */
+export function useQueryQuery(baseOptions: Apollo.QueryHookOptions<GQLQueryQuery, GQLQueryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GQLQueryQuery, GQLQueryQueryVariables>(QueryDocument, options);
+      }
+export function useQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLQueryQuery, GQLQueryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GQLQueryQuery, GQLQueryQueryVariables>(QueryDocument, options);
+        }
+export type QueryQueryHookResult = ReturnType<typeof useQueryQuery>;
+export type QueryLazyQueryHookResult = ReturnType<typeof useQueryLazyQuery>;
+export type QueryQueryResult = Apollo.QueryResult<GQLQueryQuery, GQLQueryQueryVariables>;

@@ -11,7 +11,7 @@ type label = {
 	type: 'avg' | 'sum' | 'none';
 };
 
-const mapStats: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline'>]: label } = {
+const mapStats: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'userId'>]: label } = {
 	distance: { label: 'Distance', type: 'sum' },
 	elapsed_time: { label: 'Time', type: 'sum' },
 	average_heartrate: { label: 'Average Heartrate', type: 'avg' },
@@ -36,11 +36,11 @@ const RunMap: React.FunctionComponent = () => {
 
 		const pline = polyline.decode(activity['summary_polyline']);
 		console.log(pline);
-		const keys = (Object.keys(activity) as (keyof Omit<GQLActivity, '__typename' | 'summary_polyline'>)[]).filter(
-			key => {
-				return mapStats[key];
-			}
-		);
+		const keys = (
+			Object.keys(activity) as (keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'userId'>)[]
+		).filter(key => {
+			return mapStats[key];
+		});
 
 		return (
 			<div id="map">

@@ -6,6 +6,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -32,7 +33,15 @@ export type GQLActivity = {
 export type GQLQuery = {
   __typename?: 'Query';
   getActivities: Array<GQLActivity>;
-  postUser: GQLUser;
+  getUser: GQLUser;
+  postUser: Scalars['String']['output'];
+};
+
+
+export type GQLQueryPostUserArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  refreshToken: Scalars['String']['input'];
 };
 
 export type GQLUser = {
@@ -151,7 +160,8 @@ export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolv
 
 export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  postUser?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
+  getUser?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
+  postUser?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLQueryPostUserArgs, 'email' | 'password' | 'refreshToken'>>;
 }>;
 
 export type GQLUserResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['User'] = GQLResolversParentTypes['User']> = ResolversObject<{
