@@ -1,11 +1,13 @@
 type Query {
   postUser(email: String!, password: String!, refreshToken: String!): String!
-  getUser: User!
+  getActivities: [Activity!]!
 }
 
 type User {
+  id: Int!
   email: String!
+  name: String!
   password: String!
   refreshToken: String!
-  activities: [Activity!]
+  activities: [Activity]
 }

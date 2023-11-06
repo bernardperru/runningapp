@@ -31,10 +31,34 @@ export type GQLActivity = {
   zone: Scalars['Int']['output'];
 };
 
+export type GQLAuthPayload = {
+  __typename: 'AuthPayload';
+  token: Scalars['String']['output'];
+  user: GQLUser;
+};
+
+export type GQLMutation = {
+  __typename: 'Mutation';
+  login?: Maybe<GQLAuthPayload>;
+  signup?: Maybe<GQLAuthPayload>;
+};
+
+
+export type GQLMutationLoginArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+
+export type GQLMutationSignupArgs = {
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type GQLQuery = {
   __typename: 'Query';
   getActivities: Array<GQLActivity>;
-  getUser: GQLUser;
   postUser: Scalars['String']['output'];
 };
 
@@ -47,8 +71,10 @@ export type GQLQueryPostUserArgs = {
 
 export type GQLUser = {
   __typename: 'User';
-  activities?: Maybe<Array<GQLActivity>>;
+  activities?: Maybe<Array<Maybe<GQLActivity>>>;
   email: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   refreshToken: Scalars['String']['output'];
 };

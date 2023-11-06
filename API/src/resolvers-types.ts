@@ -30,10 +30,34 @@ export type GQLActivity = {
   zone: Scalars['Int']['output'];
 };
 
+export type GQLAuthPayload = {
+  __typename?: 'AuthPayload';
+  token: Scalars['String']['output'];
+  user: GQLUser;
+};
+
+export type GQLMutation = {
+  __typename?: 'Mutation';
+  login?: Maybe<GQLAuthPayload>;
+  signup?: Maybe<GQLAuthPayload>;
+};
+
+
+export type GQLMutationLoginArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+
+export type GQLMutationSignupArgs = {
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type GQLQuery = {
   __typename?: 'Query';
   getActivities: Array<GQLActivity>;
-  getUser: GQLUser;
   postUser: Scalars['String']['output'];
 };
 
@@ -46,8 +70,10 @@ export type GQLQueryPostUserArgs = {
 
 export type GQLUser = {
   __typename?: 'User';
-  activities?: Maybe<Array<GQLActivity>>;
+  activities?: Maybe<Array<Maybe<GQLActivity>>>;
   email: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   refreshToken: Scalars['String']['output'];
 };
@@ -125,9 +151,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type GQLResolversTypes = ResolversObject<{
   Activity: ResolverTypeWrapper<GQLActivity>;
+  AuthPayload: ResolverTypeWrapper<GQLAuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<GQLUser>;
@@ -136,9 +164,11 @@ export type GQLResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type GQLResolversParentTypes = ResolversObject<{
   Activity: GQLActivity;
+  AuthPayload: GQLAuthPayload;
   Boolean: Scalars['Boolean']['output'];
   Float: Scalars['Float']['output'];
   Int: Scalars['Int']['output'];
+  Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
   User: GQLUser;
@@ -158,15 +188,27 @@ export type GQLActivityResolvers<ContextType = any, ParentType extends GQLResolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type GQLAuthPayloadResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['AuthPayload'] = GQLResolversParentTypes['AuthPayload']> = ResolversObject<{
+  token?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type GQLMutationResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Mutation'] = GQLResolversParentTypes['Mutation']> = ResolversObject<{
+  login?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationLoginArgs, 'email' | 'password'>>;
+  signup?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationSignupArgs, 'email' | 'name' | 'password'>>;
+}>;
+
 export type GQLQueryResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  getUser?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
   postUser?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLQueryPostUserArgs, 'email' | 'password' | 'refreshToken'>>;
 }>;
 
 export type GQLUserResolvers<ContextType = any, ParentType extends GQLResolversParentTypes['User'] = GQLResolversParentTypes['User']> = ResolversObject<{
-  activities?: Resolver<Maybe<Array<GQLResolversTypes['Activity']>>, ParentType, ContextType>;
+  activities?: Resolver<Maybe<Array<Maybe<GQLResolversTypes['Activity']>>>, ParentType, ContextType>;
   email?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   refreshToken?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -174,6 +216,8 @@ export type GQLUserResolvers<ContextType = any, ParentType extends GQLResolversP
 
 export type GQLResolvers<ContextType = any> = ResolversObject<{
   Activity?: GQLActivityResolvers<ContextType>;
+  AuthPayload?: GQLAuthPayloadResolvers<ContextType>;
+  Mutation?: GQLMutationResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
   User?: GQLUserResolvers<ContextType>;
 }>;
