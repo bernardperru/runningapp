@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 
 function Home() {
 	const { REACT_APP_CLIENT_ID } = process.env;
@@ -9,12 +10,18 @@ function Home() {
 		window.location.href = `http://www.strava.com/oauth/authorize?client_id=${REACT_APP_CLIENT_ID}&response_type=code&redirect_uri=${redirectUrl}/exchange_token&approval_prompt=force&scope=${scope}`;
 	};
 
-	return (
-		<div>
-			<h1>{window.location.search}</h1>
-			<button onClick={handleLogin}>Connect with Strava</button>
-		</div>
-	);
+	const onButtonClick = () => {
+		// You'll update this function later
+	};
+
+	return <div></div>;
 }
 
 export default Home;
+
+{
+	/* <div>
+<h1>{window.location.search}</h1>
+<button onClick={handleLogin}>Connect with Strava</button>
+</div> */
+}
