@@ -3,9 +3,11 @@ dist
 /.pnp
 .pnp.js
 
-
+dist
 # testing
 /coverage
+
+prisma/migrations
 
 # production
 /build
