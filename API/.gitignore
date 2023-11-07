@@ -7,7 +7,7 @@ dist
 # testing
 /coverage
 
-prisma/migrations
+migrations
 
 # production
 /build
