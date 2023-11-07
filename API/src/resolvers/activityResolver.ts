@@ -12,7 +12,6 @@ export const activityResolver: GQLResolvers = {
       const data = activities.map((activity) => {
         return {
           userId: activity.userId,
-          stravaId: activity.id,
           distance: activity.distance,
           elapsed_time: activity.elapsed_time,
           start_date: activity.start_date,
@@ -27,11 +26,10 @@ export const activityResolver: GQLResolvers = {
       const cd = await Promise.all(
         data.map(async (activity) => {
           await prisma.activity.upsert({
-            where: { stravaId: activity.stravaId },
+            where: { userId: activity.userId },
             update: {},
             create: {
-              userId: 1,
-              stravaId: activity.stravaId,
+              userId: activity.userId,
               distance: activity.distance,
               elapsed_time: activity.elapsed_time,
               start_date: activity.start_date,
