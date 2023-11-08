@@ -1,4 +1,4 @@
-import { useSignUpMutation } from '../../graphql';
+import { useSignUpMutation, useLoginMutation } from '../../graphql';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,18 +20,26 @@ const Login = () => {
 			password: formState.password,
 			name: formState.name,
 		},
+		onCompleted: ({ signup }) => {
+			if (signup?.token != null) {
+				localStorage.setItem('token', signup.token);
+				navigate('/home');
+			}
+		},
 	});
 
-	// const [login] = useLoginMutation({
-	// 	variables: {
-	// 		email: formState.email,
-	// 		password: formState.password,
-	// 	},
-	// 	onCompleted: ({ login }) => {
-	// 		console.log(login);
-	// 		navigate('/home');
-	// 	},
-	// });
+	const [login] = useLoginMutation({
+		variables: {
+			email: formState.email,
+			password: formState.password,
+		},
+		onCompleted: ({ login }) => {
+			if (login?.token != null) {
+				localStorage.setItem('token', login.token);
+				navigate('/home');
+			}
+		},
+	});
 
 	return (
 		<div>
@@ -79,9 +87,8 @@ const Login = () => {
 			<div className="">
 				<button
 					className="pointer mr2 button"
-					onClick={async () => {
-						const response = await signup();
-						console.log(response);
+					onClick={() => {
+						formState.login ? login() : signup();
 					}}>
 					{formState.login ? 'login' : 'create account'}
 				</button>
