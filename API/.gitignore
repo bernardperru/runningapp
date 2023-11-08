@@ -6,9 +6,6 @@ dist
 dist
 # testing
 /coverage
-
-migrations
-
 # production
 /build
 

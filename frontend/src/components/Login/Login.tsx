@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import { useSignUpMutation } from '../../graphql';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const inputcss =
 	'appearance-none border border-gray-300 py-2 px-4 my-2 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent';
 
 const Login = () => {
+	const navigate = useNavigate();
 	const [formState, setFormState] = useState({
 		login: true,
 		email: '',
@@ -12,7 +14,24 @@ const Login = () => {
 		name: '',
 	});
 
-	console.log(formState);
+	const [signup] = useSignUpMutation({
+		variables: {
+			email: formState.email,
+			password: formState.password,
+			name: formState.name,
+		},
+	});
+
+	// const [login] = useLoginMutation({
+	// 	variables: {
+	// 		email: formState.email,
+	// 		password: formState.password,
+	// 	},
+	// 	onCompleted: ({ login }) => {
+	// 		console.log(login);
+	// 		navigate('/home');
+	// 	},
+	// });
 
 	return (
 		<div>
@@ -58,21 +77,26 @@ const Login = () => {
 				/>
 			</div>
 			<div className="">
-				<button className="pointer mr2 button" onClick={() => console.log('onClick')}>
+				<button
+					className="pointer mr2 button"
+					onClick={async () => {
+						const response = await signup();
+						console.log(response);
+					}}>
 					{formState.login ? 'login' : 'create account'}
 				</button>
-				<div>
-					<button
-						className="pointer button"
-						onClick={e =>
-							setFormState({
-								...formState,
-								login: !formState.login,
-							})
-						}>
-						{formState.login ? 'need to create an account?' : 'already have an account?'}
-					</button>
-				</div>
+			</div>
+			<div>
+				<button
+					className="pointer button"
+					onClick={e =>
+						setFormState({
+							...formState,
+							login: !formState.login,
+						})
+					}>
+					{formState.login ? 'need to create an account?' : 'already have an account?'}
+				</button>
 			</div>
 		</div>
 	);

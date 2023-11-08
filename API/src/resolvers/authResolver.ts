@@ -1,50 +1,56 @@
-import { bcrypt } from "bcryptjs";
+import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
-import {
-  GQLAuthPayload,
-  GQLMutationResolvers,
-  GQLResolvers,
-} from "../resolvers-types";
+import { GQLAuthPayload, GQLResolvers } from "../resolvers-types";
 import { PrismaClient, Prisma } from "@prisma/client";
 import * as dotenv from "dotenv";
 
 const prisma = new PrismaClient();
 dotenv.config();
 
-export const authResolver: GQLMutationResolvers = {
+export const authResolver: GQLResolvers = {
   Mutation: {
-    signup: async (args: { email: string; password: string; name: string }) => {
-      const { email, name } = args;
-      const password = await bcrypt.hash(args.password, 10);
-      const tempUser = {
-        email: email,
-        name: name,
-        password: password,
-        refresh_token: "xxx",
-      } satisfies Prisma.UserCreateInput;
+    signup: async (_, { email, name, password }) => {
+      try {
+        // const encryptedPassword = await bcrypt.hash(password, 10);
 
-      const user = await prisma.user.create({
-        data: tempUser,
-      });
+        const user = await prisma.user.create({
+          data: {
+            email: email,
+            name: name,
+            password: password,
+            refresh_token: "xxx",
+          },
+        });
 
-      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+        // const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+        const token = "xd";
 
-      const authPayload = {
-        token: token,
-        user: user,
-      };
-      return authPayload;
+        const authPayload: GQLAuthPayload = {
+          token: token,
+          user: {
+            email: user.email,
+            id: user.id,
+            name: user.name,
+            password: user.password,
+            refreshToken: user.refresh_token,
+          },
+        };
+
+        return authPayload;
+      } catch (e) {
+        console.log(e);
+      }
     },
-    login: async (args: { email: string; name: string; password: string }) => {
+    login: async (_, { email, password }) => {
       const user = await prisma.user.findUnique({
-        where: { email: args.email },
+        where: { email: email },
       });
 
       if (!user) {
         throw new Error("No such user found");
       }
 
-      const valid = await bcrypt.compare(args.password, user.password);
+      const valid = await bcrypt.compare(password, user.password);
 
       if (!valid) {
         throw new Error("Invalid password");
@@ -52,9 +58,15 @@ export const authResolver: GQLMutationResolvers = {
 
       const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
-      const authPayload = {
+      const authPayload: GQLAuthPayload = {
         token: token,
-        user: user,
+        user: {
+          email: user.email,
+          id: user.id,
+          name: user.name,
+          password: user.password,
+          refreshToken: user.refresh_token,
+        },
       };
 
       return authPayload;

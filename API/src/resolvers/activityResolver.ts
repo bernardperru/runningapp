@@ -43,8 +43,6 @@ export const activityResolver: GQLResolvers = {
         })
       );
 
-      console.log("i am here");
-      console.log(cd);
       const result = await prisma.activity.findMany();
 
       return result;
