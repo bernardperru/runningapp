@@ -1,5 +1,5 @@
-import * as bcrypt from "bcryptjs";
-import * as jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { GQLAuthPayload, GQLResolvers } from "../resolvers-types";
 import { PrismaClient, Prisma } from "@prisma/client";
 import * as dotenv from "dotenv";
@@ -11,19 +11,18 @@ export const authResolver: GQLResolvers = {
   Mutation: {
     signup: async (_, { email, name, password }) => {
       try {
-        // const encryptedPassword = await bcrypt.hash(password, 10);
+        const encryptedPassword = await bcrypt.hash(password, 10);
 
         const user = await prisma.user.create({
           data: {
             email: email,
             name: name,
-            password: password,
+            password: encryptedPassword,
             refresh_token: "xxx",
           },
         });
 
-        // const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
-        const token = "xd";
+        const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
         const authPayload: GQLAuthPayload = {
           token: token,
@@ -58,7 +57,7 @@ export const authResolver: GQLResolvers = {
 
       const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
-      const authPayload: GQLAuthPayload = {
+      return {
         token: token,
         user: {
           email: user.email,
@@ -68,8 +67,6 @@ export const authResolver: GQLResolvers = {
           refreshToken: user.refresh_token,
         },
       };
-
-      return authPayload;
     },
   },
 };
