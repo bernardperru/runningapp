@@ -1,4 +1,4 @@
-import { GQLActivity } from "./resolvers-types";
+import { GQLActivity } from "../resolvers-types";
 
 export function getZone(heartRate: number): number {
   if (98 <= heartRate && heartRate <= 116) {

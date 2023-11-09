@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 import { GQLActivity, GQLUser } from "./resolvers-types";
-import { getZone, getWeek } from "./functions.js";
+import { getZone, getWeek } from "./utils/functions.js";
 
 export class StravaAPI {
   public async getRefreshToken(authCode: String): Promise<String> {
