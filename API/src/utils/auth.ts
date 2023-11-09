@@ -1,16 +1,32 @@
 import jwt from "jsonwebtoken";
-import { PrismaClient } from "@prisma/client";
+import { database } from "../database.js";
 import * as dotenv from "dotenv";
+import { User } from "@prisma/client";
 
-const prisma = new PrismaClient();
 dotenv.config();
 
-export function decodeAuthHeader(authHeader: string) {
-  const token = authHeader.replace("Authorization ", "");
-
-  if (!token) {
-    throw new Error("No token found");
+export async function decodeAuthHeader(authHeader: string | undefined) {
+  if (!authHeader) {
+    return null;
   }
 
-  return jwt.verify(token, process.env.APP_SECRET) as string;
+  try {
+    const token = authHeader.replace("Bearer ", "");
+    const lmao = jwt.verify(token, process.env.APP_SECRET || "") as
+      | {
+          userId: number;
+        }
+      | undefined;
+    if (lmao) {
+      const user = await database.user.findUnique({
+        where: {
+          id: lmao.userId,
+        },
+      });
+      return user;
+    }
+  } catch {
+    return null;
+  }
+  return null;
 }

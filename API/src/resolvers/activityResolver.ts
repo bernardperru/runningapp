@@ -1,14 +1,19 @@
-import { StravaAPI } from "../StravaAPI.js";
 import { GQLResolvers } from "../resolvers-types";
-import { PrismaClient, Prisma } from "@prisma/client";
-
-const stravaAPI = new StravaAPI();
-const prisma = new PrismaClient();
+import { Prisma } from "@prisma/client";
+import { database } from "../database.js";
 
 export const activityResolver: GQLResolvers = {
   Query: {
-    getActivities: async () => {
-      const activities = await stravaAPI.getListActivities();
+    getActivities: async (_, args, context) => {
+      if (!context.auth) {
+        throw new Error("context is null :)");
+      }
+      console.log(context.auth?.user.id);
+
+      const activities = await context.auth?.stravaAPI.getListActivities();
+      if (!activities) {
+        throw new Error("activities not found");
+      }
       const data = activities.map((activity) => {
         return {
           userId: activity.userId,
@@ -25,7 +30,7 @@ export const activityResolver: GQLResolvers = {
 
       const cd = await Promise.all(
         data.map(async (activity) => {
-          await prisma.activity.upsert({
+          await database.activity.upsert({
             where: { userId: activity.userId },
             update: {},
             create: {
@@ -43,7 +48,7 @@ export const activityResolver: GQLResolvers = {
         })
       );
 
-      const result = await prisma.activity.findMany();
+      const result = await database.activity.findMany();
 
       return result;
     },

@@ -3,41 +3,31 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { resolvers } from "./resolvers.js";
 import typeDefs from "./typeDefs.js";
-import { PrismaClient, Prisma } from "@prisma/client";
 import { decodeAuthHeader } from "./utils/auth.js";
-const prisma = new PrismaClient();
-
-interface MyContext {
-  prisma: PrismaClient;
-  user: string;
-}
+import { MyContext } from "./context.js";
+import { StravaAPI } from "./StravaAPI.js";
 
 const schema = makeExecutableSchema({
   typeDefs: typeDefs,
-  resolvers: resolvers as any,
+  resolvers: resolvers,
 });
 
-const server = new ApolloServer<MyContext>({ schema });
+const server = new ApolloServer<MyContext>({ schema, introspection: true });
 
 const { url } = await startStandaloneServer(server, {
-  context: async ({ req }) => {
-    // get the user token from the headers
-    const token = req.headers.authorization || "";
-
-    // try to retrieve a user with the token
-    const user = decodeAuthHeader(token);
-
-    if (!user) {
-      throw new Error("User is not authenticated");
-    }
-
-    // add the user to the context
-    return { prisma, user };
+  listen: { port: 4000 },
+  context: async ({ req }): Promise<MyContext> => {
+    const temp = await decodeAuthHeader(req.headers.authorization);
+    return {
+      auth: temp
+        ? { stravaAPI: new StravaAPI(temp.refresh_token), user: temp }
+        : null,
+    };
   },
 });
 
-// const server = new ApolloServer({schema});
+// const server = new ApolloServer({ schema });
 
-// const {url} = await startStandaloneServer(server)
+// const { url } = await startStandaloneServer(server);
 
 console.log(`🚀  Server ready at: ${url}`);

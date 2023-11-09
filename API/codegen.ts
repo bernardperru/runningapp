@@ -7,6 +7,7 @@ const config: CodegenConfig = {
       config: {
         useIndexSignature: true,
         typesPrefix: "GQL",
+        contextType: "./context#MyContext",
       },
       plugins: ["typescript", "typescript-resolvers"],
     },

@@ -1,9 +1,5 @@
 import { GQLResolvers } from "../resolvers-types";
 import { StravaAPI } from "../StravaAPI.js";
-import { PrismaClient, Prisma } from "@prisma/client";
-
-const stravaAPI = new StravaAPI();
-const prisma = new PrismaClient();
 
 export const userResolver: GQLResolvers = {
   Query: {

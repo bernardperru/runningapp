@@ -1,47 +1,42 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { GQLAuthPayload, GQLResolvers } from "../resolvers-types";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { database } from "../database.js";
 import * as dotenv from "dotenv";
 
-const prisma = new PrismaClient();
 dotenv.config();
 
 export const authResolver: GQLResolvers = {
   Mutation: {
-    signup: async (_, { email, name, password }) => {
-      try {
-        const encryptedPassword = await bcrypt.hash(password, 10);
+    signup: async (_, { email, name, password }, context) => {
+      const encryptedPassword = await bcrypt.hash(password, 10);
 
-        const user = await prisma.user.create({
-          data: {
-            email: email,
-            name: name,
-            password: encryptedPassword,
-            refresh_token: "xxx",
-          },
-        });
+      const user = await database.user.create({
+        data: {
+          email: email,
+          name: name,
+          password: encryptedPassword,
+          refresh_token: "xxx",
+        },
+      });
 
-        const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET || "");
 
-        const authPayload: GQLAuthPayload = {
-          token: token,
-          user: {
-            email: user.email,
-            id: user.id,
-            name: user.name,
-            password: user.password,
-            refreshToken: user.refresh_token,
-          },
-        };
+      const authPayload: GQLAuthPayload = {
+        token: token,
+        user: {
+          email: user.email,
+          id: user.id,
+          name: user.name,
+          password: user.password,
+          refreshToken: user.refresh_token,
+        },
+      };
 
-        return authPayload;
-      } catch (e) {
-        console.log(e);
-      }
+      return authPayload;
     },
     login: async (_, { email, password }) => {
-      const user = await prisma.user.findUnique({
+      const user = await database.user.findUnique({
         where: { email: email },
       });
 
@@ -55,7 +50,7 @@ export const authResolver: GQLResolvers = {
         throw new Error("Invalid password");
       }
 
-      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET || "");
 
       return {
         token: token,
