@@ -16,6 +16,7 @@ export const authResolver: GQLResolvers = {
           email: email,
           name: name,
           password: encryptedPassword,
+          refresh_token: "",
         },
       });
 
@@ -50,10 +51,13 @@ export const authResolver: GQLResolvers = {
         hasRefreshToken: user.refresh_token ? true : false,
       };
     },
-    addRefreshToken: async (_, { email, refreshToken }) => {
+    addRefreshToken: async (_, { refreshToken }, context) => {
       //update user with the refresh_token
+      if (!context.auth) {
+        throw new Error("No user found in context");
+      }
       const user = await database.user.update({
-        where: { email: email },
+        where: { email: context.auth?.user.email },
         data: {
           refresh_token: refreshToken,
         },

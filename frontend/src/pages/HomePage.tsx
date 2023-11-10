@@ -14,7 +14,15 @@ function Home() {
 		// You'll update this function later
 	};
 
-	return <div></div>;
+	return (
+		<div>
+			{localStorage.getItem('hasRefreshToken') === 'false' ? (
+				<button onClick={handleLogin}> you aren't connected to a strava account</button>
+			) : (
+				<div>You are connected to a strava account</div>
+			)}
+		</div>
+	);
 }
 
 export default Home;

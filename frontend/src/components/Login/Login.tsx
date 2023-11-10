@@ -1,4 +1,4 @@
-import { useSignUpMutation, useLoginMutation } from '../../graphql';
+import { useSignupMutation, useLoginMutation, useAddRefreshTokenMutation } from '../../graphql';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const Login = () => {
 		name: '',
 	});
 
-	const [signup] = useSignUpMutation({
+	const [signup] = useSignupMutation({
 		variables: {
 			email: formState.email,
 			password: formState.password,
@@ -23,7 +23,7 @@ const Login = () => {
 		onCompleted: ({ signup }) => {
 			if (signup?.token != null) {
 				localStorage.setItem('token', signup.token);
-				navigate('/home');
+				localStorage.setItem('hasRefreshToken', signup.hasRefreshToken.toString());
 			}
 		},
 	});
@@ -36,7 +36,8 @@ const Login = () => {
 		onCompleted: ({ login }) => {
 			if (login?.token != null) {
 				localStorage.setItem('token', login.token);
-				navigate('/home');
+				localStorage.setItem('hasRefreshToken', login.hasRefreshToken.toString());
+				navigate('/');
 			}
 		},
 	});

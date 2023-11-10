@@ -33,14 +33,20 @@ export type GQLActivity = {
 
 export type GQLAuthPayload = {
   __typename: 'AuthPayload';
+  hasRefreshToken: Scalars['Boolean']['output'];
   token: Scalars['String']['output'];
-  user: GQLUser;
 };
 
 export type GQLMutation = {
   __typename: 'Mutation';
+  addRefreshToken?: Maybe<GQLAuthPayload>;
   login?: Maybe<GQLAuthPayload>;
   signup?: Maybe<GQLAuthPayload>;
+};
+
+
+export type GQLMutationAddRefreshTokenArgs = {
+  refreshToken: Scalars['String']['input'];
 };
 
 
@@ -58,14 +64,12 @@ export type GQLMutationSignupArgs = {
 
 export type GQLQuery = {
   __typename: 'Query';
+  addRefreshToken?: Maybe<Scalars['String']['output']>;
   getActivities: Array<GQLActivity>;
-  postUser: Scalars['String']['output'];
 };
 
 
-export type GQLQueryPostUserArgs = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type GQLQueryAddRefreshTokenArgs = {
   refreshToken: Scalars['String']['input'];
 };
 
@@ -84,31 +88,29 @@ export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', zone: number, week: number, average_heartrate: number, average_cadence: number, summary_polyline: string, id: number, userId: number, distance: number, elapsed_time: number, start_date: string }> };
 
+export type GQLAddRefreshTokenMutationVariables = Exact<{
+  refreshToken: Scalars['String']['input'];
+}>;
+
+
+export type GQLAddRefreshTokenMutation = { __typename: 'Mutation', addRefreshToken?: { __typename: 'AuthPayload', token: string, hasRefreshToken: boolean } | null };
+
 export type GQLLoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 }>;
 
 
-export type GQLLoginMutation = { __typename: 'Mutation', login?: { __typename: 'AuthPayload', token: string, user: { __typename: 'User', name: string, email: string } } | null };
+export type GQLLoginMutation = { __typename: 'Mutation', login?: { __typename: 'AuthPayload', token: string, hasRefreshToken: boolean } | null };
 
-export type GQLSignUpMutationVariables = Exact<{
+export type GQLSignupMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
   name: Scalars['String']['input'];
 }>;
 
 
-export type GQLSignUpMutation = { __typename: 'Mutation', signup?: { __typename: 'AuthPayload', token: string, user: { __typename: 'User', name: string, email: string } } | null };
-
-export type GQLQueryQueryVariables = Exact<{
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  refreshToken: Scalars['String']['input'];
-}>;
-
-
-export type GQLQueryQuery = { __typename: 'Query', postUser: string };
+export type GQLSignupMutation = { __typename: 'Mutation', signup?: { __typename: 'AuthPayload', hasRefreshToken: boolean, token: string } | null };
 
 
 export const GetActivitiesDocument = gql`
@@ -154,14 +156,45 @@ export function useGetActivitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetActivitiesQueryHookResult = ReturnType<typeof useGetActivitiesQuery>;
 export type GetActivitiesLazyQueryHookResult = ReturnType<typeof useGetActivitiesLazyQuery>;
 export type GetActivitiesQueryResult = Apollo.QueryResult<GQLGetActivitiesQuery, GQLGetActivitiesQueryVariables>;
+export const AddRefreshTokenDocument = gql`
+    mutation AddRefreshToken($refreshToken: String!) {
+  addRefreshToken(refreshToken: $refreshToken) {
+    token
+    hasRefreshToken
+  }
+}
+    `;
+export type GQLAddRefreshTokenMutationFn = Apollo.MutationFunction<GQLAddRefreshTokenMutation, GQLAddRefreshTokenMutationVariables>;
+
+/**
+ * __useAddRefreshTokenMutation__
+ *
+ * To run a mutation, you first call `useAddRefreshTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddRefreshTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addRefreshTokenMutation, { data, loading, error }] = useAddRefreshTokenMutation({
+ *   variables: {
+ *      refreshToken: // value for 'refreshToken'
+ *   },
+ * });
+ */
+export function useAddRefreshTokenMutation(baseOptions?: Apollo.MutationHookOptions<GQLAddRefreshTokenMutation, GQLAddRefreshTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GQLAddRefreshTokenMutation, GQLAddRefreshTokenMutationVariables>(AddRefreshTokenDocument, options);
+      }
+export type AddRefreshTokenMutationHookResult = ReturnType<typeof useAddRefreshTokenMutation>;
+export type AddRefreshTokenMutationResult = Apollo.MutationResult<GQLAddRefreshTokenMutation>;
+export type AddRefreshTokenMutationOptions = Apollo.BaseMutationOptions<GQLAddRefreshTokenMutation, GQLAddRefreshTokenMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
-    user {
-      name
-      email
-    }
     token
+    hasRefreshToken
   }
 }
     `;
@@ -192,31 +225,28 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<GQLLog
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<GQLLoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<GQLLoginMutation, GQLLoginMutationVariables>;
-export const SignUpDocument = gql`
-    mutation SignUp($email: String!, $password: String!, $name: String!) {
+export const SignupDocument = gql`
+    mutation Signup($email: String!, $password: String!, $name: String!) {
   signup(email: $email, password: $password, name: $name) {
-    user {
-      name
-      email
-    }
+    hasRefreshToken
     token
   }
 }
     `;
-export type GQLSignUpMutationFn = Apollo.MutationFunction<GQLSignUpMutation, GQLSignUpMutationVariables>;
+export type GQLSignupMutationFn = Apollo.MutationFunction<GQLSignupMutation, GQLSignupMutationVariables>;
 
 /**
- * __useSignUpMutation__
+ * __useSignupMutation__
  *
- * To run a mutation, you first call `useSignUpMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSignUpMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSignupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignupMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [signUpMutation, { data, loading, error }] = useSignUpMutation({
+ * const [signupMutation, { data, loading, error }] = useSignupMutation({
  *   variables: {
  *      email: // value for 'email'
  *      password: // value for 'password'
@@ -224,45 +254,10 @@ export type GQLSignUpMutationFn = Apollo.MutationFunction<GQLSignUpMutation, GQL
  *   },
  * });
  */
-export function useSignUpMutation(baseOptions?: Apollo.MutationHookOptions<GQLSignUpMutation, GQLSignUpMutationVariables>) {
+export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<GQLSignupMutation, GQLSignupMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<GQLSignUpMutation, GQLSignUpMutationVariables>(SignUpDocument, options);
+        return Apollo.useMutation<GQLSignupMutation, GQLSignupMutationVariables>(SignupDocument, options);
       }
-export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
-export type SignUpMutationResult = Apollo.MutationResult<GQLSignUpMutation>;
-export type SignUpMutationOptions = Apollo.BaseMutationOptions<GQLSignUpMutation, GQLSignUpMutationVariables>;
-export const QueryDocument = gql`
-    query Query($email: String!, $password: String!, $refreshToken: String!) {
-  postUser(email: $email, password: $password, refreshToken: $refreshToken)
-}
-    `;
-
-/**
- * __useQueryQuery__
- *
- * To run a query within a React component, call `useQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useQueryQuery({
- *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
- *      refreshToken: // value for 'refreshToken'
- *   },
- * });
- */
-export function useQueryQuery(baseOptions: Apollo.QueryHookOptions<GQLQueryQuery, GQLQueryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GQLQueryQuery, GQLQueryQueryVariables>(QueryDocument, options);
-      }
-export function useQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLQueryQuery, GQLQueryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GQLQueryQuery, GQLQueryQueryVariables>(QueryDocument, options);
-        }
-export type QueryQueryHookResult = ReturnType<typeof useQueryQuery>;
-export type QueryLazyQueryHookResult = ReturnType<typeof useQueryLazyQuery>;
-export type QueryQueryResult = Apollo.QueryResult<GQLQueryQuery, GQLQueryQueryVariables>;
+export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
+export type SignupMutationResult = Apollo.MutationResult<GQLSignupMutation>;
+export type SignupMutationOptions = Apollo.BaseMutationOptions<GQLSignupMutation, GQLSignupMutationVariables>;

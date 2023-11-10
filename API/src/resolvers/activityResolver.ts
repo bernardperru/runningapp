@@ -5,15 +5,17 @@ import { database } from "../database.js";
 export const activityResolver: GQLResolvers = {
   Query: {
     getActivities: async (_, args, context) => {
-      if (!context.auth) {
-        throw new Error("context is null :)");
+      if (!context.auth?.stravaAPI) {
+        throw new Error("No strava refresh token assigned to User:)");
       }
       console.log(context.auth?.user.id);
 
       const activities = await context.auth?.stravaAPI.getListActivities();
+
       if (!activities) {
         throw new Error("activities not found");
       }
+
       const data = activities.map((activity) => {
         return {
           userId: activity.userId,
