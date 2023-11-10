@@ -12,15 +12,15 @@ export async function decodeAuthHeader(authHeader: string | undefined) {
 
   try {
     const token = authHeader.replace("Bearer ", "");
-    const lmao = jwt.verify(token, process.env.APP_SECRET || "") as
+    const id = jwt.verify(token, process.env.APP_SECRET || "") as
       | {
           userId: number;
         }
       | undefined;
-    if (lmao) {
+    if (id) {
       const user = await database.user.findUnique({
         where: {
-          id: lmao.userId,
+          id: id.userId,
         },
       });
       return user;

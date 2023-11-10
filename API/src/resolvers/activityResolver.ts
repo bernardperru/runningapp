@@ -8,9 +8,13 @@ export const activityResolver: GQLResolvers = {
       if (!context.auth?.stravaAPI) {
         throw new Error("No strava refresh token assigned to User:)");
       }
-      console.log(context.auth?.user.id);
+      if (!context.auth.stravaAPI) {
+        throw new Error("Strava API not set");
+      }
 
-      const activities = await context.auth?.stravaAPI.getListActivities();
+      const activities = await context.auth?.stravaAPI.getListActivities(
+        context.auth.user.refresh_token
+      );
 
       if (!activities) {
         throw new Error("activities not found");
@@ -51,6 +55,8 @@ export const activityResolver: GQLResolvers = {
       );
 
       const result = await database.activity.findMany();
+
+      console.log({ result });
 
       return result;
     },

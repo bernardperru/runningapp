@@ -46,7 +46,7 @@ export type GQLMutation = {
 
 
 export type GQLMutationAddRefreshTokenArgs = {
-  refreshToken: Scalars['String']['input'];
+  accessToken: Scalars['String']['input'];
 };
 
 
@@ -89,7 +89,7 @@ export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', zone: number, week: number, average_heartrate: number, average_cadence: number, summary_polyline: string, id: number, userId: number, distance: number, elapsed_time: number, start_date: string }> };
 
 export type GQLAddRefreshTokenMutationVariables = Exact<{
-  refreshToken: Scalars['String']['input'];
+  accessToken: Scalars['String']['input'];
 }>;
 
 
@@ -157,8 +157,8 @@ export type GetActivitiesQueryHookResult = ReturnType<typeof useGetActivitiesQue
 export type GetActivitiesLazyQueryHookResult = ReturnType<typeof useGetActivitiesLazyQuery>;
 export type GetActivitiesQueryResult = Apollo.QueryResult<GQLGetActivitiesQuery, GQLGetActivitiesQueryVariables>;
 export const AddRefreshTokenDocument = gql`
-    mutation AddRefreshToken($refreshToken: String!) {
-  addRefreshToken(refreshToken: $refreshToken) {
+    mutation AddRefreshToken($accessToken: String!) {
+  addRefreshToken(accessToken: $accessToken) {
     token
     hasRefreshToken
   }
@@ -179,7 +179,7 @@ export type GQLAddRefreshTokenMutationFn = Apollo.MutationFunction<GQLAddRefresh
  * @example
  * const [addRefreshTokenMutation, { data, loading, error }] = useAddRefreshTokenMutation({
  *   variables: {
- *      refreshToken: // value for 'refreshToken'
+ *      accessToken: // value for 'accessToken'
  *   },
  * });
  */

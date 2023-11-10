@@ -20,9 +20,7 @@ const { url } = await startStandaloneServer(server, {
     const temp = await decodeAuthHeader(req.headers.authorization);
     if (temp !== null) {
       return {
-        auth: temp?.refresh_token
-          ? { stravaAPI: new StravaAPI(temp.refresh_token), user: temp }
-          : { stravaAPI: null, user: temp },
+        auth: { stravaAPI: new StravaAPI(), user: temp },
       };
     }
     return { auth: null };

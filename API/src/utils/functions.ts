@@ -1,5 +1,3 @@
-import { GQLActivity } from "../resolvers-types";
-
 export function getZone(heartRate: number): number {
   if (98 <= heartRate && heartRate <= 116) {
     return 1;
@@ -16,7 +14,7 @@ export function getZone(heartRate: number): number {
   }
 }
 
-export function getWeek(start_date: string): number {
+export function getWeek(start_date: string) {
   const currentDate = new Date(start_date);
   const startDate = new Date(currentDate.getFullYear(), 0, 1);
   const days = Math.floor(

@@ -1,5 +1,5 @@
-mutation AddRefreshToken($refreshToken: String!) {
-	addRefreshToken(refreshToken: $refreshToken) {
+mutation AddRefreshToken($accessToken: String!) {
+	addRefreshToken(accessToken: $accessToken) {
 		token
 		hasRefreshToken
 	}

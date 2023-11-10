@@ -46,7 +46,7 @@ export type GQLMutation = {
 
 
 export type GQLMutationAddRefreshTokenArgs = {
-  refreshToken: Scalars['String']['input'];
+  accessToken: Scalars['String']['input'];
 };
 
 
@@ -206,7 +206,7 @@ export type GQLAuthPayloadResolvers<ContextType = MyContext, ParentType extends 
 }>;
 
 export type GQLMutationResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Mutation'] = GQLResolversParentTypes['Mutation']> = ResolversObject<{
-  addRefreshToken?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationAddRefreshTokenArgs, 'refreshToken'>>;
+  addRefreshToken?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationAddRefreshTokenArgs, 'accessToken'>>;
   login?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationLoginArgs, 'email' | 'password'>>;
   signup?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationSignupArgs, 'email' | 'name' | 'password'>>;
 }>;

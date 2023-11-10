@@ -21,31 +21,31 @@ interface JsonBob {
   access_token: string;
 }
 
+interface refreshResponse {
+  refresh_token: string;
+}
+
 export class StravaAPI {
-  private refreshToken: string;
-
-  constructor(rt: string) {
-    this.refreshToken = rt;
-  }
-
-  public async getRefreshToken(authCode: String): Promise<String> {
+  public async getRefreshToken(authCode: String) {
     const clientId = process.env.REACT_APP_CLIENT_ID;
     const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
 
     const url = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&code=${authCode}&grant_type=authorization_code`;
 
     //get refresh token with the access token thingy
-    return "";
+    const req = await fetch(url, { method: "GET" });
+    const code = (await req.json()) as refreshResponse;
+    return code.refresh_token;
   }
 
-  public async getListActivities() {
+  public async getListActivities(refreshToken: string) {
     dotenv.config();
     const clientId = process.env.REACT_APP_CLIENT_ID;
     const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
 
     //refresh token and call address
     // const refreshToken = process.env.REACT_APP_REFRESH_TOKEN;
-    const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&refresh_token=${this.refreshToken}&grant_type=refresh_token`;
+    const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`;
     const callActivities = `https://www.strava.com/api/v3/athlete/activities?access_token=`;
 
     try {
@@ -65,7 +65,6 @@ export class StravaAPI {
           week: getWeek(activity.start_date),
           zone: Math.floor(getZone(activity.average_heartrate)),
         };
-
         return temp;
       });
       return activities;

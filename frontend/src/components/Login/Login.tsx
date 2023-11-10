@@ -24,6 +24,7 @@ const Login = () => {
 			if (signup?.token != null) {
 				localStorage.setItem('token', signup.token);
 				localStorage.setItem('hasRefreshToken', signup.hasRefreshToken.toString());
+				navigate('/');
 			}
 		},
 	});

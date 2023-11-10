@@ -8,7 +8,7 @@ dotenv.config();
 
 export const authResolver: GQLResolvers = {
   Mutation: {
-    signup: async (_, { email, name, password }, context) => {
+    signup: async (_, { email, name, password }) => {
       const encryptedPassword = await bcrypt.hash(password, 10);
 
       const user = await database.user.create({
@@ -22,12 +22,10 @@ export const authResolver: GQLResolvers = {
 
       const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET || "");
 
-      const authPayload: GQLAuthPayload = {
+      return {
         token: token,
-        hasRefreshToken: user.refresh_token ? true : false,
+        hasRefreshToken: false,
       };
-
-      return authPayload;
     },
     login: async (_, { email, password }) => {
       const user = await database.user.findUnique({
@@ -51,11 +49,15 @@ export const authResolver: GQLResolvers = {
         hasRefreshToken: user.refresh_token ? true : false,
       };
     },
-    addRefreshToken: async (_, { refreshToken }, context) => {
-      //update user with the refresh_token
+    addRefreshToken: async (_, { accessToken }, context) => {
       if (!context.auth) {
         throw new Error("No user found in context");
       }
+
+      const refreshToken = await context.auth.stravaAPI.getRefreshToken(
+        accessToken
+      );
+
       const user = await database.user.update({
         where: { email: context.auth?.user.email },
         data: {
