@@ -33,14 +33,21 @@ export type GQLActivity = {
 
 export type GQLAuthPayload = {
   __typename?: 'AuthPayload';
+  hasRefreshToken: Scalars['Boolean']['output'];
   token: Scalars['String']['output'];
-  user: GQLUser;
 };
 
 export type GQLMutation = {
   __typename?: 'Mutation';
+  addRefreshToken?: Maybe<GQLAuthPayload>;
   login?: Maybe<GQLAuthPayload>;
   signup?: Maybe<GQLAuthPayload>;
+};
+
+
+export type GQLMutationAddRefreshTokenArgs = {
+  email: Scalars['String']['input'];
+  refreshToken: Scalars['String']['input'];
 };
 
 
@@ -58,14 +65,12 @@ export type GQLMutationSignupArgs = {
 
 export type GQLQuery = {
   __typename?: 'Query';
+  addRefreshToken?: Maybe<Scalars['String']['output']>;
   getActivities: Array<GQLActivity>;
-  postUser: Scalars['String']['output'];
 };
 
 
-export type GQLQueryPostUserArgs = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+export type GQLQueryAddRefreshTokenArgs = {
   refreshToken: Scalars['String']['input'];
 };
 
@@ -76,7 +81,7 @@ export type GQLUser = {
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
-  refreshToken: Scalars['String']['output'];
+  refreshToken?: Maybe<Scalars['String']['output']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -175,6 +180,12 @@ export type GQLResolversParentTypes = ResolversObject<{
   User: GQLUser;
 }>;
 
+export type GQLHasRoleDirectiveArgs = {
+  role?: Maybe<Scalars['String']['input']>;
+};
+
+export type GQLHasRoleDirectiveResolver<Result, Parent, ContextType = MyContext, Args = GQLHasRoleDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type GQLActivityResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Activity'] = GQLResolversParentTypes['Activity']> = ResolversObject<{
   average_cadence?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   average_heartrate?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
@@ -190,19 +201,20 @@ export type GQLActivityResolvers<ContextType = MyContext, ParentType extends GQL
 }>;
 
 export type GQLAuthPayloadResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['AuthPayload'] = GQLResolversParentTypes['AuthPayload']> = ResolversObject<{
+  hasRefreshToken?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   token?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  user?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type GQLMutationResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Mutation'] = GQLResolversParentTypes['Mutation']> = ResolversObject<{
+  addRefreshToken?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationAddRefreshTokenArgs, 'email' | 'refreshToken'>>;
   login?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationLoginArgs, 'email' | 'password'>>;
   signup?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationSignupArgs, 'email' | 'name' | 'password'>>;
 }>;
 
 export type GQLQueryResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
+  addRefreshToken?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType, RequireFields<GQLQueryAddRefreshTokenArgs, 'refreshToken'>>;
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  postUser?: Resolver<GQLResolversTypes['String'], ParentType, ContextType, RequireFields<GQLQueryPostUserArgs, 'email' | 'password' | 'refreshToken'>>;
 }>;
 
 export type GQLUserResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['User'] = GQLResolversParentTypes['User']> = ResolversObject<{
@@ -211,7 +223,7 @@ export type GQLUserResolvers<ContextType = MyContext, ParentType extends GQLReso
   id?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  refreshToken?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
+  refreshToken?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -223,3 +235,6 @@ export type GQLResolvers<ContextType = MyContext> = ResolversObject<{
   User?: GQLUserResolvers<ContextType>;
 }>;
 
+export type GQLDirectiveResolvers<ContextType = MyContext> = ResolversObject<{
+  hasRole?: GQLHasRoleDirectiveResolver<any, any, ContextType>;
+}>;

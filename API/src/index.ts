@@ -18,8 +18,9 @@ const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
   context: async ({ req }): Promise<MyContext> => {
     const temp = await decodeAuthHeader(req.headers.authorization);
+
     return {
-      auth: temp
+      auth: temp?.refresh_token
         ? { stravaAPI: new StravaAPI(temp.refresh_token), user: temp }
         : null,
     };

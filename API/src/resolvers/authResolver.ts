@@ -16,7 +16,6 @@ export const authResolver: GQLResolvers = {
           email: email,
           name: name,
           password: encryptedPassword,
-          refresh_token: "xxx",
         },
       });
 
@@ -24,13 +23,7 @@ export const authResolver: GQLResolvers = {
 
       const authPayload: GQLAuthPayload = {
         token: token,
-        user: {
-          email: user.email,
-          id: user.id,
-          name: user.name,
-          password: user.password,
-          refreshToken: user.refresh_token,
-        },
+        hasRefreshToken: user.refresh_token ? true : false,
       };
 
       return authPayload;
@@ -54,13 +47,23 @@ export const authResolver: GQLResolvers = {
 
       return {
         token: token,
-        user: {
-          email: user.email,
-          id: user.id,
-          name: user.name,
-          password: user.password,
-          refreshToken: user.refresh_token,
+        hasRefreshToken: user.refresh_token ? true : false,
+      };
+    },
+    addRefreshToken: async (_, { email, refreshToken }) => {
+      //update user with the refresh_token
+      const user = await database.user.update({
+        where: { email: email },
+        data: {
+          refresh_token: refreshToken,
         },
+      });
+
+      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET || "");
+
+      return {
+        token: token,
+        hasRefreshToken: user.refresh_token ? true : false,
       };
     },
   },

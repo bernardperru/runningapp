@@ -1,5 +1,5 @@
 type Query {
-  postUser(email: String!, password: String!, refreshToken: String!): String!
+  addRefreshToken(refreshToken: String!): String
   getActivities: [Activity!]!
 }
 
@@ -8,6 +8,6 @@ type User {
   email: String!
   name: String!
   password: String!
-  refreshToken: String!
+  refreshToken: String
   activities: [Activity]
 }

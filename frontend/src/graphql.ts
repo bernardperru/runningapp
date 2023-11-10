@@ -76,7 +76,7 @@ export type GQLUser = {
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
-  refreshToken: Scalars['String']['output'];
+  refreshToken?: Maybe<Scalars['String']['output']>;
 };
 
 export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
