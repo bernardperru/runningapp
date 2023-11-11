@@ -1,4 +1,5 @@
 export function getZone(heartRate: number): number {
+  heartRate = Math.floor(heartRate);
   if (98 <= heartRate && heartRate <= 116) {
     return 1;
   } else if (117 <= heartRate && heartRate <= 136) {
