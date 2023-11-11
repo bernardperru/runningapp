@@ -3,11 +3,11 @@ import { GQLActivity, GQLUser } from "./resolvers-types";
 import { getZone, getWeek } from "./utils/functions.js";
 
 interface StravaActivity {
+  id: number;
   average_cadence: number;
   average_heartrate: number;
   distance: number;
   elapsed_time: number;
-  athlete: { id: number };
   start_date: string;
   map: {
     summary_polyline: string;
@@ -55,11 +55,11 @@ export class StravaAPI {
       const json1 = (await data1.json()) as StravaActivity[];
       const activities = json1.map((activity) => {
         let temp: Omit<GQLActivity, "id"> = {
+          activityId: activity.id,
           average_cadence: Math.floor(activity.average_cadence * 2),
           average_heartrate: Math.floor(activity.average_heartrate),
           distance: activity.distance,
           elapsed_time: activity.elapsed_time,
-          userId: activity.athlete.id,
           start_date: activity.start_date,
           summary_polyline: activity.map.summary_polyline,
           week: getWeek(activity.start_date),

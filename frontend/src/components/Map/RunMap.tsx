@@ -5,18 +5,17 @@ import './RunMap.css';
 import polyline from '@mapbox/polyline';
 import { useParams } from 'react-router-dom';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
-
+import { activityType } from '../../constants';
 type label = {
 	label: string;
 	type: 'avg' | 'sum' | 'none';
 };
 
-const mapStats: { [key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'userId'>]: label } = {
+const mapStats: { [key in keyof activityType]: label } = {
 	distance: { label: 'Distance', type: 'sum' },
 	elapsed_time: { label: 'Time', type: 'sum' },
 	average_heartrate: { label: 'Average Heartrate', type: 'avg' },
 	average_cadence: { label: 'Average Cadence', type: 'avg' },
-	id: { label: 'Id', type: 'none' },
 	start_date: { label: 'Date', type: 'none' },
 	week: { label: 'Week', type: 'none' },
 	zone: { label: 'Zone', type: 'none' },
@@ -36,9 +35,7 @@ const RunMap: React.FunctionComponent = () => {
 
 		const pline = polyline.decode(activity['summary_polyline']);
 		console.log(pline);
-		const keys = (
-			Object.keys(activity) as (keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'userId'>)[]
-		).filter(key => {
+		const keys = (Object.keys(activity) as (keyof activityType)[]).filter(key => {
 			return mapStats[key];
 		});
 

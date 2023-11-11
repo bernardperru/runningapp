@@ -5,11 +5,12 @@ import { database } from "../database.js";
 export const activityResolver: GQLResolvers = {
   Query: {
     getActivities: async (_, args, context) => {
-      if (!context.auth?.stravaAPI) {
+      if (!context.auth) {
         throw new Error("No strava refresh token assigned to User:)");
       }
-      if (!context.auth.stravaAPI) {
-        throw new Error("Strava API not set");
+
+      if (!context.auth.user.refresh_token) {
+        throw new Error("No strava refresh token assigned to User:)");
       }
 
       const activities = await context.auth?.stravaAPI.getListActivities(
@@ -22,7 +23,8 @@ export const activityResolver: GQLResolvers = {
 
       const data = activities.map((activity) => {
         return {
-          userId: activity.userId,
+          userId: context.auth?.user.id ? context.auth.user.id : 18,
+          activityId: activity.activityId,
           distance: activity.distance,
           elapsed_time: activity.elapsed_time,
           start_date: activity.start_date,
@@ -37,10 +39,11 @@ export const activityResolver: GQLResolvers = {
       const cd = await Promise.all(
         data.map(async (activity) => {
           await database.activity.upsert({
-            where: { userId: activity.userId },
+            where: { activityId: activity.activityId },
             update: {},
             create: {
               userId: activity.userId,
+              activityId: activity.activityId,
               distance: activity.distance,
               elapsed_time: activity.elapsed_time,
               start_date: activity.start_date,

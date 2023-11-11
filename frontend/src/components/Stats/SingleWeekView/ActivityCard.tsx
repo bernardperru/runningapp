@@ -1,9 +1,10 @@
 import React from 'react';
 import { format } from '../../../functions';
 import { GQLActivity, useGetActivitiesQuery } from '../../../graphql';
+import { activityCardType } from '../../../constants';
 
 const labels: {
-	[key in keyof Omit<GQLActivity, '__typename' | 'summary_polyline' | 'id' | 'start_date' | 'userId'>]: string;
+	[key in keyof activityCardType]: string;
 } = {
 	average_heartrate: 'Avg. Heartrate',
 	average_cadence: 'Avg. Cadence',
@@ -17,12 +18,7 @@ const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activit
 	const { data, loading, error } = useGetActivitiesQuery({ variables: {} });
 
 	if (data !== undefined) {
-		const keys = (
-			Object.keys(data.getActivities[0]) as (keyof Omit<
-				GQLActivity,
-				'__typename' | 'summary_polyline' | 'id' | 'start_date' | 'userId'
-			>)[]
-		).filter(key => {
+		const keys = (Object.keys(data.getActivities[0]) as (keyof activityCardType)[]).filter(key => {
 			return labels[key];
 		});
 

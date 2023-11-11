@@ -19,6 +19,7 @@ export type Scalars = {
 
 export type GQLActivity = {
   __typename?: 'Activity';
+  activityId: Scalars['Float']['output'];
   average_cadence: Scalars['Float']['output'];
   average_heartrate: Scalars['Float']['output'];
   distance: Scalars['Float']['output'];
@@ -26,7 +27,6 @@ export type GQLActivity = {
   id: Scalars['Float']['output'];
   start_date: Scalars['String']['output'];
   summary_polyline: Scalars['String']['output'];
-  userId: Scalars['Float']['output'];
   week: Scalars['Int']['output'];
   zone: Scalars['Int']['output'];
 };
@@ -186,6 +186,7 @@ export type GQLHasRoleDirectiveArgs = {
 export type GQLHasRoleDirectiveResolver<Result, Parent, ContextType = MyContext, Args = GQLHasRoleDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type GQLActivityResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Activity'] = GQLResolversParentTypes['Activity']> = ResolversObject<{
+  activityId?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   average_cadence?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   average_heartrate?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   distance?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
@@ -193,7 +194,6 @@ export type GQLActivityResolvers<ContextType = MyContext, ParentType extends GQL
   id?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   start_date?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   summary_polyline?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  userId?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   week?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   zone?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

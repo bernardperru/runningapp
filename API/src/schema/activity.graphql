@@ -6,7 +6,7 @@ type Query {
 
 type Activity {
   id: Float!
-  userId: Float!
+  activityId: Float!
   distance: Float!
   elapsed_time: Float!
   start_date: String!

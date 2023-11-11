@@ -19,6 +19,7 @@ export type Scalars = {
 
 export type GQLActivity = {
   __typename: 'Activity';
+  activityId: Scalars['Float']['output'];
   average_cadence: Scalars['Float']['output'];
   average_heartrate: Scalars['Float']['output'];
   distance: Scalars['Float']['output'];
@@ -26,7 +27,6 @@ export type GQLActivity = {
   id: Scalars['Float']['output'];
   start_date: Scalars['String']['output'];
   summary_polyline: Scalars['String']['output'];
-  userId: Scalars['Float']['output'];
   week: Scalars['Int']['output'];
   zone: Scalars['Int']['output'];
 };
@@ -86,7 +86,7 @@ export type GQLUser = {
 export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', zone: number, week: number, average_heartrate: number, average_cadence: number, summary_polyline: string, id: number, userId: number, distance: number, elapsed_time: number, start_date: string }> };
+export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, activityId: number, zone: number, week: number, average_heartrate: number, average_cadence: number, summary_polyline: string, distance: number, elapsed_time: number, start_date: string }> };
 
 export type GQLAddRefreshTokenMutationVariables = Exact<{
   accessToken: Scalars['String']['input'];
@@ -116,13 +116,13 @@ export type GQLSignupMutation = { __typename: 'Mutation', signup?: { __typename:
 export const GetActivitiesDocument = gql`
     query GetActivities {
   getActivities {
+    id
+    activityId
     zone
     week
     average_heartrate
     average_cadence
     summary_polyline
-    id
-    userId
     distance
     elapsed_time
     start_date
