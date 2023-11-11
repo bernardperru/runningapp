@@ -36,13 +36,21 @@ export const activityResolver: GQLResolvers = {
         } satisfies Prisma.ActivityCreateManyInput;
       });
 
+      // const createMany = await database.activity.createMany({
+      //   data: acts,
+      // });
+
       const cd = await Promise.all(
         data.map(async (activity) => {
           await database.activity.upsert({
             where: { activityId: activity.activityId },
             update: {},
             create: {
-              userId: activity.userId,
+              user: {
+                connect: {
+                  id: activity.userId,
+                },
+              },
               activityId: activity.activityId,
               distance: activity.distance,
               elapsed_time: activity.elapsed_time,
