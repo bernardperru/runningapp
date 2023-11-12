@@ -1,5 +1,5 @@
 import React from 'react';
-import { average, format } from '../../../functions';
+import { average, format } from '../../../utils';
 import { GQLActivity, useGetActivitiesQuery } from '../../../graphql';
 import { activityType } from '../../../constants';
 type label = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from '../../functions';
+import { format } from '../../utils';
 import { MapContainer, TileLayer, Popup, Polyline } from 'react-leaflet';
 import './RunMap.css';
 import polyline from '@mapbox/polyline';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from '../../../functions';
+import { format } from '../../../utils';
 import { GQLActivity, useGetActivitiesQuery } from '../../../graphql';
 import { activityCardType } from '../../../constants';
 

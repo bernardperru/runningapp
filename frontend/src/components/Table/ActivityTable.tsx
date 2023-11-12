@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from '../../functions';
+import { format } from '../../utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import RunMap from '../Map/RunMap';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
