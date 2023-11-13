@@ -25,16 +25,17 @@ function Navbar() {
 											Home
 										</NavLink>
 									)}
-
-									<NavLink
-										to="/login"
-										className={({ isActive }) =>
-											isActive
-												? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
-												: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
-										}>
-										Login
-									</NavLink>
+									{!authToken && (
+										<NavLink
+											to="/login"
+											className={({ isActive }) =>
+												isActive
+													? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
+													: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
+											}>
+											Login
+										</NavLink>
+									)}
 									{authToken && (
 										<NavLink
 											to="/activities"
