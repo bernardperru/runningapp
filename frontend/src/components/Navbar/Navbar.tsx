@@ -1,10 +1,7 @@
-import React from 'react';
-// import "./Navbar.css";
-import { Link, NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 function Navbar() {
-	const [menuOpen, setMenuOpen] = useState(false);
+	const authToken = localStorage.getItem('token');
 
 	return (
 		<div>
@@ -17,15 +14,18 @@ function Navbar() {
 							</a>
 							<div className="hidden md:block">
 								<div className="flex items-baseline ml-10 space-x-4">
-									<NavLink
-										to=""
-										className={({ isActive }) =>
-											isActive
-												? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
-												: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
-										}>
-										Home
-									</NavLink>
+									{authToken && (
+										<NavLink
+											to=""
+											className={({ isActive }) =>
+												isActive
+													? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
+													: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
+											}>
+											Home
+										</NavLink>
+									)}
+
 									<NavLink
 										to="/login"
 										className={({ isActive }) =>
@@ -35,26 +35,30 @@ function Navbar() {
 										}>
 										Login
 									</NavLink>
-									<NavLink
-										to="/activities"
-										className={({ isActive }) =>
-											isActive
-												? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
-												: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
-										}>
-										{' '}
-										Activities
-									</NavLink>
-									<NavLink
-										to="/weekly"
-										className={({ isActive }) =>
-											isActive
-												? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
-												: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
-										}>
-										{' '}
-										Weekly
-									</NavLink>
+									{authToken && (
+										<NavLink
+											to="/activities"
+											className={({ isActive }) =>
+												isActive
+													? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
+													: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
+											}>
+											{' '}
+											Activities
+										</NavLink>
+									)}
+									{authToken && (
+										<NavLink
+											to="/weekly"
+											className={({ isActive }) =>
+												isActive
+													? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
+													: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
+											}>
+											{' '}
+											Weekly
+										</NavLink>
+									)}
 								</div>
 							</div>
 						</div>
