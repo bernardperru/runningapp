@@ -35,6 +35,7 @@ export type GQLAuthPayload = {
   __typename: 'AuthPayload';
   hasRefreshToken: Scalars['Boolean']['output'];
   token: Scalars['String']['output'];
+  user: GQLUser;
 };
 
 export type GQLMutation = {
@@ -64,13 +65,8 @@ export type GQLMutationSignupArgs = {
 
 export type GQLQuery = {
   __typename: 'Query';
-  addRefreshToken?: Maybe<Scalars['String']['output']>;
   getActivities: Array<GQLActivity>;
-};
-
-
-export type GQLQueryAddRefreshTokenArgs = {
-  refreshToken: Scalars['String']['input'];
+  getUserInfo: GQLUser;
 };
 
 export type GQLUser = {
@@ -101,7 +97,7 @@ export type GQLLoginMutationVariables = Exact<{
 }>;
 
 
-export type GQLLoginMutation = { __typename: 'Mutation', login?: { __typename: 'AuthPayload', token: string, hasRefreshToken: boolean } | null };
+export type GQLLoginMutation = { __typename: 'Mutation', login?: { __typename: 'AuthPayload', token: string, hasRefreshToken: boolean, user: { __typename: 'User', name: string, email: string } } | null };
 
 export type GQLSignupMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -110,7 +106,7 @@ export type GQLSignupMutationVariables = Exact<{
 }>;
 
 
-export type GQLSignupMutation = { __typename: 'Mutation', signup?: { __typename: 'AuthPayload', hasRefreshToken: boolean, token: string } | null };
+export type GQLSignupMutation = { __typename: 'Mutation', signup?: { __typename: 'AuthPayload', token: string, hasRefreshToken: boolean, user: { __typename: 'User', name: string, email: string } } | null };
 
 
 export const GetActivitiesDocument = gql`
@@ -193,6 +189,10 @@ export type AddRefreshTokenMutationOptions = Apollo.BaseMutationOptions<GQLAddRe
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
+    user {
+      name
+      email
+    }
     token
     hasRefreshToken
   }
@@ -228,8 +228,12 @@ export type LoginMutationOptions = Apollo.BaseMutationOptions<GQLLoginMutation, 
 export const SignupDocument = gql`
     mutation Signup($email: String!, $password: String!, $name: String!) {
   signup(email: $email, password: $password, name: $name) {
-    hasRefreshToken
+    user {
+      name
+      email
+    }
     token
+    hasRefreshToken
   }
 }
     `;

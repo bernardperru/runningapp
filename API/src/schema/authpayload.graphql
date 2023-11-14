@@ -1,5 +1,6 @@
 type AuthPayload {
   token: String!
+  user: User!
   hasRefreshToken: Boolean!
 }
 

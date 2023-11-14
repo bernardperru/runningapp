@@ -1,6 +1,5 @@
 type Query {
-  addRefreshToken(refreshToken: String!): String
-  getActivities: [Activity!]!
+  getUserInfo: User!
 }
 
 type User {

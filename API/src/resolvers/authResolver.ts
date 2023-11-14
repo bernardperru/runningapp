@@ -24,6 +24,7 @@ export const authResolver: GQLResolvers = {
 
       return {
         token: token,
+        user: user,
         hasRefreshToken: false,
       };
     },
@@ -46,6 +47,7 @@ export const authResolver: GQLResolvers = {
 
       return {
         token: token,
+        user: user,
         hasRefreshToken: user.refresh_token ? true : false,
       };
     },
@@ -69,6 +71,7 @@ export const authResolver: GQLResolvers = {
 
       return {
         token: token,
+        user: user,
         hasRefreshToken: user.refresh_token ? true : false,
       };
     },
