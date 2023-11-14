@@ -1,0 +1,6 @@
+query GetUserInfo {
+	getUserInfo {
+		name
+		email
+	}
+}

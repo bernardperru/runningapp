@@ -67,8 +67,6 @@ export const activityResolver: GQLResolvers = {
 
       const result = await database.activity.findMany();
 
-      console.log({ result });
-
       return result;
     },
   },
