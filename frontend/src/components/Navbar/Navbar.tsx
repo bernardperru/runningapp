@@ -1,7 +1,16 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useApolloClient } from '@apollo/client';
 
 function Navbar() {
 	const authToken = localStorage.getItem('token');
+	const client = useApolloClient();
+	const navigate = useNavigate();
+
+	function handleLogOut() {
+		localStorage.clear();
+		client.clearStore();
+		navigate('/login');
+	}
 
 	return (
 		<div>
@@ -59,6 +68,11 @@ function Navbar() {
 											{' '}
 											Weekly
 										</NavLink>
+									)}
+									{authToken && (
+										<button className={'text-gray-500 hover:text-blue-800'} onClick={() => handleLogOut()}>
+											Logout
+										</button>
 									)}
 								</div>
 							</div>
