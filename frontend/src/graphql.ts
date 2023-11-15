@@ -66,7 +66,7 @@ export type GQLMutationSignupArgs = {
 export type GQLQuery = {
   __typename: 'Query';
   getActivities: Array<GQLActivity>;
-  getUserInfo?: Maybe<GQLUser>;
+  getUserInfo: GQLUser;
 };
 
 export type GQLUser = {
@@ -111,7 +111,7 @@ export type GQLSignupMutation = { __typename: 'Mutation', signup?: { __typename:
 export type GQLGetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetUserInfoQuery = { __typename: 'Query', getUserInfo?: { __typename: 'User', name: string, email: string } | null };
+export type GQLGetUserInfoQuery = { __typename: 'Query', getUserInfo: { __typename: 'User', name: string, email: string } };
 
 
 export const GetActivitiesDocument = gql`

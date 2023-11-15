@@ -66,7 +66,7 @@ export type GQLMutationSignupArgs = {
 export type GQLQuery = {
   __typename?: 'Query';
   getActivities: Array<GQLActivity>;
-  getUserInfo?: Maybe<GQLUser>;
+  getUserInfo: GQLUser;
 };
 
 export type GQLUser = {
@@ -210,7 +210,7 @@ export type GQLMutationResolvers<ContextType = MyContext, ParentType extends GQL
 
 export type GQLQueryResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  getUserInfo?: Resolver<Maybe<GQLResolversTypes['User']>, ParentType, ContextType>;
+  getUserInfo?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
 }>;
 
 export type GQLUserResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['User'] = GQLResolversParentTypes['User']> = ResolversObject<{

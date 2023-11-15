@@ -9,11 +9,7 @@ export const userResolver: GQLResolvers = {
         throw new Error("No user logged in!");
       }
 
-      const user = await database.user.findUnique({
-        where: { email: context.auth.user.email },
-      });
-
-      return user;
+      return context.auth.user;
     },
   },
 };
