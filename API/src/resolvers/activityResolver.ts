@@ -23,7 +23,7 @@ export const activityResolver: GQLResolvers = {
 
       const data = activities.map((activity) => {
         return {
-          userId: context.auth?.user.id ? context.auth.user.id : 18,
+          userId: context.auth ? context.auth.user.id : 0,
           activityId: activity.activityId,
           distance: activity.distance,
           elapsed_time: activity.elapsed_time,
@@ -37,11 +37,7 @@ export const activityResolver: GQLResolvers = {
         } satisfies Prisma.ActivityCreateManyInput;
       });
 
-      // const createMany = await database.activity.createMany({
-      //   data: acts,
-      // });
-
-      const cd = await Promise.all(
+      const upsertActivities = await Promise.all(
         data.map(async (activity) => {
           await database.activity.upsert({
             where: { activityId: activity.activityId },

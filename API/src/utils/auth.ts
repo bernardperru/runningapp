@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { database } from "../database.js";
 import * as dotenv from "dotenv";
-import { User } from "@prisma/client";
 
 dotenv.config();
 

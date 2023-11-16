@@ -1,6 +1,10 @@
 import * as dotenv from "dotenv";
 import { GQLActivity } from "./resolvers-types";
-import { getZone, getWeek, calculateRunningPace } from "./utils/functions.js";
+import {
+  getZone,
+  getWeek,
+  calculateRunningPace,
+} from "./utils/formatActivityData.js";
 
 interface StravaActivity {
   id: number;
@@ -17,11 +21,11 @@ interface StravaActivity {
   zone: number;
 }
 
-interface JsonBob {
+interface AccessTokenResponse {
   access_token: string;
 }
 
-interface refreshResponse {
+interface RefreshTokenResponse {
   refresh_token: string;
 }
 
@@ -29,32 +33,36 @@ export class StravaAPI {
   public async getRefreshToken(authCode: String) {
     const clientId = process.env.REACT_APP_CLIENT_ID;
     const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
-
     const url = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&code=${authCode}&grant_type=authorization_code`;
 
     //get refresh token with the access token thingy
-    const req = await fetch(url, { method: "POST" });
-    const code = (await req.json()) as refreshResponse;
+    const refreshRequest = await fetch(url, { method: "POST" });
+    const refreshResponse =
+      (await refreshRequest.json()) as RefreshTokenResponse;
 
-    return code.refresh_token;
+    return refreshResponse.refresh_token;
   }
 
   public async getListActivities(refreshToken: string) {
     dotenv.config();
     const clientId = process.env.REACT_APP_CLIENT_ID;
     const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
-
-    //refresh token and call address
-    // const refreshToken = process.env.REACT_APP_REFRESH_TOKEN;
     const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`;
     const callActivities = `https://www.strava.com/api/v3/athlete/activities?access_token=`;
 
     try {
-      const data = await fetch(callRefresh, { method: "POST" });
-      const json = (await data.json()) as JsonBob;
-      const data1 = await fetch(callActivities + json.access_token);
-      const json1 = (await data1.json()) as StravaActivity[];
-      const activities = json1.map((activity) => {
+      //fetch access token by using refresh token
+      const accessRequest = await fetch(callRefresh, { method: "POST" });
+      const accessResponse =
+        (await accessRequest.json()) as AccessTokenResponse;
+      //use access token to fetch activities
+      const activitiesRequest = await fetch(
+        callActivities + accessResponse.access_token
+      );
+      const activitiesResponse =
+        (await activitiesRequest.json()) as StravaActivity[];
+      //Cut off superflous datafields and add some new ones
+      const activities = activitiesResponse.map((activity) => {
         let temp: Omit<GQLActivity, "id"> = {
           activityId: activity.id,
           average_cadence: Math.floor(activity.average_cadence * 2),
