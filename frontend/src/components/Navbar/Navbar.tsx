@@ -13,7 +13,7 @@ function Navbar() {
 	}
 
 	return (
-		<div>
+		<>
 			{authToken && (
 				<nav className="bg-white dark:bg-gray-800  shadow ">
 					<div className="px-8 mx-auto max-w-7xl">
@@ -68,7 +68,7 @@ function Navbar() {
 					</div>
 				</nav>
 			)}
-		</div>
+		</>
 	);
 }
 
