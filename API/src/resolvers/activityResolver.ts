@@ -31,6 +31,7 @@ export const activityResolver: GQLResolvers = {
           summary_polyline: activity.summary_polyline,
           average_cadence: activity.average_cadence,
           average_heartrate: activity.average_heartrate,
+          average_pace: activity.average_pace,
           week: activity.week,
           zone: activity.zone,
         } satisfies Prisma.ActivityCreateManyInput;
@@ -58,6 +59,7 @@ export const activityResolver: GQLResolvers = {
               summary_polyline: activity.summary_polyline,
               average_cadence: activity.average_cadence,
               average_heartrate: activity.average_heartrate,
+              average_pace: activity.average_pace,
               week: activity.week,
               zone: activity.zone,
             },

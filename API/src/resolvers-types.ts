@@ -22,6 +22,7 @@ export type GQLActivity = {
   activityId: Scalars['Float']['output'];
   average_cadence: Scalars['Float']['output'];
   average_heartrate: Scalars['Float']['output'];
+  average_pace: Scalars['String']['output'];
   distance: Scalars['Float']['output'];
   elapsed_time: Scalars['Float']['output'];
   id: Scalars['Float']['output'];
@@ -185,6 +186,7 @@ export type GQLActivityResolvers<ContextType = MyContext, ParentType extends GQL
   activityId?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   average_cadence?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   average_heartrate?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
+  average_pace?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   distance?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   elapsed_time?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   id?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;

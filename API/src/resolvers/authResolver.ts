@@ -60,6 +60,7 @@ export const authResolver: GQLResolvers = {
         accessToken
       );
 
+      console.log({ accessToken });
       const user = await database.user.update({
         where: { email: context.auth?.user.email },
         data: {

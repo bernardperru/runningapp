@@ -19,6 +19,7 @@ const mapStats: { [key in keyof activityType]: label } = {
 	start_date: { label: 'Date', type: 'none' },
 	week: { label: 'Week', type: 'none' },
 	zone: { label: 'Zone', type: 'none' },
+	average_pace: { label: 'Average Pace', type: 'avg' },
 };
 
 const RunMap: React.FunctionComponent = () => {

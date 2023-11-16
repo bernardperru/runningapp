@@ -30,6 +30,7 @@ model Activity {
   summary_polyline String
   average_cadence Float
   average_heartrate Float
+  average_pace String
   week Int
   zone Int
 }

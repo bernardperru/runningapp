@@ -12,14 +12,14 @@ const labels: { [key in keyof activityType]: string } = {
 	average_cadence: 'Avg. Cadence',
 	zone: 'Zone',
 	week: 'Week',
+	average_pace: 'Average Pace',
 };
 
 const ActivityTable: React.FunctionComponent = () => {
 	const { data, loading, error } = useGetActivitiesQuery();
-	console.log(data);
 
 	const [sort, setSort] = React.useState<{
-		keyToSort: keyof Omit<GQLActivity, 'userId' | 'activityId'>;
+		keyToSort: keyof activityType;
 		direction: 'asc' | 'desc';
 	}>({
 		keyToSort: 'start_date',

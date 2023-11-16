@@ -74,6 +74,8 @@ export function format(key: keyof GQLActivity, value: string | number) {
 		// return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
 		case 'summary_polyline':
 			return '';
+		case 'average_pace':
+			return value;
 		default:
 			return value.toString();
 	}

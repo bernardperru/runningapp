@@ -25,3 +25,18 @@ export function getWeek(start_date: string) {
 
   return weekNumber;
 }
+
+export function calculateRunningPace(time: number, meters: number): string {
+  // Calculate pace in seconds per kilometer
+  const kilometers = meters / 1000;
+  const paceInSeconds = time / kilometers;
+
+  // Calculate minutes and seconds
+  const minutes = Math.floor(paceInSeconds / 60);
+  const seconds = Math.round(paceInSeconds % 60);
+
+  // Format the result as a string (MM:SS)
+  const formattedPace = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+  return formattedPace;
+}

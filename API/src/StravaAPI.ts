@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
-import { GQLActivity, GQLUser } from "./resolvers-types";
-import { getZone, getWeek } from "./utils/functions.js";
+import { GQLActivity } from "./resolvers-types";
+import { getZone, getWeek, calculateRunningPace } from "./utils/functions.js";
 
 interface StravaActivity {
   id: number;
@@ -33,8 +33,9 @@ export class StravaAPI {
     const url = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&code=${authCode}&grant_type=authorization_code`;
 
     //get refresh token with the access token thingy
-    const req = await fetch(url, { method: "GET" });
+    const req = await fetch(url, { method: "POST" });
     const code = (await req.json()) as refreshResponse;
+
     return code.refresh_token;
   }
 
@@ -62,6 +63,10 @@ export class StravaAPI {
           elapsed_time: activity.elapsed_time,
           start_date: activity.start_date,
           summary_polyline: activity.map.summary_polyline,
+          average_pace: calculateRunningPace(
+            activity.elapsed_time,
+            activity.distance
+          ),
           week: getWeek(activity.start_date),
           zone: Math.floor(getZone(activity.average_heartrate)),
         };

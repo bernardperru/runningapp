@@ -12,6 +12,7 @@ const labels: {
 	elapsed_time: 'Time',
 	week: 'Week',
 	zone: 'Zone',
+	average_pace: 'Average Pace',
 };
 
 const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activityId }) => {
