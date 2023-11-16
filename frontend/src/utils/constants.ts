@@ -1,4 +1,4 @@
-import { GQLActivity } from './graphql';
+import { GQLActivity } from '../graphql';
 
 export const AUTH_TOKEN = 'auth-token';
 

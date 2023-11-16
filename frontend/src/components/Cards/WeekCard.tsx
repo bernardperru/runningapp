@@ -1,7 +1,7 @@
 import React from 'react';
-import { average, format } from '../../../utils';
-import { GQLActivity, useGetActivitiesQuery } from '../../../graphql';
-import { activityType } from '../../../constants';
+import { average, format } from '../../utils/utils';
+import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
+import { activityType } from '../../utils/constants';
 type label = {
 	label: string;
 	type: 'avg' | 'sum' | 'none';

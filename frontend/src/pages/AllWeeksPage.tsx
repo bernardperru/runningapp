@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import WeekCard from './WeekCard';
-import { useGetActivitiesQuery } from '../../../graphql';
+import WeekCard from '../components/Cards/WeekCard';
+import { useGetActivitiesQuery } from '../graphql';
 
 const AllWeeksPage: React.FunctionComponent = () => {
 	const { data, loading } = useGetActivitiesQuery();

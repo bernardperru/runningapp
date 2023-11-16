@@ -1,14 +1,21 @@
 import { useApolloClient } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 
-function Logout() {
-	//if there is a current user we want to display a logout button
-	//which logs out and clears the cache
+export function Logout() {
+	const navigate = useNavigate();
+	const client = useApolloClient();
 
-	function handleLogOut() {}
+	function handleLogOut() {
+		client.clearStore();
+		localStorage.clear();
+		navigate('/login');
+	}
 
 	return (
 		<div>
-			<button onClick={() => useApolloClient().clearStore()}></button>
+			<button className={'text-gray-500 hover:text-blue-800'} onClick={() => handleLogOut()}>
+				Logout
+			</button>
 		</div>
 	);
 }

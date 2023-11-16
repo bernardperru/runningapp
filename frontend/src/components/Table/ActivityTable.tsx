@@ -1,9 +1,9 @@
 import React from 'react';
-import { format } from '../../utils';
+import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import RunMap from '../Map/RunMap';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
-import { activityType } from '../../constants';
+import { activityType } from '../../utils/constants';
 
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',

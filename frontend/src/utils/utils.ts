@@ -1,4 +1,4 @@
-import { GQLActivity } from './graphql';
+import { GQLActivity } from '../graphql';
 
 //returns an array of week numbers - Used to iterate
 export function getWeeks(activities: GQLActivity[]) {

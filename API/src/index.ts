@@ -17,10 +17,10 @@ const server = new ApolloServer<MyContext>({ schema, introspection: true });
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
   context: async ({ req }): Promise<MyContext> => {
-    const temp = await decodeAuthHeader(req.headers.authorization);
-    if (temp !== null) {
+    const auth = await decodeAuthHeader(req.headers.authorization);
+    if (auth !== null) {
       return {
-        auth: { stravaAPI: new StravaAPI(), user: temp },
+        auth: { stravaAPI: new StravaAPI(), user: auth },
       };
     }
     return { auth: null };

@@ -1,7 +1,7 @@
 import React from 'react';
-import { format } from '../../../utils';
-import { GQLActivity, useGetActivitiesQuery } from '../../../graphql';
-import { activityCardType } from '../../../constants';
+import { format } from '../../utils/utils';
+import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
+import { activityCardType } from '../../utils/constants';
 
 const labels: {
 	[key in keyof activityCardType]: string;

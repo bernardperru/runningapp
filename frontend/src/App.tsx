@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import ActivityTable from './components/Table/ActivityTable';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/HomePage';
-import WeekPage from './components/Stats/SingleWeekView/WeekPage';
+import WeekPage from './pages/WeekPage';
 import RunMap from './components/Map/RunMap';
-import AllWeeksPage from './components/Stats/AllWeeksView/AllWeeksPage';
-import LoginPage from './pages/LoginPage';
+import AllWeeksPage from './pages/AllWeeksPage';
 import Redirect from './pages/Redirect';
+import LoginPage from './pages/LoginPage';
+
 function App() {
 	return (
 		<div className="App">
