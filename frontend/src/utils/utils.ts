@@ -77,6 +77,6 @@ export function format(key: keyof GQLActivity, value: string | number) {
 		case 'average_pace':
 			return value;
 		default:
-			return value.toString();
+			return value;
 	}
 }
