@@ -1,6 +1,6 @@
 import React from 'react';
 import { format } from '../../utils/utils';
-import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
+import { useGetActivitiesQuery } from '../../graphql';
 import { activityCardType } from '../../utils/constants';
 
 const labels: {
@@ -15,7 +15,7 @@ const labels: {
 };
 
 const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activityId }) => {
-	const { data, loading, error } = useGetActivitiesQuery({ variables: {} });
+	const { data } = useGetActivitiesQuery({ variables: {} });
 
 	if (data !== undefined) {
 		const keys = (Object.keys(data.getActivities[0]) as (keyof activityCardType)[]).filter(key => {

@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Popup, Polyline } from 'react-leaflet';
 import './RunMap.css';
 import polyline from '@mapbox/polyline';
 import { useParams } from 'react-router-dom';
-import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
+import { useGetActivitiesQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
 type label = {
 	label: string;
@@ -22,8 +22,8 @@ const mapStats: { [key in keyof activityType]: label } = {
 };
 
 const RunMap: React.FunctionComponent = () => {
-	const { data, loading, error } = useGetActivitiesQuery({ variables: {} });
-	let { weekNumber, activityId } = useParams();
+	const { data, loading } = useGetActivitiesQuery({ variables: {} });
+	let { activityId } = useParams();
 	if (loading) {
 		return <div>loading</div>;
 	}

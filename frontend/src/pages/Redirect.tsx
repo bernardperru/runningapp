@@ -1,5 +1,3 @@
-import React from 'react';
-import { Link, useParams } from 'react-router-dom';
 import { useAddRefreshTokenMutation } from '../graphql';
 import { useNavigate } from 'react-router-dom';
 

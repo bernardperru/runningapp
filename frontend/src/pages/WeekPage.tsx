@@ -5,7 +5,7 @@ import { useGetActivitiesQuery } from '../graphql';
 
 const WeekPage: React.FunctionComponent = () => {
 	let { weekNumber } = useParams();
-	const { data, loading, error } = useGetActivitiesQuery({ variables: {} });
+	const { data } = useGetActivitiesQuery({ variables: {} });
 	if (data !== undefined) {
 		return (
 			<div className="grid grid-cols-4 gap-10 place-items-center">

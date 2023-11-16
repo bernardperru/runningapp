@@ -15,7 +15,7 @@ export function getWeeks(activities: GQLActivity[]) {
 
 	let uniqueWeeks: number[] = [];
 
-	activitiesWithWeek.map(x => {
+	activitiesWithWeek.forEach(x => {
 		if (!uniqueWeeks.includes(x)) {
 			uniqueWeeks.push(x);
 		}
@@ -33,7 +33,7 @@ export function average(
 ): number {
 	let accumulator = 0;
 	let i = 0;
-	activities.map(activity => {
+	activities.forEach(activity => {
 		const temp = activity[key];
 		if (activity.week === week && typeof temp === 'number') {
 			accumulator += temp;

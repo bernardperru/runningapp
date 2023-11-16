@@ -1,12 +1,11 @@
 import React from 'react';
 import { average, format } from '../../utils/utils';
-import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
+import { useGetActivitiesQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
 type label = {
 	label: string;
 	type: 'avg' | 'sum' | 'none';
 };
-
 const stats: { [key in keyof activityType]: label } = {
 	distance: { label: 'Distance', type: 'sum' },
 	elapsed_time: { label: 'Time', type: 'sum' },
@@ -18,7 +17,7 @@ const stats: { [key in keyof activityType]: label } = {
 };
 
 const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber }) => {
-	const { data, loading, error } = useGetActivitiesQuery({ variables: {} });
+	const { data } = useGetActivitiesQuery({ variables: {} });
 
 	if (data !== undefined) {
 		const keys = (Object.keys(data.getActivities[0]) as (keyof activityType)[]).filter(key => {
@@ -49,6 +48,5 @@ const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber 
 		);
 	}
 };
-// flex justify-center py-7 px-7 w-fit
 
 export default WeekCard;

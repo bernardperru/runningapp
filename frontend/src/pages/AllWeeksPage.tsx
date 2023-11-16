@@ -4,7 +4,7 @@ import WeekCard from '../components/Cards/WeekCard';
 import { useGetActivitiesQuery } from '../graphql';
 
 const AllWeeksPage: React.FunctionComponent = () => {
-	const { data, loading } = useGetActivitiesQuery();
+	const { data } = useGetActivitiesQuery();
 
 	if (data !== undefined) {
 		const weeks = [...new Set(data.getActivities.map(element => element.week))].sort().reverse();

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
 	Chart as ChartJS,
-	ChartConfiguration,
 	CategoryScale,
 	LinearScale,
 	PointElement,
@@ -19,8 +18,8 @@ import { useGetActivitiesQuery, GQLActivity } from '../../graphql';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const LineChart: React.FunctionComponent<{ key: keyof GQLActivity }> = ({ key }) => {
-	const { data, loading } = useGetActivitiesQuery();
+const LineChart: React.FunctionComponent = () => {
+	const { data } = useGetActivitiesQuery();
 
 	if (data !== undefined) {
 		const activities = [...data?.getActivities];

@@ -1,7 +1,6 @@
 import React from 'react';
 import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
-import RunMap from '../Map/RunMap';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
 
@@ -53,7 +52,7 @@ const ActivityTable: React.FunctionComponent = () => {
 	function getSortedArray() {
 		if (data !== undefined) {
 			const sortedData = [...data?.getActivities];
-			if (sort.direction == 'asc') {
+			if (sort.direction === 'asc') {
 				return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
 			}
 			return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1));
