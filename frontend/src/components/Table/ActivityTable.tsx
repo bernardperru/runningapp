@@ -17,6 +17,7 @@ const labels: { [key in keyof activityType]: string } = {
 
 const ActivityTable: React.FunctionComponent = () => {
 	const { data, loading, error } = useGetActivitiesQuery();
+	const [page, setPage] = React.useState<number>(1);
 
 	const [sort, setSort] = React.useState<{
 		keyToSort: keyof activityType;
@@ -43,10 +44,6 @@ const ActivityTable: React.FunctionComponent = () => {
 
 	function handleRowClick(activity: GQLActivity) {
 		setActivity({ activity: activity, see: true });
-	}
-
-	function handleMapClick() {
-		setActivity({ activity: null, see: false });
 	}
 
 	function getSortedArray() {

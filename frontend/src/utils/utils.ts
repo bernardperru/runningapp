@@ -71,7 +71,6 @@ export function format(key: keyof GQLActivity, value: string | number) {
 		case 'start_date':
 			const date = new Date(value);
 			return date.toDateString();
-		// return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
 		case 'summary_polyline':
 			return '';
 		case 'average_pace':

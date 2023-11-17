@@ -1,7 +1,0 @@
-1. find out if you can get more than 30 activities
-3. Fix so that table headers dont expand when clicked
-5. Add zones to the activity
-6. Database with user and max heartrate?
-7. Caching
-9. Lav api kald til /athletes/{id}/stats
-10. add week to activities
