@@ -4,6 +4,8 @@ import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
 
+//this is my comment :)
+
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',
 	distance: 'Distance',
