@@ -6,6 +6,8 @@ import { activityType } from '../../utils/constants';
 import TableFooter from './TableFooter';
 import { useTable } from '../../hooks/useTable';
 
+//this is my comment :)
+
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',
 	distance: 'Distance',
