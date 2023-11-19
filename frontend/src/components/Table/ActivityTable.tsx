@@ -3,6 +3,8 @@ import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
+import TableFooter from './TableFooter';
+import { useTable } from '../../hooks/useTable';
 
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',
@@ -17,7 +19,12 @@ const labels: { [key in keyof activityType]: string } = {
 
 const ActivityTable: React.FunctionComponent = () => {
 	const { data, loading, error } = useGetActivitiesQuery();
+
 	const [page, setPage] = React.useState<number>(1);
+
+	const activities = data ? data.getActivities : [];
+
+	const { slice, range } = useTable(activities, page, 15);
 
 	const [sort, setSort] = React.useState<{
 		keyToSort: keyof activityType;
@@ -47,13 +54,12 @@ const ActivityTable: React.FunctionComponent = () => {
 	}
 
 	function getSortedArray() {
-		if (data !== undefined) {
-			const sortedData = [...data?.getActivities];
-			if (sort.direction === 'asc') {
-				return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
-			}
-			return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1));
+		const sortedData = [...slice];
+		if (sort.direction === 'asc') {
+			return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
 		}
+		return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1));
+
 		return [];
 	}
 
@@ -65,11 +71,10 @@ const ActivityTable: React.FunctionComponent = () => {
 		return <div>Error</div>;
 	}
 
-	if (data !== undefined) {
+	if (data) {
 		const keys = (Object.keys(data.getActivities[0]) as (keyof activityType)[]).filter(key => {
 			return labels[key];
 		});
-
 		return (
 			<div className="fixed inset-x-1/4 inset-y-20 overflow-scroll box-content h-screen w-fit">
 				<table className=" bg-white m-auto">
@@ -109,6 +114,7 @@ const ActivityTable: React.FunctionComponent = () => {
 						))}
 					</tbody>
 				</table>
+				<TableFooter range={range} page={page} setPage={setPage} slice={slice}></TableFooter>
 			</div>
 		);
 	}
