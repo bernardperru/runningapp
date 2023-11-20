@@ -3,8 +3,6 @@ import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
-import TableFooter from './TableFooter';
-import { useTable } from '../../hooks/useTable';
 
 //this is my comment :)
 
@@ -19,14 +17,26 @@ const labels: { [key in keyof activityType]: string } = {
 	average_pace: 'Average Pace',
 };
 
+const calculateRange = (data: GQLActivity[], rowsPerPage: number) => {
+	const range = [];
+	const num = Math.ceil(data.length / rowsPerPage);
+	let i = 1;
+	for (let i = 1; i <= num; i++) {
+		range.push(i);
+	}
+	return range;
+};
+
+const sliceData = (data: GQLActivity[], page: number, rowsPerPage: number) => {
+	return data.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+};
+
 const ActivityTable: React.FunctionComponent = () => {
 	const { data, loading, error } = useGetActivitiesQuery();
-
 	const [page, setPage] = React.useState<number>(1);
-
-	const activities = data ? data.getActivities : [];
-
-	const { slice, range } = useTable(activities, page, 15);
+	const [tableRange, setTableRange] = React.useState<number[]>([]);
+	const [slice, setSlice] = React.useState<GQLActivity[]>([]);
+	let activities = data ? data.getActivities : [];
 
 	const [sort, setSort] = React.useState<{
 		keyToSort: keyof activityType;
@@ -35,6 +45,22 @@ const ActivityTable: React.FunctionComponent = () => {
 		keyToSort: 'start_date',
 		direction: 'asc',
 	});
+	// const { slice, range } = useTable(activities, page, 10);
+
+	React.useEffect(() => {
+		console.log('inside useEffect');
+		const range = calculateRange(activities, 10);
+		setTableRange([...range]);
+
+		const slice = sliceData(activities, page, 10);
+		setSlice([...slice]);
+	}, [sort, setTableRange, page, setSlice]);
+
+	React.useEffect(() => {
+		if (slice.length < 1 && page !== 1) {
+			setPage(page - 1);
+		}
+	}, [slice, page, setPage]);
 
 	const [currentActivity, setActivity] = React.useState<{
 		activity: GQLActivity | null;
@@ -56,13 +82,13 @@ const ActivityTable: React.FunctionComponent = () => {
 	}
 
 	function getSortedArray() {
-		const sortedData = [...slice];
+		const sortedData = [...activities];
 		if (sort.direction === 'asc') {
-			return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
+			activities = sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
+			return slice;
 		}
-		return sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1));
-
-		return [];
+		activities = sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1));
+		return slice;
 	}
 
 	if (loading) {
@@ -116,7 +142,13 @@ const ActivityTable: React.FunctionComponent = () => {
 						))}
 					</tbody>
 				</table>
-				<TableFooter range={range} page={page} setPage={setPage} slice={slice}></TableFooter>
+				<div>
+					{tableRange.map((el, index) => (
+						<button key={index} onClick={() => setPage(el)}>
+							{el}
+						</button>
+					))}
+				</div>{' '}
 			</div>
 		);
 	}
