@@ -45,22 +45,6 @@ const ActivityTable: React.FunctionComponent = () => {
 		keyToSort: 'start_date',
 		direction: 'asc',
 	});
-	// const { slice, range } = useTable(activities, page, 10);
-
-	React.useEffect(() => {
-		console.log('inside useEffect');
-		const range = calculateRange(activities, 10);
-		setTableRange([...range]);
-
-		const slice = sliceData(activities, page, 10);
-		setSlice([...slice]);
-	}, [sort, setTableRange, page, setSlice]);
-
-	React.useEffect(() => {
-		if (slice.length < 1 && page !== 1) {
-			setPage(page - 1);
-		}
-	}, [slice, page, setPage]);
 
 	const [currentActivity, setActivity] = React.useState<{
 		activity: GQLActivity | null;
@@ -69,6 +53,21 @@ const ActivityTable: React.FunctionComponent = () => {
 		activity: null,
 		see: false,
 	});
+
+	React.useEffect(() => {
+		console.log('inside useEffect');
+		const range = calculateRange(activities, 10);
+		setTableRange([...range]);
+
+		const slice = sliceData(activities, page, 10);
+		setSlice([...slice]);
+	}, [data, sort, setTableRange, page, setSlice]);
+
+	React.useEffect(() => {
+		if (slice.length < 1 && page !== 1) {
+			setPage(page - 1);
+		}
+	}, [slice, page, setPage]);
 
 	function handleHeaderClick(key: keyof activityType) {
 		setSort({
