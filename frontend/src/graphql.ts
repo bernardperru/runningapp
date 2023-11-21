@@ -83,7 +83,7 @@ export type GQLUser = {
 export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, activityId: number, zone: number, week: number, average_heartrate: number, average_cadence: number, summary_polyline: string, distance: number, elapsed_time: number, start_date: string, average_pace: string }> };
+export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, activityId: number, start_date: string, distance: number, elapsed_time: number, average_pace: string, average_heartrate: number, average_cadence: number, summary_polyline: string, zone: number, week: number }> };
 
 export type GQLAddRefreshTokenMutationVariables = Exact<{
   accessToken: Scalars['String']['input'];
@@ -120,15 +120,15 @@ export const GetActivitiesDocument = gql`
   getActivities {
     id
     activityId
-    zone
-    week
+    start_date
+    distance
+    elapsed_time
+    average_pace
     average_heartrate
     average_cadence
     summary_polyline
-    distance
-    elapsed_time
-    start_date
-    average_pace
+    zone
+    week
   }
 }
     `;

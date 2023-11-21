@@ -55,7 +55,6 @@ const ActivityTable: React.FunctionComponent = () => {
 	});
 
 	React.useEffect(() => {
-		console.log('inside useEffect');
 		const range = calculateRange(activities, 10);
 		setTableRange([...range]);
 
@@ -103,7 +102,7 @@ const ActivityTable: React.FunctionComponent = () => {
 			return labels[key];
 		});
 		return (
-			<div className="fixed inset-x-1/4 inset-y-20 overflow-scroll box-content h-screen w-fit">
+			<div className="fixed inset-x-1/4 inset-y-20 overflow-y-scroll box-content h-fit w-fit">
 				<table className=" bg-white m-auto">
 					<thead className="bg-grey-300">
 						<tr className="">

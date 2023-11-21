@@ -2,14 +2,14 @@ query GetActivities {
 	getActivities {
 		id
 		activityId
-		zone
-		week
+		start_date
+		distance
+		elapsed_time
+		average_pace
 		average_heartrate
 		average_cadence
 		summary_polyline
-		distance
-		elapsed_time
-		start_date
-		average_pace
+		zone
+		week
 	}
 }
