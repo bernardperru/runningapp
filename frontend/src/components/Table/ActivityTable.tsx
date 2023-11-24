@@ -3,6 +3,7 @@ import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
+import { tab } from '@testing-library/user-event/dist/tab';
 
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',
@@ -44,14 +45,6 @@ const ActivityTable: React.FunctionComponent = () => {
 		direction: 'asc',
 	});
 
-	const [currentActivity, setActivity] = React.useState<{
-		activity: GQLActivity | null;
-		see: boolean;
-	}>({
-		activity: null,
-		see: false,
-	});
-
 	React.useEffect(() => {
 		const range = calculateRange(activities, 10);
 		setTableRange([...range]);
@@ -71,10 +64,6 @@ const ActivityTable: React.FunctionComponent = () => {
 			keyToSort: key,
 			direction: key === sort.keyToSort ? (sort.direction === 'asc' ? 'desc' : 'asc') : 'desc',
 		});
-	}
-
-	function handleRowClick(activity: GQLActivity) {
-		setActivity({ activity: activity, see: true });
 	}
 
 	function getSortedArray() {
@@ -127,7 +116,7 @@ const ActivityTable: React.FunctionComponent = () => {
 					</thead>
 					<tbody className="h-5">
 						{getSortedArray().map(activity => (
-							<tr key={activity.id} onClick={() => handleRowClick(activity)}>
+							<tr key={activity.id}>
 								{keys.map((key, index) => (
 									<td key={index} className="border p-4 text-gray-900">
 										<div>{format(key, activity[key])}</div>
@@ -139,11 +128,13 @@ const ActivityTable: React.FunctionComponent = () => {
 					</tbody>
 				</table>
 				<div className="flex justify-center">
-					<button
-						onClick={() => setPage(page - 1)}
-						className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
-						Previous
-					</button>
+					{page > 1 && (
+						<button
+							onClick={() => setPage(page - 1)}
+							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
+							Previous
+						</button>
+					)}
 					{tableRange.map((el, index) => (
 						<button
 							key={index}
@@ -152,11 +143,13 @@ const ActivityTable: React.FunctionComponent = () => {
 							{el}
 						</button>
 					))}
-					<button
-						onClick={() => setPage(page + 1)}
-						className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
-						Next
-					</button>
+					{page < tableRange.length && (
+						<button
+							onClick={() => setPage(page + 1)}
+							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
+							Next
+						</button>
+					)}
 				</div>{' '}
 			</div>
 		);
