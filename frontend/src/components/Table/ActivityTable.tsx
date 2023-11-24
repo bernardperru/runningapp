@@ -13,7 +13,7 @@ const labels: { [key in keyof activityType]: string } = {
 	average_cadence: 'Avg. Cadence',
 	zone: 'Zone',
 	week: 'Week',
-	average_pace: 'Average Pace',
+	average_pace: 'Avg. Pace',
 };
 
 const calculateRange = (data: GQLActivity[], rowsPerPage: number) => {
