@@ -138,15 +138,25 @@ const ActivityTable: React.FunctionComponent = () => {
 						))}
 					</tbody>
 				</table>
-				<div className="inline-flex">
+				<div className="flex justify-center">
+					<button
+						onClick={() => setPage(page - 1)}
+						className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
+						Previous
+					</button>
 					{tableRange.map((el, index) => (
 						<button
 							key={index}
 							onClick={() => setPage(el)}
-							className="items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
 							{el}
 						</button>
 					))}
+					<button
+						onClick={() => setPage(page + 1)}
+						className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
+						Next
+					</button>
 				</div>{' '}
 			</div>
 		);
