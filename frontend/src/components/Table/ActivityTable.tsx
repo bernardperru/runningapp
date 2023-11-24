@@ -100,7 +100,7 @@ const ActivityTable: React.FunctionComponent = () => {
 			return labels[key];
 		});
 		return (
-			<div className="fixed inset-x-1/4 inset-y-20 overflow-y-scroll box-content h-fit w-fit">
+			<div className="fixed inset-x-1/4 inset-y-20 overflow-auto box-content max-h-screen w-fit">
 				<table className=" bg-white m-auto">
 					<thead className="bg-grey-300">
 						<tr className="">
@@ -138,9 +138,12 @@ const ActivityTable: React.FunctionComponent = () => {
 						))}
 					</tbody>
 				</table>
-				<div>
+				<div className="inline-flex">
 					{tableRange.map((el, index) => (
-						<button key={index} onClick={() => setPage(el)}>
+						<button
+							key={index}
+							onClick={() => setPage(el)}
+							className="items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 							{el}
 						</button>
 					))}
