@@ -135,6 +135,7 @@ const ActivityTable: React.FunctionComponent = () => {
 							Previous
 						</button>
 					)}
+					{page === 1 && <button className="h-10 px-5 text-indigo-100  bg-white rounded-l-lg">Previous</button>}
 					{tableRange.map((el, index) => (
 						<button
 							key={index}
@@ -149,6 +150,9 @@ const ActivityTable: React.FunctionComponent = () => {
 							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
 							Next
 						</button>
+					)}
+					{page === tableRange.length && (
+						<button className="h-10 px-5 text-indigo-100 bg-white rounded-l-lg">Next</button>
 					)}
 				</div>{' '}
 			</div>
