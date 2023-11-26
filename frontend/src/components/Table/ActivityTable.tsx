@@ -3,7 +3,6 @@ import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
-import { tab } from '@testing-library/user-event/dist/tab';
 
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',
