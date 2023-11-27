@@ -48,8 +48,7 @@ export class StravaAPI {
     const clientId = process.env.REACT_APP_CLIENT_ID;
     const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
     const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`;
-    const callActivities = `https://www.strava.com/api/v3/athlete/activities?access_token=`;
-
+    const callActivities = `https://www.strava.com/api/v3/athlete/activities?per_page=30&access_token=`;
     try {
       //fetch access token by using refresh token
       const accessRequest = await fetch(callRefresh, { method: "POST" });
@@ -61,6 +60,7 @@ export class StravaAPI {
       );
       const activitiesResponse =
         (await activitiesRequest.json()) as StravaActivity[];
+
       //Cut off superflous datafields and add some new ones
       const activities = activitiesResponse.map((activity) => {
         let temp: Omit<GQLActivity, "id"> = {
