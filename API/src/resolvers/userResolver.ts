@@ -1,4 +1,6 @@
 import { GQLResolvers } from "../resolvers-types";
+import { Prisma } from "@prisma/client";
+import { database } from "../database.js";
 
 export const userResolver: GQLResolvers = {
   Query: {
@@ -10,7 +12,16 @@ export const userResolver: GQLResolvers = {
       return context.auth.user;
     },
     getDistanceSum: async (_, args, context) => {
-      return 0;
+      const distanceAgg = await database.activity.aggregate({
+        _sum: {
+          distance: true,
+        },
+        where: {
+          userId: context.auth?.user.id,
+        },
+      });
+
+      return distanceAgg._sum.distance ? distanceAgg._sum.distance : 0;
     },
   },
 };

@@ -67,6 +67,7 @@ export type GQLMutationSignupArgs = {
 export type GQLQuery = {
   __typename: 'Query';
   getActivities: Array<GQLActivity>;
+  getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
 };
 
@@ -113,6 +114,11 @@ export type GQLGetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GQLGetUserInfoQuery = { __typename: 'Query', getUserInfo: { __typename: 'User', name: string, email: string } };
+
+export type GQLGetDistanceSumQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GQLGetDistanceSumQuery = { __typename: 'Query', getDistanceSum: number };
 
 
 export const GetActivitiesDocument = gql`
@@ -307,3 +313,35 @@ export function useGetUserInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetUserInfoQueryHookResult = ReturnType<typeof useGetUserInfoQuery>;
 export type GetUserInfoLazyQueryHookResult = ReturnType<typeof useGetUserInfoLazyQuery>;
 export type GetUserInfoQueryResult = Apollo.QueryResult<GQLGetUserInfoQuery, GQLGetUserInfoQueryVariables>;
+export const GetDistanceSumDocument = gql`
+    query getDistanceSum {
+  getDistanceSum
+}
+    `;
+
+/**
+ * __useGetDistanceSumQuery__
+ *
+ * To run a query within a React component, call `useGetDistanceSumQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDistanceSumQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDistanceSumQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetDistanceSumQuery(baseOptions?: Apollo.QueryHookOptions<GQLGetDistanceSumQuery, GQLGetDistanceSumQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GQLGetDistanceSumQuery, GQLGetDistanceSumQueryVariables>(GetDistanceSumDocument, options);
+      }
+export function useGetDistanceSumLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLGetDistanceSumQuery, GQLGetDistanceSumQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GQLGetDistanceSumQuery, GQLGetDistanceSumQueryVariables>(GetDistanceSumDocument, options);
+        }
+export type GetDistanceSumQueryHookResult = ReturnType<typeof useGetDistanceSumQuery>;
+export type GetDistanceSumLazyQueryHookResult = ReturnType<typeof useGetDistanceSumLazyQuery>;
+export type GetDistanceSumQueryResult = Apollo.QueryResult<GQLGetDistanceSumQuery, GQLGetDistanceSumQueryVariables>;

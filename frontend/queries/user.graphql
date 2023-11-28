@@ -4,3 +4,7 @@ query GetUserInfo {
 		email
 	}
 }
+
+query getDistanceSum {
+	getDistanceSum
+}
