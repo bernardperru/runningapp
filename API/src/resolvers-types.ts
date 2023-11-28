@@ -67,6 +67,7 @@ export type GQLMutationSignupArgs = {
 export type GQLQuery = {
   __typename?: 'Query';
   getActivities: Array<GQLActivity>;
+  getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
 };
 
@@ -212,6 +213,7 @@ export type GQLMutationResolvers<ContextType = MyContext, ParentType extends GQL
 
 export type GQLQueryResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
+  getDistanceSum?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   getUserInfo?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
 }>;
 

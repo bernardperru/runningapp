@@ -9,5 +9,8 @@ export const userResolver: GQLResolvers = {
 
       return context.auth.user;
     },
+    getDistanceSum: async (_, args, context) => {
+      return 0;
+    },
   },
 };
