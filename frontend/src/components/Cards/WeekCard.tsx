@@ -14,7 +14,7 @@ const stats: { [key in keyof activityType]: label } = {
 	start_date: { label: 'Date', type: 'none' },
 	week: { label: 'Week', type: 'none' },
 	zone: { label: 'Zone', type: 'none' },
-	average_pace: { label: 'Average Pace', type: 'avg' },
+	average_pace: { label: 'Average Pace', type: 'none' },
 };
 
 const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber }) => {
