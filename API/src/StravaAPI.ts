@@ -19,6 +19,7 @@ interface StravaActivity {
   userId: number;
   week: number;
   zone: number;
+  type: string;
 }
 
 interface AccessTokenResponse {
@@ -35,7 +36,7 @@ export class StravaAPI {
     const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
     const url = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&code=${authCode}&grant_type=authorization_code`;
 
-    //get refresh token with the access token thingy
+    //get refresh token with the access token
     const refreshRequest = await fetch(url, { method: "POST" });
     const refreshResponse =
       (await refreshRequest.json()) as RefreshTokenResponse;
@@ -48,7 +49,7 @@ export class StravaAPI {
     const clientId = process.env.REACT_APP_CLIENT_ID;
     const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
     const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientId}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`;
-    const callActivities = `https://www.strava.com/api/v3/athlete/activities?per_page=30&access_token=`;
+    const callActivities = `https://www.strava.com/api/v3/athlete/activities?per_page=200&access_token=`;
     try {
       //fetch access token by using refresh token
       const accessRequest = await fetch(callRefresh, { method: "POST" });
@@ -61,7 +62,9 @@ export class StravaAPI {
       const activitiesResponse =
         (await activitiesRequest.json()) as StravaActivity[];
 
+      console.log(activitiesResponse.length);
       //Cut off superflous datafields and add some new ones
+
       const activities = activitiesResponse.map((activity) => {
         let temp: Omit<GQLActivity, "id"> = {
           activityId: activity.id,
@@ -80,7 +83,8 @@ export class StravaAPI {
         };
         return temp;
       });
-      return activities;
+
+      return activities.filter((activity) => activity.average_cadence > 140);
     } catch (error) {
       console.error("Error:", error);
     }

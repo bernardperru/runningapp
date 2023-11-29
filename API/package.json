@@ -26,7 +26,7 @@
     "fetch": "^1.1.0",
     "jsonwebtoken": "~8.5.0",
     "lodash-es": "^4.17.21",
-    "prisma": "^5.5.2",
+    "prisma": "^5.6.0",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4"
   },
@@ -37,9 +37,9 @@
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@parcel/watcher": "^2.3.0",
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "^20.8.7",
     "@types/jsonwebtoken": "~8.5.0",
     "@types/lodash-es": "^4.17.11",
+    "@types/node": "^20.8.7",
     "concurrently": "^8.2.2",
     "typescript": "^5.2.2"
   }
