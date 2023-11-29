@@ -62,29 +62,30 @@ export class StravaAPI {
       const activitiesResponse =
         (await activitiesRequest.json()) as StravaActivity[];
 
-      console.log(activitiesResponse.length);
       //Cut off superflous datafields and add some new ones
 
-      const activities = activitiesResponse.map((activity) => {
-        let temp: Omit<GQLActivity, "id"> = {
-          activityId: activity.id,
-          average_cadence: Math.floor(activity.average_cadence * 2),
-          average_heartrate: Math.floor(activity.average_heartrate),
-          distance: activity.distance,
-          elapsed_time: activity.elapsed_time,
-          start_date: activity.start_date,
-          summary_polyline: activity.map.summary_polyline,
-          average_pace: calculateRunningPace(
-            activity.elapsed_time,
-            activity.distance
-          ),
-          week: getWeek(activity.start_date),
-          zone: Math.floor(getZone(activity.average_heartrate)),
-        };
-        return temp;
-      });
+      const activities = activitiesResponse
+        .filter((activity) => activity.type === "Run")
+        .map((activity) => {
+          let temp: Omit<GQLActivity, "id"> = {
+            activityId: activity.id,
+            average_cadence: Math.floor(activity.average_cadence * 2),
+            average_heartrate: Math.floor(activity.average_heartrate),
+            distance: activity.distance,
+            elapsed_time: activity.elapsed_time,
+            start_date: activity.start_date,
+            summary_polyline: activity.map.summary_polyline,
+            average_pace: calculateRunningPace(
+              activity.elapsed_time,
+              activity.distance
+            ),
+            week: getWeek(activity.start_date),
+            zone: Math.floor(getZone(activity.average_heartrate)),
+          };
+          return temp;
+        });
 
-      return activities.filter((activity) => activity.average_cadence > 140);
+      return activities;
     } catch (error) {
       console.error("Error:", error);
     }
