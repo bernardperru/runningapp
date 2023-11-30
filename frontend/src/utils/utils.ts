@@ -79,3 +79,8 @@ export function format(key: keyof GQLActivity, value: string | number) {
 			return value;
 	}
 }
+
+export function formatDate(value: string) {
+	const date = new Date(value);
+	return date.toDateString();
+}
