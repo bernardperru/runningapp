@@ -79,28 +79,6 @@ export type GQLUser = {
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   refreshToken?: Maybe<Scalars['String']['output']>;
-  years?: Maybe<Array<Maybe<GQLYear>>>;
-};
-
-export type GQLWeek = {
-  __typename?: 'Week';
-  cadence: Scalars['Float']['output'];
-  distance: Scalars['Float']['output'];
-  heartrate: Scalars['Float']['output'];
-  time: Scalars['Float']['output'];
-  week: Scalars['Int']['output'];
-  zone: Scalars['Int']['output'];
-};
-
-export type GQLYear = {
-  __typename?: 'Year';
-  cadence: Scalars['Float']['output'];
-  distance: Scalars['Float']['output'];
-  heartrate: Scalars['Float']['output'];
-  time: Scalars['Float']['output'];
-  weeks: Array<Maybe<GQLWeek>>;
-  year: Scalars['Int']['output'];
-  zone: Scalars['Int']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -184,8 +162,6 @@ export type GQLResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<GQLUser>;
-  Week: ResolverTypeWrapper<GQLWeek>;
-  Year: ResolverTypeWrapper<GQLYear>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -199,8 +175,6 @@ export type GQLResolversParentTypes = ResolversObject<{
   Query: {};
   String: Scalars['String']['output'];
   User: GQLUser;
-  Week: GQLWeek;
-  Year: GQLYear;
 }>;
 
 export type GQLHasRoleDirectiveArgs = {
@@ -250,28 +224,6 @@ export type GQLUserResolvers<ContextType = MyContext, ParentType extends GQLReso
   name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   refreshToken?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
-  years?: Resolver<Maybe<Array<Maybe<GQLResolversTypes['Year']>>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type GQLWeekResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Week'] = GQLResolversParentTypes['Week']> = ResolversObject<{
-  cadence?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  distance?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  heartrate?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  time?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  week?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  zone?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type GQLYearResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Year'] = GQLResolversParentTypes['Year']> = ResolversObject<{
-  cadence?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  distance?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  heartrate?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  time?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
-  weeks?: Resolver<Array<Maybe<GQLResolversTypes['Week']>>, ParentType, ContextType>;
-  year?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  zone?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -281,8 +233,6 @@ export type GQLResolvers<ContextType = MyContext> = ResolversObject<{
   Mutation?: GQLMutationResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
   User?: GQLUserResolvers<ContextType>;
-  Week?: GQLWeekResolvers<ContextType>;
-  Year?: GQLYearResolvers<ContextType>;
 }>;
 
 export type GQLDirectiveResolvers<ContextType = MyContext> = ResolversObject<{

@@ -9,6 +9,5 @@ type User {
   name: String!
   password: String!
   refreshToken: String
-  years: [Year]
   activities: [Activity]
 }

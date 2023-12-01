@@ -1,9 +1,0 @@
-type Year {
-  year: Int!
-  weeks: [Week]!
-  distance: Float!
-  time: Float!
-  cadence: Float!
-  heartrate: Float!
-  zone: Int!
-}
