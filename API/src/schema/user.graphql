@@ -1,7 +1,6 @@
 type Query {
   getUserInfo: User!
   getDistanceSum: Float!
-  getYears: [Year]!
 }
 
 type User {
