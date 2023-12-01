@@ -1,7 +1,4 @@
 import React from 'react';
-import { format, formatDate } from '../../utils/utils';
-import { activityType } from '../../utils/constants';
-
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -21,17 +18,15 @@ import { useGetActivitiesQuery, GQLActivity } from '../../graphql';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const ActivityChart: React.FunctionComponent = () => {
+const LineChart: React.FunctionComponent = () => {
 	const { data } = useGetActivitiesQuery();
 	const [chartAxis, setChartAxis] = React.useState({
 		x: '',
 		y: '',
 	});
 
-	if (data) {
+	if (data !== undefined) {
 		const activities = [...data?.getActivities];
-
-		console.log(activities.length);
 
 		const options: ChartOptions<keyof ChartTypeRegistry> = {
 			responsive: true,
@@ -47,22 +42,18 @@ const ActivityChart: React.FunctionComponent = () => {
 			},
 		};
 
-		const labels = activities
-			.filter(activity => activity.distance >= 5000 && activity.distance <= 6000)
-			.map(activity => {
-				return formatDate(activity.start_date);
-			});
+		const labels = activities.map(activity => {
+			return activity.start_date;
+		});
 
 		const datax: ChartData<keyof ChartTypeRegistry> = {
 			labels,
 			datasets: [
 				{
 					label: 'distance',
-					data: activities
-						.filter(activity => activity.distance >= 5000 && activity.distance <= 6000)
-						.map(activity => {
-							return activity.average_heartrate;
-						}),
+					data: activities.map(activity => {
+						return activity['distance'];
+					}),
 					borderColor: 'rgb(53, 162, 235)',
 					backgroundColor: 'rgba(53, 162, 235, 0.5)',
 				},
@@ -73,4 +64,4 @@ const ActivityChart: React.FunctionComponent = () => {
 	}
 };
 
-export default ActivityChart;
+export default LineChart;

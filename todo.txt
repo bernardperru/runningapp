@@ -1,3 +1,0 @@
-1. Email and password criteria
-2. deployment
-3. dynamic chart

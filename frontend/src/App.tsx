@@ -7,7 +7,6 @@ import RunMap from './components/Map/RunMap';
 import AllWeeksPage from './pages/AllWeeksPage';
 import Redirect from './pages/Redirect';
 import LoginPage from './pages/LoginPage';
-import ChartPage from './pages/ChartPage';
 
 function App() {
 	return (
@@ -21,7 +20,6 @@ function App() {
 				<Route path="/weekly" element={<AllWeeksPage />} />
 				<Route path="/weekly/:weekNumber" element={<WeekPage />} />
 				<Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} />
-				<Route path="/chart" element={<ChartPage />} />
 			</Routes>
 		</div>
 	);

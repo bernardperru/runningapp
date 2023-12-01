@@ -69,6 +69,7 @@ export type GQLQuery = {
   getActivities: Array<GQLActivity>;
   getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
+  getYears: Array<Maybe<GQLYear>>;
 };
 
 export type GQLUser = {
@@ -241,6 +242,7 @@ export type GQLQueryResolvers<ContextType = MyContext, ParentType extends GQLRes
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
   getDistanceSum?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   getUserInfo?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
+  getYears?: Resolver<Array<Maybe<GQLResolversTypes['Year']>>, ParentType, ContextType>;
 }>;
 
 export type GQLUserResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['User'] = GQLResolversParentTypes['User']> = ResolversObject<{
