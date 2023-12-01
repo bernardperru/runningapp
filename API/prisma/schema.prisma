@@ -16,6 +16,7 @@ model User {
   email String @unique
   password String
   refresh_token String?
+  years Year[]
   activities Activity[]
 }
 
@@ -32,6 +33,30 @@ model Activity {
   average_heartrate Float
   average_pace String
   week Int
+  zone Int
+}
+
+model Year {
+  year Int @id @unique
+  user User @relation(fields: [userId], references: [id]) 
+  userId Int
+  weeks Week[]
+  distance Float
+  time Float 
+  cadence Float
+  heartrate Float
+  zone Int
+}
+
+model Week {
+  id Int @id @default(autoincrement())
+  week Int
+  year Year @relation(fields: [yearId], references: [year]) 
+  yearId Int
+  distance Float
+  time Float 
+  cadence Float
+  heartrate Float
   zone Int
 }
 

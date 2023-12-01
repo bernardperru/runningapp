@@ -23,6 +23,10 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const ActivityChart: React.FunctionComponent = () => {
 	const { data } = useGetActivitiesQuery();
+	const [chartAxis, setChartAxis] = React.useState({
+		x: '',
+		y: '',
+	});
 
 	if (data) {
 		const activities = [...data?.getActivities];

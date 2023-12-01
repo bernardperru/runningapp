@@ -1,0 +1,8 @@
+type Week {
+  week: Int!
+  distance: Float!
+  time: Float!
+  cadence: Float!
+  heartrate: Float!
+  zone: Int!
+}
