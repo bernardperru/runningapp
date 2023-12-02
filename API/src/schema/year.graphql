@@ -1,0 +1,4 @@
+type Year {
+  year: Int!
+  distance: Float!
+}

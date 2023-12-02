@@ -28,11 +28,21 @@ model Activity {
   elapsed_time Float
   start_date String
   summary_polyline String
-  average_cadence Float
-  average_heartrate Float
+  average_cadence Int
+  average_heartrate Int
   average_pace String
   week Int
+  year Int
   zone Int
+}
+
+model Week {
+  id Int @id @unique
+  week Int
+  year Int 
+  distance Float
+  heartrate Int
+  cadence Int
 }
 
 // model Map {

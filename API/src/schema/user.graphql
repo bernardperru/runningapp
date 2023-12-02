@@ -1,6 +1,7 @@
 type Query {
   getUserInfo: User!
   getDistanceSum: Float!
+  getYears: [Year]!
 }
 
 type User {
@@ -10,4 +11,8 @@ type User {
   password: String!
   refreshToken: String
   activities: [Activity]
+}
+
+type Year {
+  distance: Float!
 }
