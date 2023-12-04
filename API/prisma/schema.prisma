@@ -45,10 +45,5 @@ model Week {
   cadence Int
 }
 
-// model Map {
-//   id                Int  @id @default(autoincrement())
-//   summary_polyline  String
-//   activity          Activity  @relation(fields: [activityId], references: [id])
-//   activityId        Int @unique
-// }
+
 
