@@ -29,6 +29,7 @@ export type GQLActivity = {
   start_date: Scalars['String']['output'];
   summary_polyline: Scalars['String']['output'];
   week: Scalars['Int']['output'];
+  year: Scalars['Int']['output'];
   zone: Scalars['Int']['output'];
 };
 
@@ -211,6 +212,7 @@ export type GQLActivityResolvers<ContextType = MyContext, ParentType extends GQL
   start_date?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   summary_polyline?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   week?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  year?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   zone?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

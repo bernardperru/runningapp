@@ -26,6 +26,11 @@ export function getWeek(start_date: string) {
   return weekNumber;
 }
 
+export function getYear(start_date: string) {
+  const date = new Date(start_date);
+  return date.getFullYear();
+}
+
 export function calculateRunningPace(time: number, meters: number): string {
   // Calculate pace in seconds per kilometer
   const kilometers = meters / 1000;

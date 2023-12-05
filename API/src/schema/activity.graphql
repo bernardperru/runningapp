@@ -14,6 +14,7 @@ type Activity {
   average_cadence: Float!
   average_heartrate: Float!
   average_pace: String!
+  year: Int!
   week: Int!
   zone: Int!
 }

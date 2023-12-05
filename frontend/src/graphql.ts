@@ -29,6 +29,7 @@ export type GQLActivity = {
   start_date: Scalars['String']['output'];
   summary_polyline: Scalars['String']['output'];
   week: Scalars['Int']['output'];
+  year: Scalars['Int']['output'];
   zone: Scalars['Int']['output'];
 };
 
@@ -69,6 +70,7 @@ export type GQLQuery = {
   getActivities: Array<GQLActivity>;
   getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
+  getYears: Array<Maybe<GQLYear>>;
 };
 
 export type GQLUser = {
@@ -81,10 +83,22 @@ export type GQLUser = {
   refreshToken?: Maybe<Scalars['String']['output']>;
 };
 
+export type GQLWeek = {
+  __typename: 'Week';
+  distance: Scalars['Float']['output'];
+  week: Scalars['Int']['output'];
+};
+
+export type GQLYear = {
+  __typename: 'Year';
+  distance: Scalars['Float']['output'];
+  year: Scalars['Int']['output'];
+};
+
 export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, activityId: number, start_date: string, distance: number, elapsed_time: number, average_pace: string, average_heartrate: number, average_cadence: number, summary_polyline: string, zone: number, week: number }> };
+export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, activityId: number, start_date: string, distance: number, elapsed_time: number, average_pace: string, average_heartrate: number, average_cadence: number, summary_polyline: string, year: number, zone: number, week: number }> };
 
 export type GQLAddRefreshTokenMutationVariables = Exact<{
   accessToken: Scalars['String']['input'];
@@ -133,6 +147,7 @@ export const GetActivitiesDocument = gql`
     average_heartrate
     average_cadence
     summary_polyline
+    year
     zone
     week
   }

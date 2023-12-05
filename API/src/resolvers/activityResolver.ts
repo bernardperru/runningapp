@@ -33,6 +33,7 @@ export const activityResolver: GQLResolvers = {
           average_heartrate: activity.average_heartrate,
           average_pace: activity.average_pace,
           week: activity.week,
+          year: activity.year,
           zone: activity.zone,
         } satisfies Prisma.ActivityCreateManyInput;
       });
@@ -57,6 +58,7 @@ export const activityResolver: GQLResolvers = {
               average_heartrate: activity.average_heartrate,
               average_pace: activity.average_pace,
               week: activity.week,
+              year: activity.year,
               zone: activity.zone,
             },
           });

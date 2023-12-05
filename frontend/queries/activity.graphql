@@ -9,6 +9,7 @@ query GetActivities {
 		average_heartrate
 		average_cadence
 		summary_polyline
+		year
 		zone
 		week
 	}

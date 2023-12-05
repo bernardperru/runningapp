@@ -43,6 +43,7 @@ model Week {
   distance Float
   heartrate Int
   cadence Int
+  time Float
 }
 
 

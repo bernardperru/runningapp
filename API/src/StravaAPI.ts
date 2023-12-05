@@ -3,6 +3,7 @@ import { GQLActivity } from "./resolvers-types";
 import {
   getZone,
   getWeek,
+  getYear,
   calculateRunningPace,
 } from "./utils/formatActivityData.js";
 
@@ -17,8 +18,6 @@ interface StravaActivity {
     summary_polyline: string;
   };
   userId: number;
-  week: number;
-  zone: number;
   type: string;
 }
 
@@ -80,6 +79,7 @@ export class StravaAPI {
               activity.distance
             ),
             week: getWeek(activity.start_date),
+            year: getYear(activity.start_date),
             zone: Math.floor(getZone(activity.average_heartrate)),
           };
           return temp;
