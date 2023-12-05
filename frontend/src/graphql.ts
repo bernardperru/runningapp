@@ -70,6 +70,7 @@ export type GQLQuery = {
   getActivities: Array<GQLActivity>;
   getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
+  getWeeks: Array<GQLWeek>;
   getYears: Array<Maybe<GQLYear>>;
 };
 
@@ -85,8 +86,12 @@ export type GQLUser = {
 
 export type GQLWeek = {
   __typename: 'Week';
+  cadence: Scalars['Int']['output'];
   distance: Scalars['Float']['output'];
+  heartrate: Scalars['Int']['output'];
+  time: Scalars['Float']['output'];
   week: Scalars['Int']['output'];
+  year: Scalars['Int']['output'];
 };
 
 export type GQLYear = {

@@ -1,4 +1,13 @@
+type Query {
+  getWeeks: [Week!]!
+}
+
 type Week {
   week: Int!
+  year: Int!
   distance: Float!
+  heartrate: Int!
+  cadence: Int!
+  time: Float!
+  cadence: Int!
 }

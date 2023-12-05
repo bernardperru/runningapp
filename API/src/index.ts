@@ -27,8 +27,4 @@ const { url } = await startStandaloneServer(server, {
   },
 });
 
-// const server = new ApolloServer({ schema });
-
-// const { url } = await startStandaloneServer(server);
-
 console.log(`🚀  Server ready at: ${url}`);

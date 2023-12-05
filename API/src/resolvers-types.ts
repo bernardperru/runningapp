@@ -70,6 +70,7 @@ export type GQLQuery = {
   getActivities: Array<GQLActivity>;
   getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
+  getWeeks: Array<GQLWeek>;
   getYears: Array<Maybe<GQLYear>>;
 };
 
@@ -85,8 +86,12 @@ export type GQLUser = {
 
 export type GQLWeek = {
   __typename?: 'Week';
+  cadence: Scalars['Int']['output'];
   distance: Scalars['Float']['output'];
+  heartrate: Scalars['Int']['output'];
+  time: Scalars['Float']['output'];
   week: Scalars['Int']['output'];
+  year: Scalars['Int']['output'];
 };
 
 export type GQLYear = {
@@ -234,6 +239,7 @@ export type GQLQueryResolvers<ContextType = MyContext, ParentType extends GQLRes
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
   getDistanceSum?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   getUserInfo?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
+  getWeeks?: Resolver<Array<GQLResolversTypes['Week']>, ParentType, ContextType>;
   getYears?: Resolver<Array<Maybe<GQLResolversTypes['Year']>>, ParentType, ContextType>;
 }>;
 
@@ -248,8 +254,12 @@ export type GQLUserResolvers<ContextType = MyContext, ParentType extends GQLReso
 }>;
 
 export type GQLWeekResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Week'] = GQLResolversParentTypes['Week']> = ResolversObject<{
+  cadence?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   distance?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
+  heartrate?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  time?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   week?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  year?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
