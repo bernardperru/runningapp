@@ -65,6 +65,7 @@ export const activityResolver: GQLResolvers = {
         })
       );
 
+      //need to use filter for findMany
       const result = await database.activity.findMany();
 
       return result;

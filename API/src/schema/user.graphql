@@ -11,8 +11,5 @@ type User {
   password: String!
   refreshToken: String
   activities: [Activity]
-}
-
-type Year {
-  distance: Float!
+  weeks: [Week]
 }

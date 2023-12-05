@@ -82,6 +82,7 @@ export type GQLUser = {
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   refreshToken?: Maybe<Scalars['String']['output']>;
+  weeks?: Maybe<Array<Maybe<GQLWeek>>>;
 };
 
 export type GQLWeek = {
@@ -250,6 +251,7 @@ export type GQLUserResolvers<ContextType = MyContext, ParentType extends GQLReso
   name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   refreshToken?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>;
+  weeks?: Resolver<Maybe<Array<Maybe<GQLResolversTypes['Week']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

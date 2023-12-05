@@ -17,6 +17,7 @@ model User {
   password String
   refresh_token String?
   activities Activity[]
+  weeks Week[]
 }
 
 model Activity {
@@ -38,6 +39,8 @@ model Activity {
 
 model Week {
   id Int @id @unique
+  user User @relation(fields: [userId], references: [id])
+  userId Int 
   week Int
   year Int 
   distance Float

@@ -82,6 +82,7 @@ export type GQLUser = {
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   refreshToken?: Maybe<Scalars['String']['output']>;
+  weeks?: Maybe<Array<Maybe<GQLWeek>>>;
 };
 
 export type GQLWeek = {

@@ -7,7 +7,6 @@ type Week {
   year: Int!
   distance: Float!
   heartrate: Int!
-  cadence: Int!
   time: Float!
   cadence: Int!
 }
