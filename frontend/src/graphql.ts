@@ -140,6 +140,11 @@ export type GQLGetDistanceSumQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GQLGetDistanceSumQuery = { __typename: 'Query', getDistanceSum: number };
 
+export type GQLGetWeeksQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GQLGetWeeksQuery = { __typename: 'Query', getWeeks: Array<{ __typename: 'Week', cadence: number, distance: number, heartrate: number, time: number, year: number, week: number }> };
+
 
 export const GetActivitiesDocument = gql`
     query GetActivities {
@@ -366,3 +371,42 @@ export function useGetDistanceSumLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetDistanceSumQueryHookResult = ReturnType<typeof useGetDistanceSumQuery>;
 export type GetDistanceSumLazyQueryHookResult = ReturnType<typeof useGetDistanceSumLazyQuery>;
 export type GetDistanceSumQueryResult = Apollo.QueryResult<GQLGetDistanceSumQuery, GQLGetDistanceSumQueryVariables>;
+export const GetWeeksDocument = gql`
+    query getWeeks {
+  getWeeks {
+    cadence
+    distance
+    heartrate
+    time
+    year
+    week
+  }
+}
+    `;
+
+/**
+ * __useGetWeeksQuery__
+ *
+ * To run a query within a React component, call `useGetWeeksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWeeksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWeeksQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetWeeksQuery(baseOptions?: Apollo.QueryHookOptions<GQLGetWeeksQuery, GQLGetWeeksQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GQLGetWeeksQuery, GQLGetWeeksQueryVariables>(GetWeeksDocument, options);
+      }
+export function useGetWeeksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLGetWeeksQuery, GQLGetWeeksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GQLGetWeeksQuery, GQLGetWeeksQueryVariables>(GetWeeksDocument, options);
+        }
+export type GetWeeksQueryHookResult = ReturnType<typeof useGetWeeksQuery>;
+export type GetWeeksLazyQueryHookResult = ReturnType<typeof useGetWeeksLazyQuery>;
+export type GetWeeksQueryResult = Apollo.QueryResult<GQLGetWeeksQuery, GQLGetWeeksQueryVariables>;

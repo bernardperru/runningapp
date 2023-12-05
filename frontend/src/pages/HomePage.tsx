@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useGetDistanceSumQuery } from '../graphql';
+import { useGetDistanceSumQuery, useGetWeeksQuery } from '../graphql';
 
 function Home() {
-	const { data } = useGetDistanceSumQuery();
+	// const { data } = useGetDistanceSumQuery();
+	const { data } = useGetWeeksQuery();
 	const navigate = useNavigate();
 	const { REACT_APP_CLIENT_ID } = process.env;
 	const redirectUrl = 'http://localhost:3000/redirect';
@@ -20,13 +21,15 @@ function Home() {
 		}
 	});
 
+	console.log(data?.getWeeks);
+
 	return (
 		<div>
 			{connectedToStrava === null ||
 				(connectedToStrava === 'false' && (
 					<button onClick={handleRefreshToken}> you aren't connected to a strava account</button>
 				))}
-			{data ? <div>{(data.getDistanceSum / 1000).toFixed(2)} km</div> : <div></div>}
+			{/* {data ? <div>{(data.getDistanceSum / 1000).toFixed(2)} km</div> : <div></div>} */}
 		</div>
 	);
 }

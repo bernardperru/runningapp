@@ -1,0 +1,10 @@
+query getWeeks {
+	getWeeks {
+		cadence
+		distance
+		heartrate
+		time
+		year
+		week
+	}
+}
