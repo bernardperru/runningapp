@@ -1,6 +1,4 @@
 import React from 'react';
-import { format, formatDate } from '../../utils/utils';
-import { activityType } from '../../utils/constants';
 
 import {
 	Chart as ChartJS,
@@ -17,17 +15,16 @@ import {
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
-import { useGetActivitiesQuery, GQLActivity } from '../../graphql';
+import { useGetWeeksQuery } from '../../graphql';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const ActivityChart: React.FunctionComponent = () => {
-	const { data } = useGetActivitiesQuery();
+	// const { data } = useGetActivitiesQuery();
+	const { data } = useGetWeeksQuery();
 
 	if (data) {
-		const activities = [...data?.getActivities];
-
-		console.log(activities.length);
+		const weeks = [...data?.getWeeks];
 
 		const options: ChartOptions<keyof ChartTypeRegistry> = {
 			responsive: true,
@@ -43,10 +40,10 @@ const ActivityChart: React.FunctionComponent = () => {
 			},
 		};
 
-		const labels = activities
-			.filter(activity => activity.distance >= 5000 && activity.distance <= 6000)
-			.map(activity => {
-				return formatDate(activity.start_date);
+		const labels = weeks
+			.sort((a, b) => (a.week < b.week ? -1 : 1))
+			.map(week => {
+				return week.week.toString();
 			});
 
 		const datax: ChartData<keyof ChartTypeRegistry> = {
@@ -54,11 +51,9 @@ const ActivityChart: React.FunctionComponent = () => {
 			datasets: [
 				{
 					label: 'distance',
-					data: activities
-						.filter(activity => activity.distance >= 5000 && activity.distance <= 6000)
-						.map(activity => {
-							return activity.average_heartrate;
-						}),
+					data: weeks.map(week => {
+						return week.distance;
+					}),
 					borderColor: 'rgb(53, 162, 235)',
 					backgroundColor: 'rgba(53, 162, 235, 0.5)',
 				},
