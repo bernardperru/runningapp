@@ -30,7 +30,9 @@ export const weekResolver: GQLResolvers = {
       let weekDictionary: weekDict = {};
       activites.forEach((activity) => {
         const id = parseFloat(
-          activity.year.toString() + activity.week.toString()
+          activity.year.toString() +
+            activity.week.toString() +
+            context.auth?.user.id.toString()
         );
         if (weekDictionary[id]) {
           weekDictionary[id].cadence.push(activity.average_cadence);
@@ -79,8 +81,14 @@ export const weekResolver: GQLResolvers = {
       const upsertWeeks = await Promise.all(
         weeks.map(async (week) => {
           await database.week.upsert({
-            where: { id: week.id },
-            update: {},
+            where: {
+              id: week.id,
+            },
+            update: {
+              cadence: week.cadence,
+              distance: week.distance,
+              heartrate: week.heartrate,
+            },
             create: {
               user: {
                 connect: {

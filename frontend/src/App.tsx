@@ -21,7 +21,7 @@ function App() {
 				<Route path="/weekly" element={<AllWeeksPage />} />
 				<Route path="/weekly/:weekNumber" element={<WeekPage />} />
 				<Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} />
-				<Route path="/chart" element={<ChartPage />} />
+				<Route path="/charts" element={<ChartPage />} />
 			</Routes>
 		</div>
 	);

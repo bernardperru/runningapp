@@ -55,6 +55,16 @@ function Navbar() {
 											{' '}
 											Weekly
 										</NavLink>
+										<NavLink
+											to="/charts"
+											className={({ isActive }) =>
+												isActive
+													? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
+													: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
+											}>
+											{' '}
+											Charts
+										</NavLink>
 
 										<div>
 											<button className={'text-gray-500 hover:text-blue-800'} onClick={() => handleLogOut()}>

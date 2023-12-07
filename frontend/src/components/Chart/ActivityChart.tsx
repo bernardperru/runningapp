@@ -25,7 +25,7 @@ const ActivityChart: React.FunctionComponent = () => {
 
 	if (data) {
 		const weeks = [...data?.getWeeks];
-
+		console.log(weeks.length);
 		const options: ChartOptions<keyof ChartTypeRegistry> = {
 			responsive: true,
 			indexAxis: 'x' as const,
