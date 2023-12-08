@@ -143,7 +143,7 @@ export type GQLGetDistanceSumQuery = { __typename: 'Query', getDistanceSum: numb
 export type GQLGetWeeksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetWeeksQuery = { __typename: 'Query', getWeeks: Array<{ __typename: 'Week', week: number, year: number, distance: number, heartrate: number, time: number, cadence: number, activities: Array<{ __typename: 'Activity', average_cadence: number, average_heartrate: number, average_pace: string, distance: number, elapsed_time: number, zone: number }> }> };
+export type GQLGetWeeksQuery = { __typename: 'Query', getWeeks: Array<{ __typename: 'Week', week: number, year: number, distance: number, heartrate: number, time: number, cadence: number, activities: Array<{ __typename: 'Activity', average_cadence: number, average_heartrate: number, average_pace: string, distance: number, elapsed_time: number, zone: number, id: number }> }> };
 
 
 export const GetActivitiesDocument = gql`
@@ -385,6 +385,7 @@ export const GetWeeksDocument = gql`
       distance
       elapsed_time
       zone
+      id
     }
   }
 }

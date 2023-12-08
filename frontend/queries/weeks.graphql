@@ -13,6 +13,7 @@ query getWeeks {
 			distance
 			elapsed_time
 			zone
+			id
 		}
 	}
 }

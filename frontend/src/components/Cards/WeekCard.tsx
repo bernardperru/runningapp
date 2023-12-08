@@ -1,5 +1,5 @@
 import React from 'react';
-import { format, averageOrSum } from '../../utils/utils';
+import { formatWeek, averageOrSum } from '../../utils/utils';
 import { useGetWeeksQuery } from '../../graphql';
 import { weekCardType } from '../../utils/constants';
 type label = {
@@ -24,7 +24,6 @@ const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber 
 			const keys = (Object.keys(data.getWeeks[0]) as (keyof weekCardType)[]).filter(key => {
 				return stats[key];
 			});
-			console.log({ week });
 
 			return (
 				<div className="bg-sky-200 hover:bg-blue-400 shadow-lg rounded-md py-7 px-12 mt-6">
@@ -35,7 +34,7 @@ const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber 
 								<span>
 									{stats[key].label}
 									{' : '}
-									<span>{format(key, averageOrSum(week[key], week.activities.length, stats[key].label))}</span>
+									<span>{formatWeek(key, averageOrSum(week[key], week.activities.length, stats[key].type))}</span>
 									<span></span>
 								</span>
 							</li>

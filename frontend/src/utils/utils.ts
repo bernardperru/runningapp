@@ -65,6 +65,26 @@ export function format(key: string, value: string | number) {
 	}
 }
 
+export function formatWeek(key: string, value: string | number) {
+	switch (key) {
+		case 'distance':
+			return (parseFloat(value.toString()) / 1000).toFixed(2) + ' km';
+		case 'cadence':
+			return parseFloat(value.toString()).toFixed(0) + ' spm';
+		case 'time':
+			const hours = Math.floor(parseFloat(value.toString()) / 3600);
+			const newValue = parseFloat(value.toString()) - hours * 3600;
+			const minutes = Math.floor(newValue / 60);
+			const seconds = newValue - minutes * 60;
+			return addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + '';
+		case 'heartrate':
+			return parseFloat(value.toString()).toFixed(0) + ' bpm';
+		case 'pace':
+			return value;
+		default:
+			return value;
+	}
+}
 export function formatDate(value: string) {
 	const date = new Date(value);
 	return date.toDateString();
