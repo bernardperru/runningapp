@@ -17,7 +17,6 @@ const mapStats: { [key in keyof activityType]: label } = {
 	average_heartrate: { label: 'Average Heartrate', type: 'avg' },
 	average_cadence: { label: 'Average Cadence', type: 'avg' },
 	start_date: { label: 'Date', type: 'none' },
-	week: { label: 'Week', type: 'none' },
 	zone: { label: 'Zone', type: 'none' },
 	average_pace: { label: 'Average Pace', type: 'avg' },
 };

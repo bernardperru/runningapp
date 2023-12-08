@@ -28,8 +28,7 @@ export type GQLActivity = {
   id: Scalars['Float']['output'];
   start_date: Scalars['String']['output'];
   summary_polyline: Scalars['String']['output'];
-  week: Scalars['Int']['output'];
-  year: Scalars['Int']['output'];
+  week?: Maybe<GQLWeek>;
   zone: Scalars['Int']['output'];
 };
 
@@ -87,6 +86,7 @@ export type GQLUser = {
 
 export type GQLWeek = {
   __typename?: 'Week';
+  activities: Array<GQLActivity>;
   cadence: Scalars['Int']['output'];
   distance: Scalars['Float']['output'];
   heartrate: Scalars['Int']['output'];
@@ -217,8 +217,7 @@ export type GQLActivityResolvers<ContextType = MyContext, ParentType extends GQL
   id?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   start_date?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
   summary_polyline?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
-  week?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
-  year?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  week?: Resolver<Maybe<GQLResolversTypes['Week']>, ParentType, ContextType>;
   zone?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -256,6 +255,7 @@ export type GQLUserResolvers<ContextType = MyContext, ParentType extends GQLReso
 }>;
 
 export type GQLWeekResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Week'] = GQLResolversParentTypes['Week']> = ResolversObject<{
+  activities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
   cadence?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   distance?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   heartrate?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;

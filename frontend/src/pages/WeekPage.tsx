@@ -1,24 +1,24 @@
 import React from 'react';
 import ActivityCard from '../components/Cards/ActivityCard';
 import { Link, useParams } from 'react-router-dom';
-import { useGetActivitiesQuery } from '../graphql';
+import { useGetWeeksQuery } from '../graphql';
 
 const WeekPage: React.FunctionComponent = () => {
 	let { weekNumber } = useParams();
-	const { data } = useGetActivitiesQuery({ variables: {} });
+	const { data } = useGetWeeksQuery();
 	if (data !== undefined) {
 		return (
 			<div className="grid grid-cols-4 gap-10 place-items-center">
-				{data.getActivities.map(
-					activity =>
-						activity.week.toString() === weekNumber && (
-							<Link to={'/weekly/' + weekNumber + '/' + activity.id}>
+				{/* {data.getWeeks.map(
+					week =>
+						week.week.toString() === weekNumber && (
+							<Link to={'/weekly/' + weekNumber + '/' + week.activities}>
 								<div key={activity.id}>
 									<ActivityCard activityId={activity.id}></ActivityCard>
 								</div>
 							</Link>
 						)
-				)}
+				)} */}
 			</div>
 		);
 	}

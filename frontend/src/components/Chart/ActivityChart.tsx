@@ -52,7 +52,7 @@ const ActivityChart: React.FunctionComponent = () => {
 				{
 					label: 'distance',
 					data: weeks.map(week => {
-						return week.distance;
+						return week.time;
 					}),
 					borderColor: 'rgb(53, 162, 235)',
 					backgroundColor: 'rgba(53, 162, 235, 0.5)',

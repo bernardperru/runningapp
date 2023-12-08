@@ -1,7 +1,7 @@
 import { GQLResolvers } from "../resolvers-types";
 import { Prisma } from "@prisma/client";
 import { database } from "../database.js";
-
+import { getWeek, getYear } from "../utils/formatActivityData.js";
 interface weekDict {
   [key: number]: weekActivities;
 }
@@ -23,92 +23,59 @@ export const weekResolver: GQLResolvers = {
         throw new Error("No strava refresh token assigned to User:)");
       }
 
-      //need to use filter for findMany
-      const activites = await database.activity.findMany();
-
-      //create weeks here
-      let weekDictionary: weekDict = {};
-      activites.forEach((activity) => {
-        const id = parseFloat(
-          activity.year.toString() +
-            activity.week.toString() +
-            context.auth?.user.id.toString()
-        );
-        if (weekDictionary[id]) {
-          weekDictionary[id].cadence.push(activity.average_cadence);
-          weekDictionary[id].distance.push(activity.distance);
-          weekDictionary[id].time.push(activity.elapsed_time);
-          weekDictionary[id].heartrate.push(activity.average_heartrate);
-        } else {
-          weekDictionary[id] = {
-            id: id,
-            week: activity.week,
-            year: activity.year,
-            cadence: [activity.average_cadence],
-            distance: [activity.distance],
-            heartrate: [activity.average_heartrate],
-            time: [activity.elapsed_time],
-          };
-        }
+      //Fetch activities with no week relation
+      const activites = await database.activity.findMany({
+        where: {
+          weekId: null,
+        },
       });
 
-      //upsert
-      const weeks = Object.keys(weekDictionary).map((key) => {
-        return {
-          id: weekDictionary[parseFloat(key)].id,
-          week: weekDictionary[parseFloat(key)].week,
-          year: weekDictionary[parseFloat(key)].year,
-          distance: weekDictionary[parseFloat(key)].distance.reduce(
-            (sum, current) => {
-              return sum + current;
-            },
-            0
-          ),
-          heartrate:
-            weekDictionary[parseFloat(key)].heartrate.reduce((sum, current) => {
-              return sum + current;
-            }, 0) / weekDictionary[parseFloat(key)].heartrate.length,
-          cadence:
-            weekDictionary[parseFloat(key)].cadence.reduce((sum, current) => {
-              return sum + current;
-            }, 0) / weekDictionary[parseFloat(key)].cadence.length,
-          time: weekDictionary[parseFloat(key)].time.reduce((sum, current) => {
-            return sum + current;
-          }, 0),
-        };
-      });
+      console.log(activites.length);
 
-      const upsertWeeks = await Promise.all(
-        weeks.map(async (week) => {
+      const createWeeks = await Promise.all(
+        activites.map(async (activity) => {
+          const weekId = parseFloat(
+            getYear(activity.start_date).toString() +
+              getWeek(activity.start_date).toString() +
+              activity.userId.toString()
+          );
           await database.week.upsert({
-            where: {
-              id: week.id,
-            },
+            where: { id: weekId },
             update: {
-              cadence: week.cadence,
-              distance: week.distance,
-              heartrate: week.heartrate,
+              activities: {
+                connect: { activityId: activity.activityId },
+              },
+              cadence: { increment: activity.average_cadence },
+              distance: { increment: activity.distance },
+              time: { increment: activity.elapsed_time },
+              heartrate: { increment: activity.average_heartrate },
             },
             create: {
+              id: weekId,
+              cadence: activity.average_cadence,
+              distance: activity.distance,
+              heartrate: activity.average_heartrate,
+              time: activity.elapsed_time,
+              week: getWeek(activity.start_date),
+              year: getYear(activity.start_date),
+              activities: {
+                connect: { activityId: activity.activityId },
+              },
               user: {
                 connect: {
-                  id: context.auth ? context.auth.user.id : 0,
+                  id: context.auth?.user.id,
                 },
               },
-              cadence: week.cadence,
-              distance: week.distance,
-              heartrate: week.heartrate,
-              id: week.id,
-              time: week.time,
-              week: week.week,
-              year: week.year,
             },
           });
         })
       );
 
       //need a conditional
-      const result = await database.week.findMany();
+      const result = await database.week.findMany({
+        where: { userId: context.auth.user.id },
+        include: { activities: true },
+      });
 
       return result;
     },

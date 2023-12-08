@@ -11,7 +11,6 @@ const labels: { [key in keyof activityType]: string } = {
 	average_heartrate: 'Avg. Heartrate',
 	average_cadence: 'Avg. Cadence',
 	zone: 'Zone',
-	week: 'Week',
 	average_pace: 'Avg. Pace',
 };
 

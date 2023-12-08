@@ -1,10 +1,18 @@
 query getWeeks {
 	getWeeks {
-		cadence
+		week
+		year
 		distance
 		heartrate
 		time
-		year
-		week
+		cadence
+		activities {
+			average_cadence
+			average_heartrate
+			average_pace
+			distance
+			elapsed_time
+			zone
+		}
 	}
 }

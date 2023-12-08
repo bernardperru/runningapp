@@ -10,7 +10,6 @@ const labels: {
 	average_cadence: 'Avg. Cadence',
 	distance: 'Distance',
 	elapsed_time: 'Time',
-	week: 'Week',
 	zone: 'Zone',
 	average_pace: 'Average Pace',
 };

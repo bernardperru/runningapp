@@ -25,26 +25,11 @@ export function getWeeks(activities: GQLActivity[]) {
 }
 
 //Averages ou
-export function average(
-	key: keyof Omit<GQLActivity, '__typename | map | id | start_date'>,
-	week: number,
-	activities: GQLActivity[],
-	type: 'avg' | 'sum' | 'none'
-): number {
-	let accumulator = 0;
-	let i = 0;
-	activities.forEach(activity => {
-		const temp = activity[key];
-		if (activity.week === week && typeof temp === 'number') {
-			accumulator += temp;
-			i++;
-		}
-	});
-
+export function averageOrSum(value: number, denominator: number, type: string): number {
 	if (type === 'avg') {
-		return accumulator / i;
+		return value / denominator;
 	}
-	return accumulator;
+	return value;
 }
 
 function addZero(value: number): string {
@@ -54,7 +39,7 @@ function addZero(value: number): string {
 	return value.toString();
 }
 
-export function format(key: keyof GQLActivity, value: string | number) {
+export function format(key: string, value: string | number) {
 	switch (key) {
 		case 'distance':
 			return (parseFloat(value.toString()) / 1000).toFixed(2) + ' km';

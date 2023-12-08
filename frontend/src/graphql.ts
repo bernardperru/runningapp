@@ -28,8 +28,7 @@ export type GQLActivity = {
   id: Scalars['Float']['output'];
   start_date: Scalars['String']['output'];
   summary_polyline: Scalars['String']['output'];
-  week: Scalars['Int']['output'];
-  year: Scalars['Int']['output'];
+  week?: Maybe<GQLWeek>;
   zone: Scalars['Int']['output'];
 };
 
@@ -87,6 +86,7 @@ export type GQLUser = {
 
 export type GQLWeek = {
   __typename: 'Week';
+  activities: Array<GQLActivity>;
   cadence: Scalars['Int']['output'];
   distance: Scalars['Float']['output'];
   heartrate: Scalars['Int']['output'];
@@ -104,7 +104,7 @@ export type GQLYear = {
 export type GQLGetActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, activityId: number, start_date: string, distance: number, elapsed_time: number, average_pace: string, average_heartrate: number, average_cadence: number, summary_polyline: string, year: number, zone: number, week: number }> };
+export type GQLGetActivitiesQuery = { __typename: 'Query', getActivities: Array<{ __typename: 'Activity', id: number, activityId: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, average_pace: string, zone: number }> };
 
 export type GQLAddRefreshTokenMutationVariables = Exact<{
   accessToken: Scalars['String']['input'];
@@ -143,7 +143,7 @@ export type GQLGetDistanceSumQuery = { __typename: 'Query', getDistanceSum: numb
 export type GQLGetWeeksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLGetWeeksQuery = { __typename: 'Query', getWeeks: Array<{ __typename: 'Week', cadence: number, distance: number, heartrate: number, time: number, year: number, week: number }> };
+export type GQLGetWeeksQuery = { __typename: 'Query', getWeeks: Array<{ __typename: 'Week', week: number, year: number, distance: number, heartrate: number, time: number, cadence: number, activities: Array<{ __typename: 'Activity', average_cadence: number, average_heartrate: number, average_pace: string, distance: number, elapsed_time: number, zone: number }> }> };
 
 
 export const GetActivitiesDocument = gql`
@@ -151,16 +151,14 @@ export const GetActivitiesDocument = gql`
   getActivities {
     id
     activityId
-    start_date
     distance
     elapsed_time
-    average_pace
-    average_heartrate
-    average_cadence
+    start_date
     summary_polyline
-    year
+    average_cadence
+    average_heartrate
+    average_pace
     zone
-    week
   }
 }
     `;
@@ -374,12 +372,20 @@ export type GetDistanceSumQueryResult = Apollo.QueryResult<GQLGetDistanceSumQuer
 export const GetWeeksDocument = gql`
     query getWeeks {
   getWeeks {
-    cadence
+    week
+    year
     distance
     heartrate
     time
-    year
-    week
+    cadence
+    activities {
+      average_cadence
+      average_heartrate
+      average_pace
+      distance
+      elapsed_time
+      zone
+    }
   }
 }
     `;

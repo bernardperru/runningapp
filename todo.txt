@@ -1,3 +1,4 @@
 1. Email and password criteria
 2. deployment
-3. dynamic chart
+3. dynamic chart (x axis --> activity, week, year)
+4. Updating database should be done in a less bruteforce manner... (and probably shouldn't be done each time a query is made)

@@ -32,13 +32,14 @@ model Activity {
   average_cadence Int
   average_heartrate Int
   average_pace String
-  week Int
-  year Int
+  week Week? @relation(fields: [weekId], references: [id])
+  weekId Int?
   zone Int
 }
 
 model Week {
   id Int @id @unique
+  activities Activity[]
   user User @relation(fields: [userId], references: [id])
   userId Int 
   week Int

@@ -66,7 +66,7 @@ export class StravaAPI {
       const activities = activitiesResponse
         .filter((activity) => activity.type === "Run")
         .map((activity) => {
-          let temp: Omit<GQLActivity, "id"> = {
+          let temp: Omit<GQLActivity, "id" | "week" | "year"> = {
             activityId: activity.id,
             average_cadence: Math.floor(activity.average_cadence * 2),
             average_heartrate: Math.floor(activity.average_heartrate),
@@ -78,8 +78,6 @@ export class StravaAPI {
               activity.elapsed_time,
               activity.distance
             ),
-            week: getWeek(activity.start_date),
-            year: getYear(activity.start_date),
             zone: Math.floor(getZone(activity.average_heartrate)),
           };
           return temp;
