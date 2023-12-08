@@ -7,7 +7,11 @@ const AllWeeksPage: React.FunctionComponent = () => {
 	const { data } = useGetWeeksQuery();
 
 	if (data !== undefined) {
-		let weeks = data.getWeeks;
+		const weeks = [
+			...data.getWeeks.map(activity => {
+				return activity;
+			}),
+		].sort((a, b) => (a.week > b.week ? -1 : 1));
 
 		return (
 			<div className="grid grid-cols-4 gap-10 place-items-center">

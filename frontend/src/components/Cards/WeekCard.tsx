@@ -24,6 +24,7 @@ const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber 
 			const keys = (Object.keys(data.getWeeks[0]) as (keyof weekCardType)[]).filter(key => {
 				return stats[key];
 			});
+			console.log({ week });
 
 			return (
 				<div className="bg-sky-200 hover:bg-blue-400 shadow-lg rounded-md py-7 px-12 mt-6">
