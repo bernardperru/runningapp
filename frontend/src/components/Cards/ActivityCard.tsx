@@ -27,8 +27,8 @@ const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activit
 		})[0];
 
 		return (
-			<div className="bg-sky-200 hover:bg-blue-400 shadow-lg rounded-md py-7 px-12 mt-6">
-				<h1 className="text-2xl font-sans border-b-2 border-black w-fit">
+			<div className="bg-grey-300 hover:bg-sky-300 shadow-lg rounded-md py-7 px-12 mt-6">
+				<h1 className="text-2xl text-gray-900 font-normal border-b-2 border-black w-fit">
 					{format('start_date', activity.start_date)}
 				</h1>
 				<ul className="">

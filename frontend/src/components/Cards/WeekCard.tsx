@@ -26,7 +26,7 @@ const WeekCard: React.FunctionComponent<{ weekNumber: number }> = ({ weekNumber 
 			});
 
 			return (
-				<div className="bg-grey-300 hover:bg-sky-400 shadow-lg rounded-md py-7 px-12 mt-6">
+				<div className="bg-grey-300 hover:bg-sky-300 shadow-lg rounded-md py-7 px-12 mt-6">
 					<h1 className="text-2xl text-gray-900 font-normal border-b-2 border-black w-fit">{weekNumber}</h1>
 					<ul>
 						{keys.map((key, index) => (
