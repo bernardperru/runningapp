@@ -81,6 +81,8 @@ export const activityResolver: GQLResolvers = {
         }),
       });
 
+      console.log(activities.length);
+
       if (activities.length === 0) {
         return {
           edges: [],
@@ -91,7 +93,7 @@ export const activityResolver: GQLResolvers = {
         };
       }
 
-      const newCursor = activities[activities.length - 1].activityId;
+      const newCursor = activities[activities.length - 1].id;
 
       const nextPage = await database.activity.findMany({
         take: first,
@@ -100,6 +102,8 @@ export const activityResolver: GQLResolvers = {
           id: newCursor,
         },
       });
+
+      console.log({ nextPage });
 
       return {
         edges: activities,

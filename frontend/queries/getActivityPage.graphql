@@ -1,0 +1,20 @@
+query GetAcivityPage($input: ActivityPageInput!) {
+	getActivityPage(input: $input) {
+		edges {
+			id
+			activityId
+			distance
+			elapsed_time
+			start_date
+			summary_polyline
+			average_cadence
+			average_heartrate
+			average_pace
+			zone
+		}
+		pageInfo {
+			hasNextPage
+			endCursors
+		}
+	}
+}
