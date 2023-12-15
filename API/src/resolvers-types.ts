@@ -84,7 +84,7 @@ export type GQLPageInfo = {
 export type GQLQuery = {
   __typename?: 'Query';
   getActivities: Array<GQLActivity>;
-  getActivityPage: Array<GQLActivityPageResponse>;
+  getActivityPage: GQLActivityPageResponse;
   getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
   getWeeks: Array<GQLWeek>;
@@ -278,7 +278,7 @@ export type GQLPageInfoResolvers<ContextType = MyContext, ParentType extends GQL
 
 export type GQLQueryResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  getActivityPage?: Resolver<Array<GQLResolversTypes['ActivityPageResponse']>, ParentType, ContextType, RequireFields<GQLQueryGetActivityPageArgs, 'input'>>;
+  getActivityPage?: Resolver<GQLResolversTypes['ActivityPageResponse'], ParentType, ContextType, RequireFields<GQLQueryGetActivityPageArgs, 'input'>>;
   getDistanceSum?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   getUserInfo?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
   getWeeks?: Resolver<Array<GQLResolversTypes['Week']>, ParentType, ContextType>;
