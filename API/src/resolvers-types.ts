@@ -32,6 +32,17 @@ export type GQLActivity = {
   zone: Scalars['Int']['output'];
 };
 
+export type GQLActivityPageInput = {
+  cursor?: InputMaybe<Scalars['Float']['input']>;
+  first: Scalars['Int']['input'];
+};
+
+export type GQLActivityPageResponse = {
+  __typename?: 'ActivityPageResponse';
+  edges: Array<GQLActivity>;
+  pageInfo: GQLPageInfo;
+};
+
 export type GQLAuthPayload = {
   __typename?: 'AuthPayload';
   hasRefreshToken: Scalars['Boolean']['output'];
@@ -64,13 +75,25 @@ export type GQLMutationSignupArgs = {
   password: Scalars['String']['input'];
 };
 
+export type GQLPageInfo = {
+  __typename?: 'PageInfo';
+  endCursors?: Maybe<Scalars['Float']['output']>;
+  hasNextPage: Scalars['Boolean']['output'];
+};
+
 export type GQLQuery = {
   __typename?: 'Query';
   getActivities: Array<GQLActivity>;
+  getActivityPage: Array<GQLActivityPageResponse>;
   getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
   getWeeks: Array<GQLWeek>;
   getYears: Array<Maybe<GQLYear>>;
+};
+
+
+export type GQLQueryGetActivityPageArgs = {
+  input: GQLActivityPageInput;
 };
 
 export type GQLUser = {
@@ -174,11 +197,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type GQLResolversTypes = ResolversObject<{
   Activity: ResolverTypeWrapper<GQLActivity>;
+  ActivityPageInput: GQLActivityPageInput;
+  ActivityPageResponse: ResolverTypeWrapper<GQLActivityPageResponse>;
   AuthPayload: ResolverTypeWrapper<GQLAuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
+  PageInfo: ResolverTypeWrapper<GQLPageInfo>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<GQLUser>;
@@ -189,11 +215,14 @@ export type GQLResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type GQLResolversParentTypes = ResolversObject<{
   Activity: GQLActivity;
+  ActivityPageInput: GQLActivityPageInput;
+  ActivityPageResponse: GQLActivityPageResponse;
   AuthPayload: GQLAuthPayload;
   Boolean: Scalars['Boolean']['output'];
   Float: Scalars['Float']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
+  PageInfo: GQLPageInfo;
   Query: {};
   String: Scalars['String']['output'];
   User: GQLUser;
@@ -222,6 +251,12 @@ export type GQLActivityResolvers<ContextType = MyContext, ParentType extends GQL
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type GQLActivityPageResponseResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['ActivityPageResponse'] = GQLResolversParentTypes['ActivityPageResponse']> = ResolversObject<{
+  edges?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
+  pageInfo?: Resolver<GQLResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type GQLAuthPayloadResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['AuthPayload'] = GQLResolversParentTypes['AuthPayload']> = ResolversObject<{
   hasRefreshToken?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
   token?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>;
@@ -235,8 +270,15 @@ export type GQLMutationResolvers<ContextType = MyContext, ParentType extends GQL
   signup?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationSignupArgs, 'email' | 'name' | 'password'>>;
 }>;
 
+export type GQLPageInfoResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['PageInfo'] = GQLResolversParentTypes['PageInfo']> = ResolversObject<{
+  endCursors?: Resolver<Maybe<GQLResolversTypes['Float']>, ParentType, ContextType>;
+  hasNextPage?: Resolver<GQLResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type GQLQueryResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
+  getActivityPage?: Resolver<Array<GQLResolversTypes['ActivityPageResponse']>, ParentType, ContextType, RequireFields<GQLQueryGetActivityPageArgs, 'input'>>;
   getDistanceSum?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   getUserInfo?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
   getWeeks?: Resolver<Array<GQLResolversTypes['Week']>, ParentType, ContextType>;
@@ -273,8 +315,10 @@ export type GQLYearResolvers<ContextType = MyContext, ParentType extends GQLReso
 
 export type GQLResolvers<ContextType = MyContext> = ResolversObject<{
   Activity?: GQLActivityResolvers<ContextType>;
+  ActivityPageResponse?: GQLActivityPageResponseResolvers<ContextType>;
   AuthPayload?: GQLAuthPayloadResolvers<ContextType>;
   Mutation?: GQLMutationResolvers<ContextType>;
+  PageInfo?: GQLPageInfoResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
   User?: GQLUserResolvers<ContextType>;
   Week?: GQLWeekResolvers<ContextType>;

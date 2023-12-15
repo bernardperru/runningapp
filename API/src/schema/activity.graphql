@@ -2,6 +2,22 @@ directive @hasRole(role: String) on FIELD | FIELD_DEFINITION
 
 type Query {
   getActivities: [Activity!]!
+  getActivityPage(input: ActivityPageInput!): [ActivityPageResponse!]!
+}
+
+input ActivityPageInput {
+  first: Int!
+  cursor: Float
+}
+
+type ActivityPageResponse {
+  edges: [Activity!]!
+  pageInfo: PageInfo!
+}
+
+type PageInfo {
+  endCursors: Float
+  hasNextPage: Boolean!
 }
 
 type Activity {
