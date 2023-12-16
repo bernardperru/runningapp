@@ -1,8 +1,9 @@
 import React from 'react';
 import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
-import { GQLActivity, useGetAcivityPageQuery } from '../../graphql';
+import { GQLActivity, GQLGetAcivityPageQuery, useGetAcivityPageQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
+import { NetworkStatus } from '@apollo/client';
 
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',
@@ -15,16 +16,31 @@ const labels: { [key in keyof activityType]: string } = {
 };
 
 const NewActivityTable: React.FunctionComponent = () => {
-	const { data, loading, error } = useGetAcivityPageQuery({
+	const page = 0;
+	const offset = 15;
+	const { data, loading, error, networkStatus } = useGetAcivityPageQuery({
 		variables: {
 			input: {
 				first: 15,
+				offset: page * offset,
+				order: 'desc',
+				sort: 'distance',
 			},
 		},
+		notifyOnNetworkStatusChange: true,
 	});
+
+	const activities: GQLGetAcivityPageQuery | null = data ? data : null;
+
 	if (data) {
-		console.log(data.getActivityPage.edges.length);
-		return <div>{data && data.getActivityPage.edges.map(activity => <div>{activity.start_date}</div>)}</div>;
+		console.log({ data });
+		return (
+			<div>
+				{' '}
+				<div>{data && data.getActivityPage.activities.map(activity => <div>{activity.distance}</div>)}</div>
+				<div>{data.getActivityPage.count}</div>
+			</div>
+		);
 	}
 };
 

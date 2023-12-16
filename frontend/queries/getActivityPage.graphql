@@ -1,6 +1,7 @@
 query GetAcivityPage($input: ActivityPageInput!) {
 	getActivityPage(input: $input) {
-		edges {
+		count
+		activities {
 			id
 			activityId
 			distance
@@ -11,10 +12,6 @@ query GetAcivityPage($input: ActivityPageInput!) {
 			average_heartrate
 			average_pace
 			zone
-		}
-		pageInfo {
-			hasNextPage
-			endCursors
 		}
 	}
 }

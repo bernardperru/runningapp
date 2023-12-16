@@ -69,48 +69,28 @@ export const activityResolver: GQLResolvers = {
       return result;
     },
     getActivityPage: async (_, { input }, context) => {
-      const { first, cursor } = input;
+      const { first, offset, sort, order } = input;
+
+      const orderBy = { [sort]: order };
 
       const activities = await database.activity.findMany({
+        skip: offset,
         take: first,
-        ...(cursor && {
-          skip: 1,
-          cursor: {
-            id: cursor,
-          },
-        }),
+        orderBy,
       });
 
-      console.log(activities.length);
+      const count = await database.activity.count();
 
       if (activities.length === 0) {
         return {
-          edges: [],
-          pageInfo: {
-            endCursor: null,
-            hasNextPage: false,
-          },
+          activities: [],
+          count: 0,
         };
       }
 
-      const newCursor = activities[activities.length - 1].id;
-
-      const nextPage = await database.activity.findMany({
-        take: first,
-        skip: 1,
-        cursor: {
-          id: newCursor,
-        },
-      });
-
-      console.log({ nextPage });
-
       return {
-        edges: activities,
-        pageInfo: {
-          endCursor: newCursor,
-          hasNextPage: nextPage.length > 0,
-        },
+        activities: activities,
+        count: count,
       };
     },
   },

@@ -33,14 +33,16 @@ export type GQLActivity = {
 };
 
 export type GQLActivityPageInput = {
-  cursor?: InputMaybe<Scalars['Float']['input']>;
   first: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  order: Scalars['String']['input'];
+  sort: Scalars['String']['input'];
 };
 
 export type GQLActivityPageResponse = {
   __typename: 'ActivityPageResponse';
-  edges: Array<GQLActivity>;
-  pageInfo: GQLPageInfo;
+  activities: Array<GQLActivity>;
+  count: Scalars['Int']['output'];
 };
 
 export type GQLAuthPayload = {
@@ -73,12 +75,6 @@ export type GQLMutationSignupArgs = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
   password: Scalars['String']['input'];
-};
-
-export type GQLPageInfo = {
-  __typename: 'PageInfo';
-  endCursors?: Maybe<Scalars['Float']['output']>;
-  hasNextPage: Scalars['Boolean']['output'];
 };
 
 export type GQLQuery = {
@@ -141,7 +137,7 @@ export type GQLGetAcivityPageQueryVariables = Exact<{
 }>;
 
 
-export type GQLGetAcivityPageQuery = { __typename: 'Query', getActivityPage: { __typename: 'ActivityPageResponse', edges: Array<{ __typename: 'Activity', id: number, activityId: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, average_pace: string, zone: number }>, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursors?: number | null } } };
+export type GQLGetAcivityPageQuery = { __typename: 'Query', getActivityPage: { __typename: 'ActivityPageResponse', count: number, activities: Array<{ __typename: 'Activity', id: number, activityId: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, average_pace: string, zone: number }> } };
 
 export type GQLLoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -256,7 +252,8 @@ export type AddRefreshTokenMutationOptions = Apollo.BaseMutationOptions<GQLAddRe
 export const GetAcivityPageDocument = gql`
     query GetAcivityPage($input: ActivityPageInput!) {
   getActivityPage(input: $input) {
-    edges {
+    count
+    activities {
       id
       activityId
       distance
@@ -267,10 +264,6 @@ export const GetAcivityPageDocument = gql`
       average_heartrate
       average_pace
       zone
-    }
-    pageInfo {
-      hasNextPage
-      endCursors
     }
   }
 }

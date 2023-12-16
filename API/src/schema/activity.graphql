@@ -7,17 +7,14 @@ type Query {
 
 input ActivityPageInput {
   first: Int!
-  cursor: Float
+  offset: Int!
+  sort: String!
+  order: String!
 }
 
 type ActivityPageResponse {
-  edges: [Activity!]!
-  pageInfo: PageInfo!
-}
-
-type PageInfo {
-  endCursors: Float
-  hasNextPage: Boolean!
+  activities: [Activity!]!
+  count: Int!
 }
 
 type Activity {
