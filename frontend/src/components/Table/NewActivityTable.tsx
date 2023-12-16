@@ -30,8 +30,6 @@ const NewActivityTable: React.FunctionComponent = () => {
 		notifyOnNetworkStatusChange: true,
 	});
 
-	const activities: GQLGetAcivityPageQuery | null = data ? data : null;
-
 	if (data) {
 		console.log({ data });
 		return (
