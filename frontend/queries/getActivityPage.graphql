@@ -1,4 +1,4 @@
-query GetAcivityPage($input: ActivityPageInput!) {
+query GetActivityPage($input: ActivityPageInput!) {
 	getActivityPage(input: $input) {
 		count
 		activities {

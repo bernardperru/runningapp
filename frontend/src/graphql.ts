@@ -132,12 +132,12 @@ export type GQLAddRefreshTokenMutationVariables = Exact<{
 
 export type GQLAddRefreshTokenMutation = { __typename: 'Mutation', addRefreshToken?: { __typename: 'AuthPayload', token: string, hasRefreshToken: boolean } | null };
 
-export type GQLGetAcivityPageQueryVariables = Exact<{
+export type GQLGetActivityPageQueryVariables = Exact<{
   input: GQLActivityPageInput;
 }>;
 
 
-export type GQLGetAcivityPageQuery = { __typename: 'Query', getActivityPage: { __typename: 'ActivityPageResponse', count: number, activities: Array<{ __typename: 'Activity', id: number, activityId: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, average_pace: string, zone: number }> } };
+export type GQLGetActivityPageQuery = { __typename: 'Query', getActivityPage: { __typename: 'ActivityPageResponse', count: number, activities: Array<{ __typename: 'Activity', id: number, activityId: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, average_pace: string, zone: number }> } };
 
 export type GQLLoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -249,8 +249,8 @@ export function useAddRefreshTokenMutation(baseOptions?: Apollo.MutationHookOpti
 export type AddRefreshTokenMutationHookResult = ReturnType<typeof useAddRefreshTokenMutation>;
 export type AddRefreshTokenMutationResult = Apollo.MutationResult<GQLAddRefreshTokenMutation>;
 export type AddRefreshTokenMutationOptions = Apollo.BaseMutationOptions<GQLAddRefreshTokenMutation, GQLAddRefreshTokenMutationVariables>;
-export const GetAcivityPageDocument = gql`
-    query GetAcivityPage($input: ActivityPageInput!) {
+export const GetActivityPageDocument = gql`
+    query GetActivityPage($input: ActivityPageInput!) {
   getActivityPage(input: $input) {
     count
     activities {
@@ -270,32 +270,32 @@ export const GetAcivityPageDocument = gql`
     `;
 
 /**
- * __useGetAcivityPageQuery__
+ * __useGetActivityPageQuery__
  *
- * To run a query within a React component, call `useGetAcivityPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAcivityPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetActivityPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActivityPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetAcivityPageQuery({
+ * const { data, loading, error } = useGetActivityPageQuery({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useGetAcivityPageQuery(baseOptions: Apollo.QueryHookOptions<GQLGetAcivityPageQuery, GQLGetAcivityPageQueryVariables>) {
+export function useGetActivityPageQuery(baseOptions: Apollo.QueryHookOptions<GQLGetActivityPageQuery, GQLGetActivityPageQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GQLGetAcivityPageQuery, GQLGetAcivityPageQueryVariables>(GetAcivityPageDocument, options);
+        return Apollo.useQuery<GQLGetActivityPageQuery, GQLGetActivityPageQueryVariables>(GetActivityPageDocument, options);
       }
-export function useGetAcivityPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLGetAcivityPageQuery, GQLGetAcivityPageQueryVariables>) {
+export function useGetActivityPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLGetActivityPageQuery, GQLGetActivityPageQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GQLGetAcivityPageQuery, GQLGetAcivityPageQueryVariables>(GetAcivityPageDocument, options);
+          return Apollo.useLazyQuery<GQLGetActivityPageQuery, GQLGetActivityPageQueryVariables>(GetActivityPageDocument, options);
         }
-export type GetAcivityPageQueryHookResult = ReturnType<typeof useGetAcivityPageQuery>;
-export type GetAcivityPageLazyQueryHookResult = ReturnType<typeof useGetAcivityPageLazyQuery>;
-export type GetAcivityPageQueryResult = Apollo.QueryResult<GQLGetAcivityPageQuery, GQLGetAcivityPageQueryVariables>;
+export type GetActivityPageQueryHookResult = ReturnType<typeof useGetActivityPageQuery>;
+export type GetActivityPageLazyQueryHookResult = ReturnType<typeof useGetActivityPageLazyQuery>;
+export type GetActivityPageQueryResult = Apollo.QueryResult<GQLGetActivityPageQuery, GQLGetActivityPageQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

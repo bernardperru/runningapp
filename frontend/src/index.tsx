@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { GQLActivity, GQLActivityPageResponse } from './graphql';
 
 const httpLink = createHttpLink({
 	uri: 'http://localhost:4000/',
@@ -24,7 +25,18 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
 	link: authLink.concat(httpLink),
-	cache: new InMemoryCache(),
+	cache: new InMemoryCache({
+		typePolicies: {
+			Query: {
+				fields: {
+					getActivityPage: {
+						keyArgs: false,
+						merge: true,
+					},
+				},
+			},
+		},
+	}),
 });
 
 const notNull = document.getElementById('root');
