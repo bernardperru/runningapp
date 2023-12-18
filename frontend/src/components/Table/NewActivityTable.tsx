@@ -29,12 +29,10 @@ const NewActivityTable: React.FunctionComponent = () => {
 
 	const { data, loading, error, fetchMore, networkStatus } = useGetActivityPageQuery({
 		variables: {
-			input: {
-				first: 15,
-				offset: offset,
-				order: sort.order,
-				sort: sort.sort,
-			},
+			first: 15,
+			offset: offset,
+			order: sort.order,
+			sort: sort.sort,
 		},
 		notifyOnNetworkStatusChange: true,
 	});
@@ -109,12 +107,10 @@ const NewActivityTable: React.FunctionComponent = () => {
 								setPage(page + 1);
 								fetchMore({
 									variables: {
-										input: {
-											first: 15,
-											offset: offset * page,
-											order: sort.order,
-											sort: sort.sort,
-										},
+										first: 15,
+										offset: offset * page,
+										order: sort.order,
+										sort: sort.sort,
 									},
 								});
 							}}

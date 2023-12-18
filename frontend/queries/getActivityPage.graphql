@@ -1,5 +1,5 @@
-query GetActivityPage($input: ActivityPageInput!) {
-	getActivityPage(input: $input) {
+query GetActivityPage($first: Int!, $offset: Int!, $sort: String!, $order: String!) {
+	getActivityPage(first: $first, offset: $offset, sort: $sort, order: $order) {
 		count
 		activities {
 			id

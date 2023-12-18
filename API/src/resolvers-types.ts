@@ -89,7 +89,10 @@ export type GQLQuery = {
 
 
 export type GQLQueryGetActivityPageArgs = {
-  input: GQLActivityPageInput;
+  first: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  order: Scalars['String']['input'];
+  sort: Scalars['String']['input'];
 };
 
 export type GQLUser = {
@@ -266,7 +269,7 @@ export type GQLMutationResolvers<ContextType = MyContext, ParentType extends GQL
 
 export type GQLQueryResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  getActivityPage?: Resolver<GQLResolversTypes['ActivityPageResponse'], ParentType, ContextType, RequireFields<GQLQueryGetActivityPageArgs, 'input'>>;
+  getActivityPage?: Resolver<GQLResolversTypes['ActivityPageResponse'], ParentType, ContextType, RequireFields<GQLQueryGetActivityPageArgs, 'first' | 'offset' | 'order' | 'sort'>>;
   getDistanceSum?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   getUserInfo?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
   getWeeks?: Resolver<Array<GQLResolversTypes['Week']>, ParentType, ContextType>;

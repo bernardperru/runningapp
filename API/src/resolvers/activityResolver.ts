@@ -68,9 +68,7 @@ export const activityResolver: GQLResolvers = {
 
       return result;
     },
-    getActivityPage: async (_, { input }, context) => {
-      const { first, offset, sort, order } = input;
-
+    getActivityPage: async (_, { first, offset, order, sort }, context) => {
       const orderBy = { [sort]: order };
 
       const activities = await database.activity.findMany({

@@ -89,7 +89,10 @@ export type GQLQuery = {
 
 
 export type GQLQueryGetActivityPageArgs = {
-  input: GQLActivityPageInput;
+  first: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  order: Scalars['String']['input'];
+  sort: Scalars['String']['input'];
 };
 
 export type GQLUser = {
@@ -133,7 +136,10 @@ export type GQLAddRefreshTokenMutationVariables = Exact<{
 export type GQLAddRefreshTokenMutation = { __typename: 'Mutation', addRefreshToken?: { __typename: 'AuthPayload', token: string, hasRefreshToken: boolean } | null };
 
 export type GQLGetActivityPageQueryVariables = Exact<{
-  input: GQLActivityPageInput;
+  first: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  sort: Scalars['String']['input'];
+  order: Scalars['String']['input'];
 }>;
 
 
@@ -250,8 +256,8 @@ export type AddRefreshTokenMutationHookResult = ReturnType<typeof useAddRefreshT
 export type AddRefreshTokenMutationResult = Apollo.MutationResult<GQLAddRefreshTokenMutation>;
 export type AddRefreshTokenMutationOptions = Apollo.BaseMutationOptions<GQLAddRefreshTokenMutation, GQLAddRefreshTokenMutationVariables>;
 export const GetActivityPageDocument = gql`
-    query GetActivityPage($input: ActivityPageInput!) {
-  getActivityPage(input: $input) {
+    query GetActivityPage($first: Int!, $offset: Int!, $sort: String!, $order: String!) {
+  getActivityPage(first: $first, offset: $offset, sort: $sort, order: $order) {
     count
     activities {
       id
@@ -281,7 +287,10 @@ export const GetActivityPageDocument = gql`
  * @example
  * const { data, loading, error } = useGetActivityPageQuery({
  *   variables: {
- *      input: // value for 'input'
+ *      first: // value for 'first'
+ *      offset: // value for 'offset'
+ *      sort: // value for 'sort'
+ *      order: // value for 'order'
  *   },
  * });
  */

@@ -2,7 +2,12 @@ directive @hasRole(role: String) on FIELD | FIELD_DEFINITION
 
 type Query {
   getActivities: [Activity!]!
-  getActivityPage(input: ActivityPageInput!): ActivityPageResponse!
+  getActivityPage(
+    first: Int!
+    offset: Int!
+    sort: String!
+    order: String!
+  ): ActivityPageResponse!
 }
 
 input ActivityPageInput {
