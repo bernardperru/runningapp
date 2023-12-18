@@ -28,13 +28,11 @@ const client = new ApolloClient({
 	link: authLink.concat(httpLink),
 	cache: new InMemoryCache({
 		typePolicies: {
-			ActivityPageResponse: {
+			Query: {
 				fields: {
 					getActivityPage: {
-						keyArgs: ['offset'],
-						merge(existing: GQLActivity[], incoming: GQLActivityPageResponse, { args }) {
-							return [...existing, ...incoming.activities];
-						},
+						keyArgs: false,
+						merge: true,
 					},
 				},
 			},

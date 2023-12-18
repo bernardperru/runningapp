@@ -62,8 +62,8 @@ const NewActivityTable: React.FunctionComponent = () => {
 				<div className="flex justify-center">
 					{page > 1 && (
 						<button
-							onClick={() => {
-								setPage(page - 1);
+							onClick={async () => {
+								await setPage(page - 1);
 								fetchMore({
 									variables: {
 										input: {
@@ -83,8 +83,9 @@ const NewActivityTable: React.FunctionComponent = () => {
 					{pages.pages.map((el, index) => (
 						<button
 							key={index}
-							onClick={() => {
-								setPage(el);
+							onClick={async () => {
+								await setPage(el);
+								console.log(page);
 								fetchMore({
 									variables: {
 										input: {
@@ -102,8 +103,8 @@ const NewActivityTable: React.FunctionComponent = () => {
 					))}
 					{page < data.getActivityPage.count / offset && (
 						<button
-							onClick={() => {
-								setPage(page + 1);
+							onClick={async () => {
+								await setPage(page + 1);
 								fetchMore({
 									variables: {
 										first: 15,
