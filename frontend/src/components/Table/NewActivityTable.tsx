@@ -27,14 +27,13 @@ const NewActivityTable: React.FunctionComponent = () => {
 		order: 'asc',
 	});
 
-	const { data, loading, error, fetchMore, networkStatus } = useGetActivityPageQuery({
+	const { data, loading, fetchMore } = useGetActivityPageQuery({
 		variables: {
 			first: 15,
 			offset: offset,
 			order: sort.order,
 			sort: sort.sort,
 		},
-		notifyOnNetworkStatusChange: true,
 	});
 
 	React.useEffect(() => {
