@@ -4,6 +4,7 @@ import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import { GQLActivity, useGetActivityPageQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
 import { NetworkStatus } from '@apollo/client';
+import { off } from 'process';
 
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',
@@ -49,13 +50,11 @@ const NewActivityTable: React.FunctionComponent = () => {
 	if (loading) return 'Loading...';
 
 	if (data && pages) {
-		const activities = data.getActivityPage.activities;
-
 		return (
 			<div>
 				{' '}
 				<div>
-					{activities.map(activity => (
+					{data.getActivityPage.activities.map(activity => (
 						<div>{activity.distance}</div>
 					))}
 				</div>
@@ -63,7 +62,7 @@ const NewActivityTable: React.FunctionComponent = () => {
 					{page > 1 && (
 						<button
 							onClick={async () => {
-								await setPage(page - 1);
+								setPage(page - 1);
 								fetchMore({
 									variables: {
 										input: {
@@ -84,8 +83,7 @@ const NewActivityTable: React.FunctionComponent = () => {
 						<button
 							key={index}
 							onClick={async () => {
-								await setPage(el);
-								console.log(page);
+								setPage(el);
 								fetchMore({
 									variables: {
 										input: {
@@ -104,7 +102,7 @@ const NewActivityTable: React.FunctionComponent = () => {
 					{page < data.getActivityPage.count / offset && (
 						<button
 							onClick={async () => {
-								await setPage(page + 1);
+								setPage(page + 1);
 								fetchMore({
 									variables: {
 										first: 15,
