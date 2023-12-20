@@ -18,7 +18,7 @@ const labels: { [key in keyof activityType]: string } = {
 
 const NewActivityTable: React.FunctionComponent = () => {
 	const [offset, setOffset] = React.useState(15);
-	const [page, setPage] = React.useState(0);
+	const [page, setPage] = React.useState(1);
 	const [pages, setPages] = React.useState<{ pages: Array<number> }>();
 	const [sort, setSort] = React.useState<{
 		sort: keyof activityType;
@@ -35,6 +35,7 @@ const NewActivityTable: React.FunctionComponent = () => {
 			order: sort.order,
 			sort: sort.sort,
 		},
+		fetchPolicy: 'cache-and-network',
 	});
 
 	React.useEffect(() => {
@@ -44,6 +45,19 @@ const NewActivityTable: React.FunctionComponent = () => {
 			});
 		}
 	}, [data]);
+
+	function loadNewPage(newPageIndex: number) {
+		console.log(newPageIndex);
+		setPage(newPageIndex);
+		fetchMore({
+			variables: {
+				first: 15,
+				offset: offset * page,
+				order: sort.order,
+				sort: sort.sort,
+			},
+		});
+	}
 
 	//make useState to capture current page, sort, and order (asc / desc)
 
@@ -61,18 +75,8 @@ const NewActivityTable: React.FunctionComponent = () => {
 				<div className="flex justify-center">
 					{page > 1 && (
 						<button
-							onClick={async () => {
-								setPage(page - 1);
-								fetchMore({
-									variables: {
-										input: {
-											first: 15,
-											offset: offset * page,
-											order: sort.order,
-											sort: sort.sort,
-										},
-									},
-								});
+							onClick={() => {
+								loadNewPage(page - 1);
 							}}
 							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
 							Previous
@@ -82,18 +86,8 @@ const NewActivityTable: React.FunctionComponent = () => {
 					{pages.pages.map((el, index) => (
 						<button
 							key={index}
-							onClick={async () => {
-								setPage(el);
-								fetchMore({
-									variables: {
-										input: {
-											first: 15,
-											offset: offset * page,
-											order: sort.order,
-											sort: sort.sort,
-										},
-									},
-								});
+							onClick={() => {
+								loadNewPage(el);
 							}}
 							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
 							{el}
@@ -102,15 +96,7 @@ const NewActivityTable: React.FunctionComponent = () => {
 					{page < data.getActivityPage.count / offset && (
 						<button
 							onClick={async () => {
-								setPage(page + 1);
-								fetchMore({
-									variables: {
-										first: 15,
-										offset: offset * page,
-										order: sort.order,
-										sort: sort.sort,
-									},
-								});
+								loadNewPage(page + 1);
 							}}
 							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
 							Next
