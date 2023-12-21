@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { GQLActivity, GQLActivityPageResponse } from './graphql';
+import { offsetLimitPagination } from '@apollo/client/utilities';
 
 const httpLink = createHttpLink({
 	uri: 'http://localhost:4000/',
@@ -31,8 +32,9 @@ const client = new ApolloClient({
 			Query: {
 				fields: {
 					getActivityPage: {
-						keyArgs: false,
-						merge: true,
+						merge(existing: GQLActivity[] = [], incoming: GQLActivityPageResponse) {
+							return [...existing, ...incoming.activities];
+						},
 					},
 				},
 			},
@@ -40,9 +42,9 @@ const client = new ApolloClient({
 	}),
 });
 
-const notNull = document.getElementById('root');
-if (notNull !== null) {
-	const root = ReactDOM.createRoot(notNull);
+const docRoot = document.getElementById('root');
+if (docRoot !== null) {
+	const root = ReactDOM.createRoot(docRoot);
 	root.render(
 		<React.StrictMode>
 			<BrowserRouter>

@@ -86,6 +86,8 @@ export const activityResolver: GQLResolvers = {
         };
       }
 
+      console.log("retrieving page from database");
+
       return {
         activities: activities,
         count: count,
