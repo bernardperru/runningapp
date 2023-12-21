@@ -18,14 +18,14 @@ const labels: { [key in keyof activityType]: string } = {
 
 const NewActivityTable: React.FunctionComponent = () => {
 	const [offset, setOffset] = React.useState(15);
-	const [page, setPage] = React.useState(1);
+	const [page, setPage] = React.useState(0);
 	const [pages, setPages] = React.useState<{ pages: Array<number> }>();
 	const [sort, setSort] = React.useState<{
 		sort: keyof activityType;
 		order: 'asc' | 'desc';
 	}>({
 		sort: 'start_date',
-		order: 'asc',
+		order: 'desc',
 	});
 
 	const { data, loading, fetchMore } = useGetActivityPageQuery({
@@ -46,13 +46,12 @@ const NewActivityTable: React.FunctionComponent = () => {
 		}
 	}, [data]);
 
-	function loadNewPage(newPageIndex: number) {
-		console.log(newPageIndex);
-		setPage(newPageIndex);
+	function loadNewPage(newPageNumber: number) {
+		setPage(newPageNumber);
 		fetchMore({
 			variables: {
 				first: 15,
-				offset: offset * page,
+				offset: offset * (newPageNumber - 1),
 				order: sort.order,
 				sort: sort.sort,
 			},
@@ -69,7 +68,7 @@ const NewActivityTable: React.FunctionComponent = () => {
 				{' '}
 				<div>
 					{data.getActivityPage.activities.map(activity => (
-						<div>{activity.distance}</div>
+						<div>{activity.start_date}</div>
 					))}
 				</div>
 				<div className="flex justify-center">
@@ -83,16 +82,27 @@ const NewActivityTable: React.FunctionComponent = () => {
 						</button>
 					)}
 					{page === 1 && <button className="h-10 px-5 text-indigo-100  bg-white rounded-l-lg">Previous</button>}
-					{pages.pages.map((el, index) => (
-						<button
-							key={index}
-							onClick={() => {
-								loadNewPage(el);
-							}}
-							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
-							{el}
-						</button>
-					))}
+					{pages.pages.map((el, index) =>
+						page === el ? (
+							<button
+								key={index}
+								onClick={() => {
+									loadNewPage(el);
+								}}
+								className="h-10 px-5 text-indigo-600 transition-colors duration-150 rounded-l-lg focus:shadow-outline bg-indigo-100">
+								{el}
+							</button>
+						) : (
+							<button
+								key={index}
+								onClick={() => {
+									loadNewPage(el);
+								}}
+								className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
+								{el}
+							</button>
+						)
+					)}
 					{page < data.getActivityPage.count / offset && (
 						<button
 							onClick={async () => {
@@ -102,7 +112,7 @@ const NewActivityTable: React.FunctionComponent = () => {
 							Next
 						</button>
 					)}
-					{page === data.getActivityPage.count && (
+					{page === data.getActivityPage.count / offset && (
 						<button className="h-10 px-5 text-indigo-100 bg-white rounded-l-lg">Next</button>
 					)}
 				</div>{' '}
