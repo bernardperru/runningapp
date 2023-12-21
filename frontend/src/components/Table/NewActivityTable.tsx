@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
-import { GQLActivity, useGetActivityPageQuery } from '../../graphql';
+import { GQLActivity, useGetActivityPageQuery, useGetActivityCountQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
 import { NetworkStatus } from '@apollo/client';
 import { off } from 'process';
@@ -28,6 +28,8 @@ const NewActivityTable: React.FunctionComponent = () => {
 		order: 'desc',
 	});
 
+	const { data: data1, loading: loading1 } = useGetActivityCountQuery();
+
 	const { data, loading, fetchMore } = useGetActivityPageQuery({
 		variables: {
 			first: 15,
@@ -36,38 +38,41 @@ const NewActivityTable: React.FunctionComponent = () => {
 			sort: sort.sort,
 		},
 		fetchPolicy: 'cache-and-network',
+		notifyOnNetworkStatusChange: true,
 	});
 
 	React.useEffect(() => {
-		if (data) {
+		if (data1) {
 			setPages({
-				pages: Array.from(Array(data.getActivityPage.count / offset).keys()).map(x => x + 1),
+				pages: Array.from(Array(data1.getActivityCount / offset).keys()).map(x => x + 1),
 			});
 		}
-	}, [data]);
+	}, [data1]);
 
 	function loadNewPage(newPageNumber: number) {
-		setPage(newPageNumber);
 		fetchMore({
 			variables: {
 				first: 15,
-				offset: offset * (newPageNumber - 1),
+				offset: 15 * (newPageNumber - 1),
 				order: sort.order,
 				sort: sort.sort,
 			},
+		}).then(() => {
+			setPage(newPageNumber);
+			setOffset(15 * (newPageNumber - 1));
 		});
 	}
 
-	//make useState to capture current page, sort, and order (asc / desc)
+	if (loading) {
+		return <div>loading...</div>;
+	}
 
-	if (loading) return 'Loading...';
-
-	if (data && pages) {
+	if (data && data1 && pages) {
 		return (
 			<div>
 				{' '}
 				<div>
-					{data.getActivityPage.activities.map(activity => (
+					{data.getActivityPage.map(activity => (
 						<div>{activity.start_date}</div>
 					))}
 				</div>
@@ -103,7 +108,7 @@ const NewActivityTable: React.FunctionComponent = () => {
 							</button>
 						)
 					)}
-					{page < data.getActivityPage.count / offset && (
+					{page < data1.getActivityCount / 15 && (
 						<button
 							onClick={async () => {
 								loadNewPage(page + 1);
@@ -112,7 +117,7 @@ const NewActivityTable: React.FunctionComponent = () => {
 							Next
 						</button>
 					)}
-					{page === data.getActivityPage.count / offset && (
+					{page === data1.getActivityCount / offset && (
 						<button className="h-10 px-5 text-indigo-100 bg-white rounded-l-lg">Next</button>
 					)}
 				</div>{' '}

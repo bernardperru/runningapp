@@ -77,21 +77,14 @@ export const activityResolver: GQLResolvers = {
         orderBy,
       });
 
+      console.log("offset: " + offset);
+
+      return activities;
+    },
+    getActivityCount: async (_, args, context) => {
       const count = await database.activity.count();
 
-      if (activities.length === 0) {
-        return {
-          activities: [],
-          count: 0,
-        };
-      }
-
-      console.log("retrieving page from database");
-
-      return {
-        activities: activities,
-        count: count,
-      };
+      return count;
     },
   },
 };
