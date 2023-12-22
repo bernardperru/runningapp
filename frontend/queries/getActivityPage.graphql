@@ -1,14 +1,18 @@
 query GetActivityPage($first: Int!, $offset: Int!, $sort: String!, $order: String!) {
 	getActivityPage(first: $first, offset: $offset, sort: $sort, order: $order) {
-		id
-		activityId
-		distance
-		elapsed_time
-		start_date
-		summary_polyline
-		average_cadence
-		average_heartrate
-		average_pace
-		zone
+		activities {
+			id
+			activityId
+			distance
+			elapsed_time
+			start_date
+			summary_polyline
+			average_cadence
+			average_heartrate
+			average_pace
+			zone
+		}
+		pages
+		currentPage
 	}
 }

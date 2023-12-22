@@ -32,13 +32,6 @@ export type GQLActivity = {
   zone: Scalars['Int']['output'];
 };
 
-export type GQLActivityPageInput = {
-  first: Scalars['Int']['input'];
-  offset: Scalars['Int']['input'];
-  order: Scalars['String']['input'];
-  sort: Scalars['String']['input'];
-};
-
 export type GQLAuthPayload = {
   __typename: 'AuthPayload';
   hasRefreshToken: Scalars['Boolean']['output'];
@@ -71,11 +64,17 @@ export type GQLMutationSignupArgs = {
   password: Scalars['String']['input'];
 };
 
+export type GQLPaginationResponse = {
+  __typename: 'PaginationResponse';
+  activities: Array<GQLActivity>;
+  currentPage: Scalars['Int']['output'];
+  pages: Scalars['Int']['output'];
+};
+
 export type GQLQuery = {
   __typename: 'Query';
   getActivities: Array<GQLActivity>;
-  getActivityCount: Scalars['Int']['output'];
-  getActivityPage: Array<GQLActivity>;
+  getActivityPage: GQLPaginationResponse;
   getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
   getWeeks: Array<GQLWeek>;
@@ -130,11 +129,6 @@ export type GQLAddRefreshTokenMutationVariables = Exact<{
 
 export type GQLAddRefreshTokenMutation = { __typename: 'Mutation', addRefreshToken?: { __typename: 'AuthPayload', token: string, hasRefreshToken: boolean } | null };
 
-export type GQLGetActivityCountQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GQLGetActivityCountQuery = { __typename: 'Query', getActivityCount: number };
-
 export type GQLGetActivityPageQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   offset: Scalars['Int']['input'];
@@ -143,7 +137,7 @@ export type GQLGetActivityPageQueryVariables = Exact<{
 }>;
 
 
-export type GQLGetActivityPageQuery = { __typename: 'Query', getActivityPage: Array<{ __typename: 'Activity', id: number, activityId: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, average_pace: string, zone: number }> };
+export type GQLGetActivityPageQuery = { __typename: 'Query', getActivityPage: { __typename: 'PaginationResponse', pages: number, currentPage: number, activities: Array<{ __typename: 'Activity', id: number, activityId: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, average_pace: string, zone: number }> } };
 
 export type GQLLoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -255,51 +249,23 @@ export function useAddRefreshTokenMutation(baseOptions?: Apollo.MutationHookOpti
 export type AddRefreshTokenMutationHookResult = ReturnType<typeof useAddRefreshTokenMutation>;
 export type AddRefreshTokenMutationResult = Apollo.MutationResult<GQLAddRefreshTokenMutation>;
 export type AddRefreshTokenMutationOptions = Apollo.BaseMutationOptions<GQLAddRefreshTokenMutation, GQLAddRefreshTokenMutationVariables>;
-export const GetActivityCountDocument = gql`
-    query GetActivityCount {
-  getActivityCount
-}
-    `;
-
-/**
- * __useGetActivityCountQuery__
- *
- * To run a query within a React component, call `useGetActivityCountQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetActivityCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetActivityCountQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetActivityCountQuery(baseOptions?: Apollo.QueryHookOptions<GQLGetActivityCountQuery, GQLGetActivityCountQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GQLGetActivityCountQuery, GQLGetActivityCountQueryVariables>(GetActivityCountDocument, options);
-      }
-export function useGetActivityCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GQLGetActivityCountQuery, GQLGetActivityCountQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GQLGetActivityCountQuery, GQLGetActivityCountQueryVariables>(GetActivityCountDocument, options);
-        }
-export type GetActivityCountQueryHookResult = ReturnType<typeof useGetActivityCountQuery>;
-export type GetActivityCountLazyQueryHookResult = ReturnType<typeof useGetActivityCountLazyQuery>;
-export type GetActivityCountQueryResult = Apollo.QueryResult<GQLGetActivityCountQuery, GQLGetActivityCountQueryVariables>;
 export const GetActivityPageDocument = gql`
     query GetActivityPage($first: Int!, $offset: Int!, $sort: String!, $order: String!) {
   getActivityPage(first: $first, offset: $offset, sort: $sort, order: $order) {
-    id
-    activityId
-    distance
-    elapsed_time
-    start_date
-    summary_polyline
-    average_cadence
-    average_heartrate
-    average_pace
-    zone
+    activities {
+      id
+      activityId
+      distance
+      elapsed_time
+      start_date
+      summary_polyline
+      average_cadence
+      average_heartrate
+      average_pace
+      zone
+    }
+    pages
+    currentPage
   }
 }
     `;

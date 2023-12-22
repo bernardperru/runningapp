@@ -15,8 +15,8 @@ function Navbar() {
 	return (
 		<>
 			{authToken && (
-				<nav className="bg-white dark:bg-gray-800  shadow ">
-					<div className="px-8 mx-auto max-w-7xl">
+				<nav className="bg-white dark:bg-gray-800 w-full shadow flex justify-center">
+					<div className="">
 						<div className="flex items-center justify-between h-16">
 							<div className=" flex items-center">
 								<a className="flex-shrink-0" href="/">

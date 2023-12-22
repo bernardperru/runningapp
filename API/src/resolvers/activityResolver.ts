@@ -71,20 +71,32 @@ export const activityResolver: GQLResolvers = {
     getActivityPage: async (_, { first, offset, order, sort }, context) => {
       const orderBy = { [sort]: order };
 
-      const activities = await database.activity.findMany({
-        skip: offset,
-        take: first,
-        orderBy,
-      });
+      const [activities, count] = await Promise.all([
+        database.activity.findMany({
+          where: {
+            userId: context.auth?.user.id,
+          },
+          skip: offset,
+          take: first,
+          orderBy,
+        }),
+        database.activity.count({
+          where: {
+            userId: context.auth?.user.id,
+          },
+        }),
+      ]);
+
+      const pages = Math.ceil(count / first);
+      const currentPage = offset / first + 1;
 
       console.log("offset: " + offset);
 
-      return activities;
-    },
-    getActivityCount: async (_, args, context) => {
-      const count = await database.activity.count();
-
-      return count;
+      return {
+        activities,
+        pages,
+        currentPage,
+      };
     },
   },
 };

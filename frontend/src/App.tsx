@@ -14,16 +14,18 @@ function App() {
 	return (
 		<div className="">
 			<Navbar />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/redirect/exchange_token" element={<Redirect />} />
-				<Route path="/activities" element={<NewActivityTable />} />
-				<Route path="/weekly" element={<AllWeeksPage />} />
-				<Route path="/weekly/:weekNumber" element={<WeekPage />} />
-				<Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} />
-				<Route path="/charts" element={<ChartPage />} />
-			</Routes>
+			<div>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/login" element={<LoginPage />} />
+					<Route path="/redirect/exchange_token" element={<Redirect />} />
+					<Route path="/activities" element={<NewActivityTable />} />
+					<Route path="/weekly" element={<AllWeeksPage />} />
+					<Route path="/weekly/:weekNumber" element={<WeekPage />} />
+					<Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} />
+					<Route path="/charts" element={<ChartPage />} />
+				</Routes>
+			</div>
 		</div>
 	);
 }

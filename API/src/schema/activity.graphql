@@ -1,5 +1,3 @@
-directive @hasRole(role: String) on FIELD | FIELD_DEFINITION
-
 type Query {
   getActivities: [Activity!]!
   getActivityPage(
@@ -7,15 +5,13 @@ type Query {
     offset: Int!
     sort: String!
     order: String!
-  ): [Activity!]!
-  getActivityCount: Int!
+  ): PaginationResponse! @access
 }
 
-input ActivityPageInput {
-  first: Int!
-  offset: Int!
-  sort: String!
-  order: String!
+type PaginationResponse {
+  pages: Int!
+  currentPage: Int!
+  activities: [Activity!]!
 }
 
 type Activity {

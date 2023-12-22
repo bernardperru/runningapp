@@ -1,10 +1,8 @@
 import React from 'react';
 import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
-import { GQLActivity, useGetActivityPageQuery, useGetActivityCountQuery } from '../../graphql';
+import { useGetActivityPageQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
-import { NetworkStatus } from '@apollo/client';
-import { off } from 'process';
 
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',
@@ -18,9 +16,7 @@ const labels: { [key in keyof activityType]: string } = {
 
 const NewActivityTable: React.FunctionComponent = () => {
 	const [offset, setOffset] = React.useState(0);
-	const [first, setFirst] = React.useState(15);
-	const [page, setPage] = React.useState(1);
-	const [pages, setPages] = React.useState<{ pages: Array<number> }>();
+	const first = 15;
 	const [sort, setSort] = React.useState<{
 		sort: keyof activityType;
 		order: 'asc' | 'desc';
@@ -29,97 +25,99 @@ const NewActivityTable: React.FunctionComponent = () => {
 		order: 'desc',
 	});
 
-	const { data: data1, loading: loading1 } = useGetActivityCountQuery();
-
-	const { data, loading, fetchMore } = useGetActivityPageQuery({
+	const { data } = useGetActivityPageQuery({
 		variables: {
-			first: first,
-			offset: offset,
+			first,
+			offset,
 			order: sort.order,
 			sort: sort.sort,
 		},
-		fetchPolicy: 'cache-first',
-		notifyOnNetworkStatusChange: true,
 	});
 
-	React.useEffect(() => {
-		if (data1) {
-			setPages({
-				pages: Array.from(Array(data1.getActivityCount / first).keys()).map(x => x + 1),
-			});
-		}
-	}, [data1]);
+	const pages = Array.from({ length: data?.getActivityPage.pages || 0 }, (_, x) => x + 1);
 
 	function loadNewPage(newPageNumber: number) {
 		setOffset(first * (newPageNumber - 1));
-		fetchMore({
-			variables: {
-				first: first,
-				offset: offset,
-				order: sort.order,
-				sort: sort.sort,
-			},
-		});
-		setPage(newPageNumber);
 	}
+
+	function handleHeaderClick(key: keyof activityType) {
+		setSort({
+			sort: key,
+			order: key === sort.sort ? (sort.order === 'asc' ? 'desc' : 'asc') : 'desc',
+		});
+	}
+
+	if (!data) {
+		return <></>;
+	}
+
+	const keys = (Object.keys(data.getActivityPage.activities[0]) as (keyof activityType)[]).filter(key => {
+		return labels[key];
+	});
 
 	return (
 		<div>
-			{' '}
-			{data && (
-				<div>
-					{data.getActivityPage.map(activity => (
-						<div>{activity.start_date}</div>
+			<table className=" bg-white m-auto">
+				<thead className="bg-grey-300">
+					<tr className="">
+						{keys.map((key, index) => (
+							<th
+								key={index}
+								className=" border-2 border-grey-500 p-4 font-normal text-gray-900 hover:bg-sky-400"
+								onClick={() => handleHeaderClick(key)}>
+								<div className="flex">
+									<span>{labels[key]}</span>
+									{sort.sort === key ? (
+										sort.order === 'asc' ? (
+											<BsFillCaretUpFill />
+										) : (
+											<BsFillCaretDownFill />
+										)
+									) : (
+										<div className="px-2"></div>
+									)}
+								</div>
+							</th>
+						))}
+					</tr>
+				</thead>
+				<tbody className="h-5">
+					{data.getActivityPage.activities.map(activity => (
+						<tr key={activity.id}>
+							{keys.map((key, index) => (
+								<td key={index} className="border p-4 text-gray-900">
+									<div>{format(key, activity[key])}</div>
+									{''}
+								</td>
+							))}
+						</tr>
 					))}
-				</div>
-			)}
-			{pages && data1 && (
-				<div className="flex justify-center fixed">
-					{page > 1 && (
+				</tbody>
+			</table>
+
+			<div className="flex justify-center fixed">
+				{pages.map((el, index) =>
+					data.getActivityPage.currentPage === el ? (
 						<button
+							key={index}
 							onClick={() => {
-								loadNewPage(page - 1);
+								loadNewPage(el);
 							}}
-							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
-							Previous
+							className="h-10 px-5 text-indigo-600 transition-colors duration-150 rounded-l-lg focus:shadow-outline bg-indigo-100">
+							{el}
 						</button>
-					)}
-					{page === 1 && <button className="h-10 px-5 text-indigo-100  bg-white rounded-l-lg">Previous</button>}
-					{pages.pages.map((el, index) =>
-						page === el ? (
-							<button
-								key={index}
-								onClick={() => {
-									loadNewPage(el);
-								}}
-								className="h-10 px-5 text-indigo-600 transition-colors duration-150 rounded-l-lg focus:shadow-outline bg-indigo-100">
-								{el}
-							</button>
-						) : (
-							<button
-								key={index}
-								onClick={() => {
-									loadNewPage(el);
-								}}
-								className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
-								{el}
-							</button>
-						)
-					)}
-					{page < data1.getActivityCount / 15 && (
+					) : (
 						<button
-							onClick={async () => {
-								loadNewPage(page + 1);
+							key={index}
+							onClick={() => {
+								loadNewPage(el);
 							}}
 							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
-							Next
+							{el}
 						</button>
-					)}
-					{page === data1.getActivityCount / offset && (
-						<button className="h-10 px-5 text-indigo-100 bg-white rounded-l-lg">Next</button>
-					)}
-				</div>
-			)}
+					)
+				)}
+			</div>
 		</div>
 	);
 };

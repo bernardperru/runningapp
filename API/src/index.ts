@@ -6,11 +6,14 @@ import typeDefs from "./typeDefs.js";
 import { decodeAuthHeader } from "./utils/auth.js";
 import { MyContext } from "./context.js";
 import { StravaAPI } from "./StravaAPI.js";
+import { attachDirectives } from "./directives/index.js";
 
-const schema = makeExecutableSchema({
-  typeDefs: typeDefs,
-  resolvers: resolvers,
-});
+const schema = attachDirectives(
+  makeExecutableSchema({
+    typeDefs: typeDefs,
+    resolvers: resolvers,
+  })
+);
 
 const server = new ApolloServer<MyContext>({ schema, introspection: true });
 
