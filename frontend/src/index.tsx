@@ -32,6 +32,7 @@ const client = new ApolloClient({
 			Query: {
 				fields: {
 					getActivityPage: {
+						keyArgs: ['offset', 'order', 'sort'],
 						merge(existing: any[], incoming: any[], { args }) {
 							const merged = existing ? existing.slice(0) : [];
 							// Insert the incoming elements in the right places, according to args.

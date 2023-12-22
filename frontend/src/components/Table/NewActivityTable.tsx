@@ -17,8 +17,9 @@ const labels: { [key in keyof activityType]: string } = {
 };
 
 const NewActivityTable: React.FunctionComponent = () => {
-	const [offset, setOffset] = React.useState(15);
-	const [page, setPage] = React.useState(0);
+	const [offset, setOffset] = React.useState(0);
+	const [first, setFirst] = React.useState(15);
+	const [page, setPage] = React.useState(1);
 	const [pages, setPages] = React.useState<{ pages: Array<number> }>();
 	const [sort, setSort] = React.useState<{
 		sort: keyof activityType;
@@ -32,51 +33,48 @@ const NewActivityTable: React.FunctionComponent = () => {
 
 	const { data, loading, fetchMore } = useGetActivityPageQuery({
 		variables: {
-			first: 15,
+			first: first,
 			offset: offset,
 			order: sort.order,
 			sort: sort.sort,
 		},
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'cache-first',
 		notifyOnNetworkStatusChange: true,
 	});
 
 	React.useEffect(() => {
 		if (data1) {
 			setPages({
-				pages: Array.from(Array(data1.getActivityCount / offset).keys()).map(x => x + 1),
+				pages: Array.from(Array(data1.getActivityCount / first).keys()).map(x => x + 1),
 			});
 		}
 	}, [data1]);
 
 	function loadNewPage(newPageNumber: number) {
+		setOffset(first * (newPageNumber - 1));
 		fetchMore({
 			variables: {
-				first: 15,
-				offset: 15 * (newPageNumber - 1),
+				first: first,
+				offset: offset,
 				order: sort.order,
 				sort: sort.sort,
 			},
-		}).then(() => {
-			setPage(newPageNumber);
-			setOffset(15 * (newPageNumber - 1));
 		});
+		setPage(newPageNumber);
 	}
 
-	if (loading) {
-		return <div>loading...</div>;
-	}
-
-	if (data && data1 && pages) {
-		return (
-			<div>
-				{' '}
+	return (
+		<div>
+			{' '}
+			{data && (
 				<div>
 					{data.getActivityPage.map(activity => (
 						<div>{activity.start_date}</div>
 					))}
 				</div>
-				<div className="flex justify-center">
+			)}
+			{pages && data1 && (
+				<div className="flex justify-center fixed">
 					{page > 1 && (
 						<button
 							onClick={() => {
@@ -120,10 +118,10 @@ const NewActivityTable: React.FunctionComponent = () => {
 					{page === data1.getActivityCount / offset && (
 						<button className="h-10 px-5 text-indigo-100 bg-white rounded-l-lg">Next</button>
 					)}
-				</div>{' '}
-			</div>
-		);
-	}
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default NewActivityTable;
