@@ -1,7 +1,7 @@
 type Query {
-  getUserInfo: User!
-  getDistanceSum: Float!
-  getYears: [Year]!
+  getUserInfo: User! @access
+  getDistanceSum: Float! @access
+  getYears: [Year]! @access
 }
 
 type User {

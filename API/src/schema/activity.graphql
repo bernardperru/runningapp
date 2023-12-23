@@ -1,5 +1,5 @@
 type Query {
-  getActivities: [Activity!]!
+  getActivities: [Activity!]! @access
   getActivityPage(
     first: Int!
     offset: Int!

@@ -1,5 +1,5 @@
 type Query {
-  getWeeks: [Week!]!
+  getWeeks: [Week!]! @access
 }
 
 type Week {
