@@ -64,7 +64,11 @@ export const activityResolver: GQLResolvers = {
       );
 
       //need to use filter for findMany
-      const result = await database.activity.findMany();
+      const result = await database.activity.findMany({
+        where: {
+          userId: context.auth.user.id,
+        },
+      });
 
       return result;
     },
@@ -89,8 +93,6 @@ export const activityResolver: GQLResolvers = {
 
       const pages = Math.ceil(count / first);
       const currentPage = offset / first + 1;
-
-      console.log("offset: " + offset);
 
       return {
         activities,

@@ -27,6 +27,7 @@ export const weekResolver: GQLResolvers = {
       const activites = await database.activity.findMany({
         where: {
           weekId: null,
+          userId: context.auth.user.id,
         },
       });
 
@@ -40,7 +41,7 @@ export const weekResolver: GQLResolvers = {
               activity.userId.toString()
           );
           await database.week.upsert({
-            where: { id: weekId },
+            where: { id: weekId, userId: context.auth?.user.id },
             update: {
               activities: {
                 connect: { activityId: activity.activityId },
