@@ -1,6 +1,9 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useApolloClient } from '@apollo/client';
 
+const activeLink = 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium';
+const inactiveLink = 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium';
+
 function Navbar() {
 	const navigate = useNavigate();
 	const client = useApolloClient();
@@ -24,50 +27,27 @@ function Navbar() {
 								</a>
 								<div className="hidden md:block">
 									<div className="flex items-baseline ml-10 space-x-4">
-										<NavLink
-											to=""
-											className={({ isActive }) =>
-												isActive
-													? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
-													: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
-											}>
+										<NavLink to="" className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
 											Home
 										</NavLink>
 
-										<NavLink
-											to="/activities"
-											className={({ isActive }) =>
-												isActive
-													? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
-													: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
-											}>
+										<NavLink to="/activities" className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
 											{' '}
 											Activities
 										</NavLink>
 
-										<NavLink
-											to="/weekly"
-											className={({ isActive }) =>
-												isActive
-													? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
-													: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
-											}>
+										<NavLink to="/weekly" className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
 											{' '}
 											Weekly
 										</NavLink>
-										<NavLink
-											to="/charts"
-											className={({ isActive }) =>
-												isActive
-													? 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium'
-													: 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium'
-											}>
+										<NavLink to="/charts" className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
 											{' '}
 											Charts
 										</NavLink>
-
 										<div>
-											<button className={'text-gray-500 hover:text-blue-800'} onClick={() => handleLogOut()}>
+											<button
+												className={'text-gray-500 hover:text-blue-800 hover:bg-blue-300'}
+												onClick={() => handleLogOut()}>
 												Logout
 											</button>
 										</div>

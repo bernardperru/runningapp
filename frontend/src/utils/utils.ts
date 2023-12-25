@@ -1,30 +1,3 @@
-import { GQLActivity } from '../graphql';
-
-//returns an array of week numbers - Used to iterate
-export function getWeeks(activities: GQLActivity[]) {
-	const activitiesWithWeek = activities.map(activity => {
-		const currentDate = new Date(activity['start_date']);
-		const startDate = new Date(currentDate.getFullYear(), 0, 1);
-
-		const days = Math.floor((currentDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
-
-		const weekNumber = Math.ceil(days / 7);
-
-		return weekNumber;
-	});
-
-	let uniqueWeeks: number[] = [];
-
-	activitiesWithWeek.forEach(x => {
-		if (!uniqueWeeks.includes(x)) {
-			uniqueWeeks.push(x);
-		}
-	});
-
-	return uniqueWeeks;
-}
-
-//Averages ou
 export function averageOrSum(value: number, denominator: number, type: string): number {
 	if (type === 'avg') {
 		return value / denominator;

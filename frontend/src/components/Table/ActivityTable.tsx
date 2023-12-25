@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
-import { GQLActivity, useGetActivitiesQuery } from '../../graphql';
+import { useGetActivityPageQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
 
 const labels: { [key in keyof activityType]: string } = {
@@ -14,148 +14,113 @@ const labels: { [key in keyof activityType]: string } = {
 	average_pace: 'Avg. Pace',
 };
 
-const calculateRange = (data: GQLActivity[], rowsPerPage: number) => {
-	const range = [];
-	const num = Math.ceil(data.length / rowsPerPage);
-	let i = 1;
-	for (let i = 1; i <= num; i++) {
-		range.push(i);
-	}
-	return range;
-};
-
-const sliceData = (data: GQLActivity[], page: number, rowsPerPage: number) => {
-	return data.slice((page - 1) * rowsPerPage, page * rowsPerPage);
-};
-
 const ActivityTable: React.FunctionComponent = () => {
-	const { data, loading, error } = useGetActivitiesQuery();
-	const [page, setPage] = React.useState<number>(1);
-	const [tableRange, setTableRange] = React.useState<number[]>([]);
-	const [slice, setSlice] = React.useState<GQLActivity[]>([]);
-	let activities = data ? data.getActivities : [];
-
+	const [offset, setOffset] = React.useState(0);
+	const first = 15;
 	const [sort, setSort] = React.useState<{
-		keyToSort: keyof activityType;
-		direction: 'asc' | 'desc';
+		sort: keyof activityType;
+		order: 'asc' | 'desc';
 	}>({
-		keyToSort: 'start_date',
-		direction: 'asc',
+		sort: 'start_date',
+		order: 'desc',
 	});
 
-	React.useEffect(() => {
-		const range = calculateRange(activities, 10);
-		setTableRange([...range]);
+	const { data } = useGetActivityPageQuery({
+		variables: {
+			first,
+			offset,
+			order: sort.order,
+			sort: sort.sort,
+		},
+	});
 
-		const slice = sliceData(activities, page, 10);
-		setSlice([...slice]);
-	}, [data, sort, setTableRange, page, setSlice]);
+	//creates an array containing [1, 2, 3, 4, 5] to represent the different pages
+	const pages = Array.from({ length: data?.getActivityPage.pages || 0 }, (_, x) => x + 1);
 
-	React.useEffect(() => {
-		if (slice.length < 1 && page !== 1) {
-			setPage(page - 1);
-		}
-	}, [slice, page, setPage]);
+	function loadNewPage(newPageNumber: number) {
+		setOffset(first * (newPageNumber - 1));
+	}
 
 	function handleHeaderClick(key: keyof activityType) {
 		setSort({
-			keyToSort: key,
-			direction: key === sort.keyToSort ? (sort.direction === 'asc' ? 'desc' : 'asc') : 'desc',
+			sort: key,
+			order: key === sort.sort ? (sort.order === 'asc' ? 'desc' : 'asc') : 'desc',
 		});
 	}
 
-	function getSortedArray() {
-		const sortedData = [...activities];
-		if (sort.direction === 'asc') {
-			activities = sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? -1 : 1));
-			return slice;
-		}
-		activities = sortedData.sort((a, b) => (a[sort.keyToSort] > b[sort.keyToSort] ? 1 : -1));
-		return slice;
+	if (!data) {
+		return <></>;
 	}
 
-	if (loading) {
-		return <div>Loading...</div>;
-	}
+	const keys = (Object.keys(data.getActivityPage.activities[0]) as (keyof activityType)[]).filter(key => {
+		return labels[key];
+	});
 
-	if (error) {
-		return <div>Error</div>;
-	}
-
-	if (data) {
-		const keys = (Object.keys(data.getActivities[0]) as (keyof activityType)[]).filter(key => {
-			return labels[key];
-		});
-		return (
-			<div className="fixed inset-x-1/4 inset-y-20 overflow-auto box-content max-h-screen w-fit">
-				<table className=" bg-white m-auto">
-					<thead className="bg-grey-300">
-						<tr className="">
-							{keys.map((key, index) => (
-								<th
-									key={index}
-									className=" border-2 border-grey-500 p-4 font-normal text-gray-900 hover:bg-sky-400"
-									onClick={() => handleHeaderClick(key)}>
-									<div className="flex">
-										<span>{labels[key]}</span>
-										{sort.keyToSort === key ? (
-											sort.direction === 'asc' ? (
-												<BsFillCaretUpFill />
-											) : (
-												<BsFillCaretDownFill />
-											)
+	return (
+		<div>
+			<table className=" bg-white m-auto">
+				<thead className="bg-grey-300">
+					<tr className="">
+						{keys.map((key, index) => (
+							<th
+								key={index}
+								className=" border-2 border-grey-500 p-4 font-normal text-gray-900 hover:bg-sky-400"
+								onClick={() => handleHeaderClick(key)}>
+								<div className="flex">
+									<span>{labels[key]}</span>
+									{sort.sort === key ? (
+										sort.order === 'asc' ? (
+											<BsFillCaretUpFill />
 										) : (
-											<div className="px-2"></div>
-										)}
-									</div>
-								</th>
+											<BsFillCaretDownFill />
+										)
+									) : (
+										<div className="px-2"></div>
+									)}
+								</div>
+							</th>
+						))}
+					</tr>
+				</thead>
+				<tbody className="h-5">
+					{data.getActivityPage.activities.map(activity => (
+						<tr key={activity.id}>
+							{keys.map((key, index) => (
+								<td key={index} className="border p-4 text-gray-900">
+									<div>{format(key, activity[key])}</div>
+									{''}
+								</td>
 							))}
 						</tr>
-					</thead>
-					<tbody className="h-5">
-						{getSortedArray().map(activity => (
-							<tr key={activity.id}>
-								{keys.map((key, index) => (
-									<td key={index} className="border p-4 text-gray-900">
-										<div>{format(key, activity[key])}</div>
-										{''}
-									</td>
-								))}
-							</tr>
-						))}
-					</tbody>
-				</table>
-				<div className="flex justify-center">
-					{page > 1 && (
-						<button
-							onClick={() => setPage(page - 1)}
-							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
-							Previous
-						</button>
-					)}
-					{page === 1 && <button className="h-10 px-5 text-indigo-100  bg-white rounded-l-lg">Previous</button>}
-					{tableRange.map((el, index) => (
+					))}
+				</tbody>
+			</table>
+
+			<div className="flex justify-center fixed">
+				{pages.map((el, index) =>
+					data.getActivityPage.currentPage === el ? (
 						<button
 							key={index}
-							onClick={() => setPage(el)}
+							onClick={() => {
+								loadNewPage(el);
+							}}
+							className="h-10 px-5 text-indigo-600 transition-colors duration-150 rounded-l-lg focus:shadow-outline bg-indigo-100">
+							{el}
+						</button>
+					) : (
+						<button
+							key={index}
+							onClick={() => {
+								loadNewPage(el);
+							}}
 							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
 							{el}
 						</button>
-					))}
-					{page < tableRange.length && (
-						<button
-							onClick={() => setPage(page + 1)}
-							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
-							Next
-						</button>
-					)}
-					{page === tableRange.length && (
-						<button className="h-10 px-5 text-indigo-100 bg-white rounded-l-lg">Next</button>
-					)}
-				</div>{' '}
+					)
+				)}
 			</div>
-		);
-	}
+		</div>
+	);
 };
 
 export default ActivityTable;
