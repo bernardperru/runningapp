@@ -18,16 +18,16 @@ interface weekActivities {
 
 export const weekResolver: GQLResolvers = {
   Query: {
-    getWeeks: async (_, args, context) => {
-      if (!context.auth) {
-        throw new Error("No strava refresh token assigned to User:)");
+    getWeeks: async (_, args, { auth }) => {
+      if (!auth) {
+        throw new Error("User not found");
       }
 
       //Fetch activities with no week relation
       const activites = await database.activity.findMany({
         where: {
           weekId: null,
-          userId: context.auth.user.id,
+          userId: auth.user.id,
         },
       });
 
@@ -41,7 +41,7 @@ export const weekResolver: GQLResolvers = {
               activity.userId.toString()
           );
           await database.week.upsert({
-            where: { id: weekId, userId: context.auth?.user.id },
+            where: { id: weekId, userId: auth.user.id },
             update: {
               activities: {
                 connect: { activityId: activity.activityId },
@@ -64,7 +64,7 @@ export const weekResolver: GQLResolvers = {
               },
               user: {
                 connect: {
-                  id: context.auth?.user.id,
+                  id: auth.user.id,
                 },
               },
             },
@@ -74,7 +74,7 @@ export const weekResolver: GQLResolvers = {
 
       //need a conditional
       const result = await database.week.findMany({
-        where: { userId: context.auth.user.id },
+        where: { userId: auth.user.id },
         include: { activities: true },
       });
 

@@ -96,7 +96,7 @@ const ActivityTable: React.FunctionComponent = () => {
 				</tbody>
 			</table>
 
-			<div className="flex justify-center fixed">
+			<div className="flex justify-center">
 				{pages.map((el, index) =>
 					data.getActivityPage.currentPage === el ? (
 						<button
