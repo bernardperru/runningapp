@@ -64,20 +64,28 @@ export type GQLMutationSignupArgs = {
   password: Scalars['String']['input'];
 };
 
-export type GQLPaginationResponse = {
-  __typename: 'PaginationResponse';
+export type GQLPaginationActivityResponse = {
+  __typename: 'PaginationActivityResponse';
   activities: Array<GQLActivity>;
   currentPage: Scalars['Int']['output'];
   pages: Scalars['Int']['output'];
 };
 
+export type GQLPaginationWeekResponse = {
+  __typename: 'PaginationWeekResponse';
+  currentPage: Scalars['Int']['output'];
+  pages: Scalars['Int']['output'];
+  weeks: Array<GQLWeek>;
+};
+
 export type GQLQuery = {
   __typename: 'Query';
   getActivities: Array<GQLActivity>;
-  getActivityPage: GQLPaginationResponse;
+  getActivityPage: GQLPaginationActivityResponse;
   getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
   getWeeks: Array<GQLWeek>;
+  getWeeksPage: GQLPaginationWeekResponse;
   getYears: Array<Maybe<GQLYear>>;
 };
 
@@ -87,6 +95,12 @@ export type GQLQueryGetActivityPageArgs = {
   offset: Scalars['Int']['input'];
   order: Scalars['String']['input'];
   sort: Scalars['String']['input'];
+};
+
+
+export type GQLQueryGetWeeksPageArgs = {
+  first: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
 };
 
 export type GQLUser = {
@@ -137,7 +151,7 @@ export type GQLGetActivityPageQueryVariables = Exact<{
 }>;
 
 
-export type GQLGetActivityPageQuery = { __typename: 'Query', getActivityPage: { __typename: 'PaginationResponse', pages: number, currentPage: number, activities: Array<{ __typename: 'Activity', id: number, activityId: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, average_pace: string, zone: number }> } };
+export type GQLGetActivityPageQuery = { __typename: 'Query', getActivityPage: { __typename: 'PaginationActivityResponse', pages: number, currentPage: number, activities: Array<{ __typename: 'Activity', id: number, activityId: number, distance: number, elapsed_time: number, start_date: string, summary_polyline: string, average_cadence: number, average_heartrate: number, average_pace: string, zone: number }> } };
 
 export type GQLLoginMutationVariables = Exact<{
   email: Scalars['String']['input'];

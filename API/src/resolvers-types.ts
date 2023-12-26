@@ -64,20 +64,28 @@ export type GQLMutationSignupArgs = {
   password: Scalars['String']['input'];
 };
 
-export type GQLPaginationResponse = {
-  __typename?: 'PaginationResponse';
+export type GQLPaginationActivityResponse = {
+  __typename?: 'PaginationActivityResponse';
   activities: Array<GQLActivity>;
   currentPage: Scalars['Int']['output'];
   pages: Scalars['Int']['output'];
 };
 
+export type GQLPaginationWeekResponse = {
+  __typename?: 'PaginationWeekResponse';
+  currentPage: Scalars['Int']['output'];
+  pages: Scalars['Int']['output'];
+  weeks: Array<GQLWeek>;
+};
+
 export type GQLQuery = {
   __typename?: 'Query';
   getActivities: Array<GQLActivity>;
-  getActivityPage: GQLPaginationResponse;
+  getActivityPage: GQLPaginationActivityResponse;
   getDistanceSum: Scalars['Float']['output'];
   getUserInfo: GQLUser;
   getWeeks: Array<GQLWeek>;
+  getWeeksPage: GQLPaginationWeekResponse;
   getYears: Array<Maybe<GQLYear>>;
 };
 
@@ -87,6 +95,12 @@ export type GQLQueryGetActivityPageArgs = {
   offset: Scalars['Int']['input'];
   order: Scalars['String']['input'];
   sort: Scalars['String']['input'];
+};
+
+
+export type GQLQueryGetWeeksPageArgs = {
+  first: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
 };
 
 export type GQLUser = {
@@ -195,7 +209,8 @@ export type GQLResolversTypes = ResolversObject<{
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
-  PaginationResponse: ResolverTypeWrapper<GQLPaginationResponse>;
+  PaginationActivityResponse: ResolverTypeWrapper<GQLPaginationActivityResponse>;
+  PaginationWeekResponse: ResolverTypeWrapper<GQLPaginationWeekResponse>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<GQLUser>;
@@ -211,7 +226,8 @@ export type GQLResolversParentTypes = ResolversObject<{
   Float: Scalars['Float']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
-  PaginationResponse: GQLPaginationResponse;
+  PaginationActivityResponse: GQLPaginationActivityResponse;
+  PaginationWeekResponse: GQLPaginationWeekResponse;
   Query: {};
   String: Scalars['String']['output'];
   User: GQLUser;
@@ -251,19 +267,27 @@ export type GQLMutationResolvers<ContextType = MyContext, ParentType extends GQL
   signup?: Resolver<Maybe<GQLResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<GQLMutationSignupArgs, 'email' | 'name' | 'password'>>;
 }>;
 
-export type GQLPaginationResponseResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['PaginationResponse'] = GQLResolversParentTypes['PaginationResponse']> = ResolversObject<{
+export type GQLPaginationActivityResponseResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['PaginationActivityResponse'] = GQLResolversParentTypes['PaginationActivityResponse']> = ResolversObject<{
   activities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
   currentPage?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   pages?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type GQLPaginationWeekResponseResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['PaginationWeekResponse'] = GQLResolversParentTypes['PaginationWeekResponse']> = ResolversObject<{
+  currentPage?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  pages?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>;
+  weeks?: Resolver<Array<GQLResolversTypes['Week']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type GQLQueryResolvers<ContextType = MyContext, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   getActivities?: Resolver<Array<GQLResolversTypes['Activity']>, ParentType, ContextType>;
-  getActivityPage?: Resolver<GQLResolversTypes['PaginationResponse'], ParentType, ContextType, RequireFields<GQLQueryGetActivityPageArgs, 'first' | 'offset' | 'order' | 'sort'>>;
+  getActivityPage?: Resolver<GQLResolversTypes['PaginationActivityResponse'], ParentType, ContextType, RequireFields<GQLQueryGetActivityPageArgs, 'first' | 'offset' | 'order' | 'sort'>>;
   getDistanceSum?: Resolver<GQLResolversTypes['Float'], ParentType, ContextType>;
   getUserInfo?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>;
   getWeeks?: Resolver<Array<GQLResolversTypes['Week']>, ParentType, ContextType>;
+  getWeeksPage?: Resolver<GQLResolversTypes['PaginationWeekResponse'], ParentType, ContextType, RequireFields<GQLQueryGetWeeksPageArgs, 'first' | 'offset'>>;
   getYears?: Resolver<Array<Maybe<GQLResolversTypes['Year']>>, ParentType, ContextType>;
 }>;
 
@@ -299,7 +323,8 @@ export type GQLResolvers<ContextType = MyContext> = ResolversObject<{
   Activity?: GQLActivityResolvers<ContextType>;
   AuthPayload?: GQLAuthPayloadResolvers<ContextType>;
   Mutation?: GQLMutationResolvers<ContextType>;
-  PaginationResponse?: GQLPaginationResponseResolvers<ContextType>;
+  PaginationActivityResponse?: GQLPaginationActivityResponseResolvers<ContextType>;
+  PaginationWeekResponse?: GQLPaginationWeekResponseResolvers<ContextType>;
   Query?: GQLQueryResolvers<ContextType>;
   User?: GQLUserResolvers<ContextType>;
   Week?: GQLWeekResolvers<ContextType>;

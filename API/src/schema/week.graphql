@@ -1,5 +1,12 @@
 type Query {
   getWeeks: [Week!]! @access
+  getWeeksPage(first: Int!, offset: Int!): PaginationWeekResponse!
+}
+
+type PaginationWeekResponse {
+  pages: Int!
+  currentPage: Int!
+  weeks: [Week!]!
 }
 
 type Week {

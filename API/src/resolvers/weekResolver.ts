@@ -72,13 +72,40 @@ export const weekResolver: GQLResolvers = {
         })
       );
 
-      //need a conditional
       const result = await database.week.findMany({
         where: { userId: auth.user.id },
         include: { activities: true },
       });
 
       return result;
+    },
+    getWeeksPage: async (_, { first, offset }, { auth }) => {
+      const [weeks, count] = await Promise.all([
+        database.week.findMany({
+          where: {
+            userId: auth?.user.id,
+          },
+          skip: offset,
+          take: first,
+          include: {
+            activities: true,
+          },
+        }),
+        database.week.count({
+          where: {
+            userId: auth?.user.id,
+          },
+        }),
+      ]);
+
+      const pages = Math.ceil(count / first);
+      const currentPage = offset / first + 1;
+
+      return {
+        weeks,
+        pages,
+        currentPage,
+      };
     },
   },
 };

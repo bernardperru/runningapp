@@ -5,10 +5,10 @@ type Query {
     offset: Int!
     sort: String!
     order: String!
-  ): PaginationResponse! @access
+  ): PaginationActivityResponse! @access
 }
 
-type PaginationResponse {
+type PaginationActivityResponse {
   pages: Int!
   currentPage: Int!
   activities: [Activity!]!
