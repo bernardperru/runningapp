@@ -1,6 +1,7 @@
 type Query {
   getWeeks: [Week!]! @access
   getWeeksPage(first: Int!, offset: Int!): PaginationWeekResponse!
+  getWeekActivities(year: Int!, week: Int!): [Activity!]!
 }
 
 type PaginationWeekResponse {
