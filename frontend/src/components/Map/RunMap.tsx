@@ -6,6 +6,7 @@ import polyline from '@mapbox/polyline';
 import { useParams } from 'react-router-dom';
 import { useGetActivitiesQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
+
 type label = {
 	label: string;
 	type: 'avg' | 'sum' | 'none';

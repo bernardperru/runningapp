@@ -3,6 +3,8 @@ dist
 /.pnp
 .pnp.js
 
+resolvers-types.ts
+
 dist
 # testing
 /coverage
