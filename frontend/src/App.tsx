@@ -20,8 +20,8 @@ function App() {
 					<Route path="/redirect/exchange_token" element={<Redirect />} />
 					<Route path="/activities" element={<ActivityTable />} />
 					<Route path="/weekly" element={<AllWeeksPage />} />
-					<Route path="/weekly/:weekNumber" element={<WeekPage />} />
-					<Route path="/weekly/:weekNumber/:activityId" element={<RunMap />} />
+					<Route path="/weekly/:yearNumber/:weekNumber" element={<WeekPage />} />
+					<Route path="/weekly/:yearNumber/:weekNumber/:activityId" element={<RunMap />} />
 					<Route path="/charts" element={<ChartPage />} />
 				</Routes>
 			</div>

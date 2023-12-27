@@ -50,6 +50,7 @@ export const weekResolver: GQLResolvers = {
               distance: { increment: activity.distance },
               time: { increment: activity.elapsed_time },
               heartrate: { increment: activity.average_heartrate },
+              activityCount: { increment: 1 },
             },
             create: {
               id: weekId,
@@ -59,6 +60,7 @@ export const weekResolver: GQLResolvers = {
               time: activity.elapsed_time,
               week: getWeek(activity.start_date),
               year: getYear(activity.start_date),
+              activityCount: 1,
               activities: {
                 connect: { activityId: activity.activityId },
               },
@@ -87,9 +89,6 @@ export const weekResolver: GQLResolvers = {
           },
           skip: offset,
           take: first,
-          include: {
-            activities: true,
-          },
         }),
         database.week.count({
           where: {
@@ -106,6 +105,24 @@ export const weekResolver: GQLResolvers = {
         pages,
         currentPage,
       };
+    },
+    getWeekActivities: async (_, { year, week }, { auth }) => {
+      const activities = await database.week.findUnique({
+        where: {
+          id: parseInt(
+            year.toString() + week.toString() + auth?.user.id.toString()
+          ),
+        },
+        include: {
+          activities: true,
+        },
+      });
+
+      if (!activities) {
+        return [];
+      }
+
+      return activities.activities;
     },
   },
 };

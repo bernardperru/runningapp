@@ -17,3 +17,34 @@ query getWeeks {
 		}
 	}
 }
+
+query GetWeekActivities($year: Int!, $week: Int!) {
+	getWeekActivities(year: $year, week: $week) {
+		id
+		activityId
+		distance
+		elapsed_time
+		start_date
+		summary_polyline
+		average_cadence
+		average_heartrate
+		average_pace
+		zone
+	}
+}
+
+query GetWeeksPage($first: Int!, $offset: Int!) {
+	getWeeksPage(first: $first, offset: $offset) {
+		currentPage
+		pages
+		weeks {
+			week
+			year
+			distance
+			heartrate
+			time
+			cadence
+			activityCount
+		}
+	}
+}

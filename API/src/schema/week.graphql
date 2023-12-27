@@ -17,5 +17,6 @@ type Week {
   heartrate: Int!
   time: Float!
   cadence: Int!
-  activities: [Activity!]!
+  activities: [Activity!]
+  activityCount: Int!
 }
