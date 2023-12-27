@@ -3,7 +3,7 @@ dist
 /.pnp
 .pnp.js
 
-/src/resolvers-types.ts
+API/src/resolvers-types.ts
 
 dist
 # testing
