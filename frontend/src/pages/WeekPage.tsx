@@ -2,10 +2,11 @@ import React from 'react';
 import ActivityCard from '../components/Cards/ActivityCard';
 import { Link, useParams } from 'react-router-dom';
 import { useGetWeekActivitiesQuery } from '../graphql';
+import { usePagination } from '../hooks/usePagination';
 
 const WeekPage: React.FunctionComponent = () => {
 	const { yearNumber, weekNumber } = useParams();
-
+	const { paginationData, Pagination } = usePagination(12);
 	const { data } = useGetWeekActivitiesQuery({
 		variables: {
 			week: weekNumber ? parseInt(weekNumber) : 0,

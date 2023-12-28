@@ -2,12 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import WeekCard from '../components/Cards/WeekCard';
 import { useGetWeeksPageQuery } from '../graphql';
+import { usePagination } from '../hooks/usePagination';
 
 const AllWeeksPage: React.FunctionComponent = () => {
+	const { paginationData, Pagination } = usePagination(12);
+
 	const { data } = useGetWeeksPageQuery({
 		variables: {
-			first: 12,
-			offset: 0,
+			first: paginationData.first,
+			offset: paginationData.offset,
 		},
 	});
 
@@ -16,12 +19,17 @@ const AllWeeksPage: React.FunctionComponent = () => {
 	}
 
 	return (
-		<div className="grid grid-cols-4 gap-10 place-items-center">
-			{data.getWeeksPage.weeks.map((week, index) => (
-				<Link key={index} to={'/weekly/' + week.year + '/' + week.week}>
-					<WeekCard week={week}></WeekCard>
-				</Link>
-			))}
+		<div>
+			<div className="grid grid-cols-4 gap-10 place-items-center">
+				{data.getWeeksPage.weeks.map((week, index) => (
+					<Link key={index} to={'/weekly/' + week.year + '/' + week.week}>
+						<WeekCard week={week}></WeekCard>
+					</Link>
+				))}
+			</div>
+			<div className="py-4">
+				<Pagination pagesNumber={data.getWeeksPage.pages}></Pagination>
+			</div>
 		</div>
 	);
 };

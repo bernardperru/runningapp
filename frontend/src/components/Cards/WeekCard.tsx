@@ -14,29 +14,33 @@ const stats: { [key in keyof weekCardType]: label } = {
 };
 
 const WeekCard: React.FunctionComponent<{ week: GQLWeek }> = ({ week }) => {
-	if (week) {
-		const keys = (Object.keys(week) as (keyof weekCardType)[]).filter(key => {
-			return stats[key];
-		});
-
-		return (
-			<div className="bg-grey-300 hover:bg-sky-300 shadow-lg rounded-md py-7 px-12 mt-6">
-				<h1 className="text-2xl text-gray-900 font-normal border-b-2 border-black w-fit">{week.week}</h1>
-				<ul>
-					{keys.map((key, index) => (
-						<li key={index}>
-							<span>
-								{stats[key].label}
-								{': '}
-								<span>{formatWeek(key, averageOrSum(week[key], week.activityCount, stats[key].type))}</span>
-								<span></span>
-							</span>
-						</li>
-					))}
-				</ul>
-			</div>
-		);
+	if (!week) {
+		return <div></div>;
 	}
+
+	const keys = (Object.keys(week) as (keyof weekCardType)[]).filter(key => {
+		return stats[key];
+	});
+
+	return (
+		<div className="bg-grey-300 hover:bg-sky-300 shadow-lg rounded-md py-7 px-12 mt-6">
+			<h1 className="text-2xl text-gray-900 font-normal border-b-2 border-black w-fit">
+				{week.year} - {week.week}
+			</h1>
+			<ul>
+				{keys.map((key, index) => (
+					<li key={index}>
+						<span>
+							{stats[key].label}
+							{': '}
+							<span>{formatWeek(key, averageOrSum(week[key], week.activityCount, stats[key].type))}</span>
+							<span></span>
+						</span>
+					</li>
+				))}
+			</ul>
+		</div>
+	);
 };
 
 export default WeekCard;

@@ -23,7 +23,7 @@ const ActivityTable: React.FunctionComponent = () => {
 		sort: 'start_date',
 		order: 'desc',
 	});
-	const { paginationData, Pagination } = usePagination();
+	const { paginationData, Pagination } = usePagination(15);
 
 	const { data } = useGetActivityPageQuery({
 		variables: {
@@ -33,9 +33,6 @@ const ActivityTable: React.FunctionComponent = () => {
 			sort: sort.sort,
 		},
 	});
-
-	//creates an array containing [1, 2, 3, 4, 5] to represent the different pages
-	const pages = Array.from({ length: data?.getActivityPage.pages || 0 }, (_, x) => x + 1);
 
 	function handleHeaderClick(key: keyof activityType) {
 		setSort({
