@@ -3,6 +3,7 @@ import { format } from '../../utils/utils';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import { useGetActivityPageQuery } from '../../graphql';
 import { activityType } from '../../utils/constants';
+import { usePagination } from '../../hooks/usePagination';
 
 const labels: { [key in keyof activityType]: string } = {
 	start_date: 'Date',
@@ -15,8 +16,6 @@ const labels: { [key in keyof activityType]: string } = {
 };
 
 const ActivityTable: React.FunctionComponent = () => {
-	const [offset, setOffset] = React.useState(0);
-	const first = 15;
 	const [sort, setSort] = React.useState<{
 		sort: keyof activityType;
 		order: 'asc' | 'desc';
@@ -24,11 +23,12 @@ const ActivityTable: React.FunctionComponent = () => {
 		sort: 'start_date',
 		order: 'desc',
 	});
+	const { paginationData, Pagination } = usePagination();
 
 	const { data } = useGetActivityPageQuery({
 		variables: {
-			first,
-			offset,
+			first: paginationData.first,
+			offset: paginationData.offset,
 			order: sort.order,
 			sort: sort.sort,
 		},
@@ -36,10 +36,6 @@ const ActivityTable: React.FunctionComponent = () => {
 
 	//creates an array containing [1, 2, 3, 4, 5] to represent the different pages
 	const pages = Array.from({ length: data?.getActivityPage.pages || 0 }, (_, x) => x + 1);
-
-	function loadNewPage(newPageNumber: number) {
-		setOffset(first * (newPageNumber - 1));
-	}
 
 	function handleHeaderClick(key: keyof activityType) {
 		setSort({
@@ -95,30 +91,7 @@ const ActivityTable: React.FunctionComponent = () => {
 					))}
 				</tbody>
 			</table>
-
-			<div className="flex justify-center">
-				{pages.map((el, index) =>
-					data.getActivityPage.currentPage === el ? (
-						<button
-							key={index}
-							onClick={() => {
-								loadNewPage(el);
-							}}
-							className="h-10 px-5 text-indigo-600 transition-colors duration-150 rounded-l-lg focus:shadow-outline bg-indigo-100">
-							{el}
-						</button>
-					) : (
-						<button
-							key={index}
-							onClick={() => {
-								loadNewPage(el);
-							}}
-							className="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100">
-							{el}
-						</button>
-					)
-				)}
-			</div>
+			<Pagination pagesNumber={data.getActivityPage.pages}></Pagination>
 		</div>
 	);
 };

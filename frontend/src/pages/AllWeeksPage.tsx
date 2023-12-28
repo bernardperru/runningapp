@@ -6,7 +6,7 @@ import { useGetWeeksPageQuery } from '../graphql';
 const AllWeeksPage: React.FunctionComponent = () => {
 	const { data } = useGetWeeksPageQuery({
 		variables: {
-			first: 16,
+			first: 12,
 			offset: 0,
 		},
 	});
