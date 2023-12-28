@@ -6,28 +6,24 @@ import { useGetWeeksPageQuery } from '../graphql';
 const AllWeeksPage: React.FunctionComponent = () => {
 	const { data } = useGetWeeksPageQuery({
 		variables: {
-			first: 8,
+			first: 16,
 			offset: 0,
 		},
 	});
 
-	if (data !== undefined) {
-		const weeks = [
-			...data.getWeeksPage.weeks.map(week => {
-				return week;
-			}),
-		].sort((a, b) => (a.week > b.week ? -1 : 1));
-
-		return (
-			<div className="grid grid-cols-4 gap-10 place-items-center">
-				{weeks.map(week => (
-					<Link to={'/weekly/' + week.year + '/' + week.week}>
-						<WeekCard weekNumber={week.week}></WeekCard>
-					</Link>
-				))}
-			</div>
-		);
+	if (!data) {
+		return <></>;
 	}
+
+	return (
+		<div className="grid grid-cols-4 gap-10 place-items-center">
+			{data.getWeeksPage.weeks.map((week, index) => (
+				<Link key={index} to={'/weekly/' + week.year + '/' + week.week}>
+					<WeekCard week={week}></WeekCard>
+				</Link>
+			))}
+		</div>
+	);
 };
 
 export default AllWeeksPage;

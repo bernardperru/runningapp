@@ -89,6 +89,9 @@ export const weekResolver: GQLResolvers = {
           },
           skip: offset,
           take: first,
+          orderBy: {
+            week: "desc",
+          },
         }),
         database.week.count({
           where: {
