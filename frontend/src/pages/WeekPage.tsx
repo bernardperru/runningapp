@@ -13,19 +13,21 @@ const WeekPage: React.FunctionComponent = () => {
 		},
 	});
 
-	if (data) {
-		return (
-			<div className="grid grid-cols-4 gap-10 place-items-center">
-				{data.getWeekActivities.map(activity => (
-					<Link to={'/weekly/' + yearNumber + '/' + weekNumber + '/' + activity.id}>
-						<div key={activity.id}>
-							<ActivityCard activityId={activity.id}></ActivityCard>
-						</div>
-					</Link>
-				))}
-			</div>
-		);
+	if (!data) {
+		return <></>;
 	}
+
+	return (
+		<div className="grid grid-cols-4 gap-10 place-items-center">
+			{data.getWeekActivities.map(activity => (
+				<Link to={'/weekly/' + yearNumber + '/' + weekNumber + '/' + activity.id}>
+					<div key={activity.id}>
+						<ActivityCard activityId={activity.id}></ActivityCard>
+					</div>
+				</Link>
+			))}
+		</div>
+	);
 };
 
 export default WeekPage;
