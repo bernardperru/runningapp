@@ -1,6 +1,6 @@
 import React from 'react';
 import { format } from '../../utils/utils';
-import { useGetActivitiesQuery } from '../../graphql';
+import { GQLActivity, useGetWeekActivitiesQuery } from '../../graphql';
 import { activityCardType } from '../../utils/constants';
 
 const labels: {
@@ -14,33 +14,25 @@ const labels: {
 	average_pace: 'Average Pace',
 };
 
-const ActivityCard: React.FunctionComponent<{ activityId: number }> = ({ activityId }) => {
-	const { data } = useGetActivitiesQuery({ variables: {} });
+const ActivityCard: React.FunctionComponent<{ activity: GQLActivity }> = ({ activity }) => {
+	const keys = (Object.keys(activity) as (keyof activityCardType)[]).filter(key => {
+		return labels[key];
+	});
 
-	if (data !== undefined) {
-		const keys = (Object.keys(data.getActivities[0]) as (keyof activityCardType)[]).filter(key => {
-			return labels[key];
-		});
-
-		const activity = data.getActivities.filter(a => {
-			return a.id === activityId;
-		})[0];
-
-		return (
-			<div className="bg-grey-300 hover:bg-sky-300 shadow-lg rounded-md py-7 px-12 mt-6">
-				<h1 className="text-2xl text-gray-900 font-normal border-b-2 border-black w-fit">
-					{format('start_date', activity.start_date)}
-				</h1>
-				<ul className="">
-					{keys.map((key, index) => (
-						<li key={index}>
-							{labels[key]} : {format(key, activity[key])}
-						</li>
-					))}
-				</ul>
-			</div>
-		);
-	}
+	return (
+		<div className="bg-grey-300 hover:bg-sky-300 shadow-lg rounded-md py-7 px-12 mt-6">
+			<h1 className="text-2xl text-gray-900 font-normal border-b-2 border-black w-fit">
+				{format('start_date', activity.start_date)}
+			</h1>
+			<ul className="">
+				{keys.map((key, index) => (
+					<li key={index}>
+						{labels[key]} : {format(key, activity[key])}
+					</li>
+				))}
+			</ul>
+		</div>
+	);
 };
 
 export default ActivityCard;

@@ -4,7 +4,7 @@ import WeekCard from '../components/Cards/WeekCard';
 import { useGetWeeksPageQuery } from '../graphql';
 import { usePagination } from '../hooks/usePagination';
 
-const AllWeeksPage: React.FunctionComponent = () => {
+const WeekCardPage: React.FunctionComponent = () => {
 	const { paginationData, Pagination } = usePagination(12);
 
 	const { data } = useGetWeeksPageQuery({
@@ -34,4 +34,4 @@ const AllWeeksPage: React.FunctionComponent = () => {
 	);
 };
 
-export default AllWeeksPage;
+export default WeekCardPage;
