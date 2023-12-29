@@ -6,9 +6,7 @@ import RunMap from '../components/Map/RunMap';
 
 const ActivityCardPage: React.FunctionComponent = () => {
 	const { yearNumber, weekNumber } = useParams();
-
 	const [mapView, setMapView] = React.useState(false);
-
 	const [activity, setActivity] = React.useState<GQLActivity>();
 
 	const { data } = useGetWeekActivitiesQuery({
@@ -24,7 +22,7 @@ const ActivityCardPage: React.FunctionComponent = () => {
 
 	return mapView && activity ? (
 		<div>
-			<button onClick={() => setMapView(false)}></button>
+			<button onClick={() => setMapView(false)}>Return</button>
 			<RunMap activity={activity} />
 		</div>
 	) : (

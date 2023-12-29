@@ -6,8 +6,7 @@ export const usePagination = (first: number) => {
 
 	const goToPage = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
-		const page = pageNumber - 1;
-		setOffset(first * page);
+		setOffset(first * (pageNumber - 1));
 	};
 
 	const paginationData = {

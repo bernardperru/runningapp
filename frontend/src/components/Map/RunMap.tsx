@@ -21,7 +21,7 @@ const mapStats: { [key in keyof activityType]: label } = {
 	average_pace: { label: 'Average Pace', type: 'avg' },
 };
 
-const RunMap: React.FunctionComponent<{ activity: GQLActivity | undefined }> = ({ activity }) => {
+const RunMap: React.FunctionComponent<{ activity: GQLActivity }> = ({ activity }) => {
 	if (!activity) {
 		return <div></div>;
 	}
