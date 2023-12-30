@@ -20,7 +20,6 @@ import { useGetWeeksQuery } from '../../graphql';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const ActivityChart: React.FunctionComponent = () => {
-	// const { data } = useGetActivitiesQuery();
 	const { data } = useGetWeeksQuery();
 
 	if (data) {
