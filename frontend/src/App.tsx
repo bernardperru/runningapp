@@ -5,7 +5,7 @@ import Home from './pages/HomePage';
 import ActivityCardPage from './pages/ActivityCardPage';
 import RunMap from './components/Map/RunMap';
 import WeekCardPage from './pages/WeekCardPage';
-import Redirect from './pages/Redirect';
+import RedirectPage from './pages/RedirectPage';
 import LoginPage from './pages/LoginPage';
 import ChartPage from './pages/ChartPage';
 
@@ -17,7 +17,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/login" element={<LoginPage />} />
-					<Route path="/redirect/exchange_token" element={<Redirect />} />
+					<Route path="/redirect/exchange_token" element={<RedirectPage />} />
 					<Route path="/activities" element={<ActivityTable />} />
 					<Route path="/weekly" element={<WeekCardPage />} />
 					<Route path="/weekly/:yearNumber/:weekNumber" element={<ActivityCardPage />} />

@@ -1,11 +1,10 @@
 import { useAddRefreshTokenMutation } from '../graphql';
 import { useNavigate } from 'react-router-dom';
 
-function Redirect() {
+function RedirectPage() {
 	const navigate = useNavigate();
 	const urlParams = new URLSearchParams(window.location.search);
 	const code = urlParams.get('code');
-	const scope = urlParams.get('scope');
 
 	const [addRefreshToken] = useAddRefreshTokenMutation({
 		variables: {
@@ -24,4 +23,4 @@ function Redirect() {
 	return <div></div>;
 }
 
-export default Redirect;
+export default RedirectPage;
