@@ -15,10 +15,10 @@ export function Table<T>({ data, columns }: Props<T>) {
 	return (
 		<table>
 			<thead>
-				<TableHeader></TableHeader>
+				<TableHeader columns={columns}></TableHeader>
 			</thead>
 			<tbody>
-				<TableRows></TableRows>
+				<TableRows columns={columns} data={data}></TableRows>
 			</tbody>
 		</table>
 	);

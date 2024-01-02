@@ -3,7 +3,7 @@ import ActivityTable from './components/Table/ActivityTable';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/HomePage';
 import ActivityCardPage from './pages/ActivityCardPage';
-import RunMap from './components/Map/RunMap';
+import TablePage from './pages/TablePage';
 import WeekCardPage from './pages/WeekCardPage';
 import RedirectPage from './pages/RedirectPage';
 import LoginPage from './pages/LoginPage';
@@ -18,7 +18,7 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/redirect/exchange_token" element={<RedirectPage />} />
-					<Route path="/activities" element={<ActivityTable />} />
+					<Route path="/activities" element={<TablePage />} />
 					<Route path="/weekly" element={<WeekCardPage />} />
 					<Route path="/weekly/:yearNumber/:weekNumber" element={<ActivityCardPage />} />
 					{/* <Route path="/weekly/:yearNumber/:weekNumber/:activityId" element={<RunMap />} /> */}
