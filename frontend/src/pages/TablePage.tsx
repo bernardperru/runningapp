@@ -2,26 +2,70 @@ import { GQLActivity, useGetActivityPageQuery } from '../graphql';
 import { Table, IColumnType } from '../components/Table/Table';
 import { activityType } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
+import { format } from '../utils/utils';
 import React from 'react';
 
-const labels: { [key in keyof activityType]: string } = {
-	start_date: 'Date',
-	distance: 'Distance',
-	elapsed_time: 'Time',
-	average_heartrate: 'Avg. Heartrate',
-	average_cadence: 'Avg. Cadence',
-	zone: 'Zone',
-	average_pace: 'Avg. Pace',
-};
-
 const columns: IColumnType<activityType>[] = [
-	{ key: 'start_date', title: 'Date' },
-	{ key: 'distance', title: 'Distance' },
-	{ key: 'elapsed_time', title: 'Time' },
-	{ key: 'average_heartrate', title: 'Avg. Heartrate' },
-	{ key: 'average_cadence', title: 'Avg. Cadence' },
-	{ key: 'zone', title: 'Zone' },
-	{ key: 'average_pace', title: 'Avg. Pace' },
+	{
+		key: 'start_date',
+		title: 'Date',
+		render: value => {
+			const date = new Date(value);
+			return date.toDateString();
+		},
+	},
+	{
+		key: 'distance',
+		title: 'Distance',
+		render: value => {
+			return (parseFloat(value.toString()) / 1000).toFixed(2) + ' km';
+		},
+	},
+	{
+		key: 'elapsed_time',
+		title: 'Time',
+		render: value => {
+			const addZero = (x: number) => {
+				if (x < 10) {
+					return '0' + x.toString();
+				}
+				return x.toString();
+			};
+			const hours = Math.floor(parseFloat(value.toString()) / 3600);
+			const newValue = parseFloat(value.toString()) - hours * 3600;
+			const minutes = Math.floor(newValue / 60);
+			const seconds = newValue - minutes * 60;
+			return addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + '';
+		},
+	},
+	{
+		key: 'average_heartrate',
+		title: 'Avg. Heartrate',
+		render: value => {
+			return parseFloat(value.toString()).toFixed(0) + ' bpm';
+		},
+	},
+	{
+		key: 'average_cadence',
+		title: 'Avg. Cadence',
+		render: value => {
+			return parseFloat(value.toString()).toFixed(0) + ' spm';
+		},
+	},
+	{
+		key: 'zone',
+		title: 'Zone',
+		render: value => {
+			return value;
+		},
+	},
+	{
+		key: 'average_pace',
+		title: 'Avg. Pace',
+		render: value => {
+			return value;
+		},
+	},
 ];
 
 export function TablePage() {
