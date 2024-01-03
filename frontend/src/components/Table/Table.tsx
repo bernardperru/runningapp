@@ -11,16 +11,18 @@ export interface IColumnType<T> {
 interface Props<T> {
 	data: T[];
 	columns: IColumnType<T>[];
+	headerInteract: (value: any) => void;
+	rowInteract: (value: any) => void;
 }
 
-export function Table<T>({ data, columns }: Props<T>) {
+export function Table<T>({ data, columns, headerInteract, rowInteract }: Props<T>) {
 	return (
 		<table className=" bg-white m-auto">
 			<thead className="bg-grey-300">
-				<TableHeader columns={columns}></TableHeader>
+				<TableHeader columns={columns} interact={headerInteract}></TableHeader>
 			</thead>
 			<tbody className="h-5">
-				<TableRows columns={columns} data={data}></TableRows>
+				<TableRows columns={columns} data={data} interact={rowInteract}></TableRows>
 			</tbody>
 		</table>
 	);

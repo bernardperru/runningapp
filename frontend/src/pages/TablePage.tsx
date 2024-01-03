@@ -77,6 +77,13 @@ export function TablePage() {
 		order: 'desc',
 	});
 
+	function headerInteract(key: keyof activityType) {
+		setSort({
+			sort: key,
+			order: key === sort.sort ? (sort.order === 'asc' ? 'desc' : 'asc') : 'desc',
+		});
+	}
+
 	const { paginationData, Pagination } = usePagination(15);
 
 	const { data } = useGetActivityPageQuery({
@@ -94,7 +101,11 @@ export function TablePage() {
 
 	return (
 		<>
-			<Table columns={columns} data={data.getActivityPage.activities}></Table>
+			<Table
+				columns={columns}
+				data={data.getActivityPage.activities}
+				headerInteract={headerInteract}
+				rowInteract={() => {}}></Table>
 			<Pagination pagesNumber={data.getActivityPage.pages}></Pagination>
 		</>
 	);

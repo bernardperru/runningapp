@@ -4,6 +4,7 @@ import { get } from 'lodash';
 interface Props<T> {
 	data: T[];
 	columns: IColumnType<T>[];
+	interact: (value: any) => void;
 }
 
 export function TableRows<T>({ data, columns }: Props<T>) {
