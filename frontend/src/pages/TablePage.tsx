@@ -3,6 +3,7 @@ import { Table, IColumnType } from '../components/Table/Table';
 import { activityType } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
 import { format } from '../utils/utils';
+import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import React from 'react';
 
 const columns: IColumnType<activityType>[] = [
@@ -77,13 +78,6 @@ export function TablePage() {
 		order: 'desc',
 	});
 
-	function headerInteract(key: keyof activityType) {
-		setSort({
-			sort: key,
-			order: key === sort.sort ? (sort.order === 'asc' ? 'desc' : 'asc') : 'desc',
-		});
-	}
-
 	const { paginationData, Pagination } = usePagination(15);
 
 	const { data } = useGetActivityPageQuery({
@@ -95,6 +89,13 @@ export function TablePage() {
 		},
 	});
 
+	function headerInteract(key: keyof activityType) {
+		setSort({
+			sort: key,
+			order: key === sort.sort ? (sort.order === 'asc' ? 'desc' : 'asc') : 'desc',
+		});
+	}
+
 	if (!data) {
 		return <>No data</>;
 	}
@@ -105,7 +106,8 @@ export function TablePage() {
 				columns={columns}
 				data={data.getActivityPage.activities}
 				headerInteract={headerInteract}
-				rowInteract={() => {}}></Table>
+				rowInteract={() => {}}
+				sort={sort}></Table>
 			<Pagination pagesNumber={data.getActivityPage.pages}></Pagination>
 		</>
 	);

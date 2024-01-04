@@ -6,6 +6,7 @@ export interface IColumnType<T> {
 	key: string;
 	title: string;
 	render: (value: number | string) => string | number;
+	renderHeader?: (column: IColumnType<T>, item: T) => void;
 }
 
 interface Props<T> {
@@ -13,13 +14,14 @@ interface Props<T> {
 	columns: IColumnType<T>[];
 	headerInteract: (value: any) => void;
 	rowInteract: (value: any) => void;
+	sort: { sort: keyof T; order: 'asc' | 'desc' };
 }
 
-export function Table<T>({ data, columns, headerInteract, rowInteract }: Props<T>) {
+export function Table<T>({ data, columns, headerInteract, rowInteract, sort }: Props<T>) {
 	return (
 		<table className=" bg-white m-auto">
 			<thead className="bg-grey-300">
-				<TableHeader columns={columns} interact={headerInteract}></TableHeader>
+				<TableHeader columns={columns} interact={headerInteract} sort={sort}></TableHeader>
 			</thead>
 			<tbody className="h-5">
 				<TableRows columns={columns} data={data} interact={rowInteract}></TableRows>
