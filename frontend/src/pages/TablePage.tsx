@@ -89,28 +89,33 @@ export function TablePage() {
 		},
 	});
 
-	function headerInteract(key: keyof activityType) {
-		setSort({
-			sort: key,
-			order: key === sort.sort ? (sort.order === 'asc' ? 'desc' : 'asc') : 'desc',
-		});
+	function headerInteract(column: IColumnType<activityType> | undefined) {
+		if (column) {
+			setSort({
+				sort: column.key as keyof activityType,
+				order: column.key === sort.sort ? (sort.order === 'asc' ? 'desc' : 'asc') : 'desc',
+			});
+		}
 	}
 
-	if (!data) {
-		return <>No data</>;
-	}
+	function rowInteract(row: activityType) {}
 
-	return (
-		<>
-			<Table
-				columns={columns}
-				data={data.getActivityPage.activities}
-				headerInteract={headerInteract}
-				rowInteract={() => {}}
-				sort={sort}></Table>
-			<Pagination pagesNumber={data.getActivityPage.pages}></Pagination>
-		</>
-	);
+	const activities = data?.getActivityPage.activities;
+	const pages = data?.getActivityPage.pages;
+
+	if (activities && pages) {
+		return (
+			<>
+				<Table
+					columns={columns}
+					data={activities}
+					headerInteract={headerInteract}
+					rowInteract={rowInteract}
+					sort={sort}></Table>
+				<Pagination pagesNumber={pages}></Pagination>
+			</>
+		);
+	}
 }
 
 export default TablePage;

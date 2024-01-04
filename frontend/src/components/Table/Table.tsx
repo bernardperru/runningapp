@@ -12,8 +12,8 @@ export interface IColumnType<T> {
 interface Props<T> {
 	data: T[];
 	columns: IColumnType<T>[];
-	headerInteract: (value: any) => void;
-	rowInteract: (value: any) => void;
+	headerInteract?: (value: IColumnType<T>) => void;
+	rowInteract?: (value: any) => void;
 	sort: { sort: keyof T; order: 'asc' | 'desc' };
 }
 

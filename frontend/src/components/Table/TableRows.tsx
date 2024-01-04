@@ -4,10 +4,10 @@ import { get } from 'lodash';
 interface Props<T> {
 	data: T[];
 	columns: IColumnType<T>[];
-	interact: (value: any) => void;
+	interact?: (value: T) => void;
 }
 
-export function TableRows<T>({ data, columns }: Props<T>) {
+export function TableRows<T>({ data, columns, interact }: Props<T>) {
 	return (
 		<>
 			{data.map((item, itemIndex) => (
