@@ -8,4 +8,4 @@ export type activityCardType = Omit<
 	'__typename' | 'summary_polyline' | 'id' | 'start_date' | 'activityId' | 'year' | 'week'
 >;
 
-export type weekCardType = Omit<GQLWeek, 'id' | '__typename' | 'activities' | 'week' | 'year' | 'activityCount'>;
+export type weekCardType = Omit<GQLWeek, 'id' | '__typename' | 'activities' | 'week' | 'year'>;
