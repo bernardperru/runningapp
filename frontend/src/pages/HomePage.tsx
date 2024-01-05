@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useUpdateActivitiesQuery } from '../graphql';
 
 function Home() {
+	const { data } = useUpdateActivitiesQuery();
+
 	const navigate = useNavigate();
 	const { REACT_APP_CLIENT_ID } = process.env;
 	const redirectUrl = 'http://localhost:3000/redirect';
@@ -24,6 +27,8 @@ function Home() {
 				(connectedToStrava === 'false' && (
 					<button onClick={handleRefreshToken}> you aren't connected to a strava account</button>
 				))}
+
+			{data && <div>fetched {data.updateActivities} new activities</div>}
 		</div>
 	);
 }

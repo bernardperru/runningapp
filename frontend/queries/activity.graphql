@@ -12,3 +12,6 @@ query GetActivities {
 		zone
 	}
 }
+query UpdateActivities {
+	updateActivities
+}
