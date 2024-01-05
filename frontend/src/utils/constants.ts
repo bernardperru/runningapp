@@ -9,3 +9,4 @@ export type activityCardType = Omit<
 >;
 
 export type weekCardType = Omit<GQLWeek, 'id' | '__typename' | 'activities' | 'week' | 'year'>;
+export type weekCardType1 = Omit<GQLWeek, 'id' | '__typename' | 'activities'>;

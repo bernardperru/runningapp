@@ -1,6 +1,5 @@
 import { TableHeader } from './TableHeader';
 import { TableRows } from './TableRows';
-import { format } from '../../utils/utils';
 
 export interface IColumnType<T> {
 	key: string;

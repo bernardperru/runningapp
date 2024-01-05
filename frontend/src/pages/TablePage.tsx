@@ -1,9 +1,7 @@
-import { GQLActivity, useGetActivityPageQuery } from '../graphql';
+import { useGetActivityPageQuery } from '../graphql';
 import { Table, IColumnType } from '../components/Table/Table';
 import { activityType } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
-import { format } from '../utils/utils';
-import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 import React from 'react';
 
 const columns: IColumnType<activityType>[] = [

@@ -1,11 +1,10 @@
 import { useGetWeeksPageQuery } from '../graphql';
-import { weekCardType } from '../utils/constants';
+import { weekCardType1 } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
-import { Card, ICardFieldType } from '../components/Cards/Card';
+import { ICardFieldType } from '../components/Cards/Card';
 import { CardContainer } from '../components/Cards/CardContainer';
-import { Link } from 'react-router-dom';
 
-const cardFields: ICardFieldType<weekCardType>[] = [
+const cardFields: ICardFieldType<weekCardType1>[] = [
 	{
 		key: 'cadence',
 		title: 'Avg. Cadence',
@@ -46,6 +45,8 @@ const cardFields: ICardFieldType<weekCardType>[] = [
 	},
 ];
 
+const title: Array<keyof weekCardType1> = ['week', 'year'];
+
 export function CardPage() {
 	const { paginationData, Pagination } = usePagination(20);
 
@@ -62,11 +63,7 @@ export function CardPage() {
 
 	return (
 		<div>
-			<CardContainer
-				columns={4}
-				data={data.getWeeksPage.weeks}
-				fields={cardFields}
-				title={'week' as keyof weekCardType}></CardContainer>
+			<CardContainer columns={4} data={data.getWeeksPage.weeks} fields={cardFields} title={title}></CardContainer>
 			<div className="py-4">
 				<Pagination pagesNumber={data.getWeeksPage.pages}></Pagination>
 			</div>
