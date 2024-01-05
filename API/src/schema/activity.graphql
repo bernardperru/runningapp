@@ -6,6 +6,7 @@ type Query {
     sort: String!
     order: String!
   ): PaginationActivityResponse! @access
+  updateActivities: Int! @access
 }
 
 type PaginationActivityResponse {
