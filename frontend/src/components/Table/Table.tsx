@@ -6,7 +6,7 @@ export interface IColumnType<T> {
 	key: string;
 	title: string;
 	render: (value: number | string) => string | number;
-	renderHeader?: (column: IColumnType<T>, item: T) => number | string;
+	renderHeader?: (column: IColumnType<T>, item: T) => void;
 }
 
 interface Props<T> {

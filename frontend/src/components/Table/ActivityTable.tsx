@@ -23,6 +23,7 @@ const ActivityTable: React.FunctionComponent = () => {
 		sort: 'start_date',
 		order: 'desc',
 	});
+
 	const { paginationData, Pagination } = usePagination(15);
 
 	const { data } = useGetActivityPageQuery({

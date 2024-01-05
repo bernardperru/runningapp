@@ -78,7 +78,7 @@ export function TablePage() {
 		order: 'desc',
 	});
 
-	const { paginationData, Pagination } = usePagination(15);
+	const { paginationData, Pagination } = usePagination(10);
 
 	const { data } = useGetActivityPageQuery({
 		variables: {
@@ -105,7 +105,7 @@ export function TablePage() {
 
 	if (activities && pages) {
 		return (
-			<>
+			<div className="py-6">
 				<Table
 					columns={columns}
 					data={activities}
@@ -113,7 +113,7 @@ export function TablePage() {
 					rowInteract={rowInteract}
 					sort={sort}></Table>
 				<Pagination pagesNumber={pages}></Pagination>
-			</>
+			</div>
 		);
 	}
 }
