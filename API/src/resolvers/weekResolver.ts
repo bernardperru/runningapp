@@ -1,20 +1,6 @@
 import { GQLResolvers } from "../resolvers-types";
-import { Prisma } from "@prisma/client";
 import { database } from "../database.js";
 import { getWeek, getYear } from "../utils/formatActivityData.js";
-interface weekDict {
-  [key: number]: weekActivities;
-}
-
-interface weekActivities {
-  id: number;
-  week: number;
-  year: number;
-  distance: Array<number>;
-  heartrate: Array<number>;
-  cadence: Array<number>;
-  time: Array<number>;
-}
 
 export const weekResolver: GQLResolvers = {
   Query: {
@@ -30,8 +16,6 @@ export const weekResolver: GQLResolvers = {
           userId: auth.user.id,
         },
       });
-
-      console.log(activites.length);
 
       const createWeeks = await Promise.all(
         activites.map(async (activity) => {

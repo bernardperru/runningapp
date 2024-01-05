@@ -117,22 +117,6 @@ export const activityResolver: GQLResolvers = {
         throw new Error("activities not returned from Strava");
       }
 
-      // const data = activities.map((activity) => {
-      //   return {
-      //     userId: context.auth ? context.auth.user.id : 0,
-      //     activityId: activity.activityId,
-      //     distance: activity.distance,
-      //     elapsed_time: activity.elapsed_time,
-      //     start_date: activity.start_date,
-      //     summary_polyline: activity.summary_polyline,
-      //     average_cadence: activity.average_cadence,
-      //     average_heartrate: activity.average_heartrate,
-      //     average_pace: activity.average_pace,
-      //     zone: activity.zone,
-      //     weekId: undefined,
-      //   } satisfies Prisma.ActivityCreateManyInput;
-      // });
-
       const oldActivityCount = await database.activity.count({
         where: {
           userId: context.auth.user.id,

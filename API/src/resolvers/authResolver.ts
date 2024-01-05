@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { GQLAuthPayload, GQLResolvers } from "../resolvers-types";
+import { GQLResolvers } from "../resolvers-types";
 import { database } from "../database.js";
 import * as dotenv from "dotenv";
 
