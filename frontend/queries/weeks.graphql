@@ -48,3 +48,7 @@ query GetWeeksPage($first: Int!, $offset: Int!) {
 		}
 	}
 }
+
+query UpdateWeeks {
+	updateWeeks
+}

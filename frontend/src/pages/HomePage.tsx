@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useUpdateActivitiesQuery } from '../graphql';
+import { useUpdateActivitiesQuery, useUpdateWeeksQuery } from '../graphql';
 
 function Home() {
 	const { data } = useUpdateActivitiesQuery();
+	const { data: weeks } = useUpdateWeeksQuery();
 
 	const navigate = useNavigate();
 	const { REACT_APP_CLIENT_ID } = process.env;
@@ -29,6 +30,7 @@ function Home() {
 				))}
 
 			{data && <div>fetched {data.updateActivities} new activities</div>}
+			{weeks && <div>linked {weeks.updateWeeks} activity to a week</div>}
 		</div>
 	);
 }

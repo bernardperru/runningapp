@@ -127,5 +127,61 @@ export const weekResolver: GQLResolvers = {
 
       return activities.activities;
     },
+    updateWeeks: async (_, args, { auth }) => {
+      if (!auth) {
+        throw new Error("User not found");
+      }
+
+      //Fetch activities with no week relation
+      const activites = await database.activity.findMany({
+        where: {
+          weekId: null,
+          userId: auth.user.id,
+        },
+      });
+
+      const createWeeks = await Promise.all(
+        activites.map(async (activity) => {
+          const weekId = parseFloat(
+            getYear(activity.start_date).toString() +
+              getWeek(activity.start_date).toString() +
+              activity.userId.toString()
+          );
+          await database.week.upsert({
+            where: { id: weekId, userId: auth.user.id },
+            update: {
+              activities: {
+                connect: { activityId: activity.activityId },
+              },
+              cadence: { increment: activity.average_cadence },
+              distance: { increment: activity.distance },
+              time: { increment: activity.elapsed_time },
+              heartrate: { increment: activity.average_heartrate },
+              activityCount: { increment: 1 },
+            },
+            create: {
+              id: weekId,
+              cadence: activity.average_cadence,
+              distance: activity.distance,
+              heartrate: activity.average_heartrate,
+              time: activity.elapsed_time,
+              week: getWeek(activity.start_date),
+              year: getYear(activity.start_date),
+              activityCount: 1,
+              activities: {
+                connect: { activityId: activity.activityId },
+              },
+              user: {
+                connect: {
+                  id: auth.user.id,
+                },
+              },
+            },
+          });
+        })
+      );
+
+      return activites.length;
+    },
   },
 };

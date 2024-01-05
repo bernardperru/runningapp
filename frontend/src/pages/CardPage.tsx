@@ -62,7 +62,11 @@ export function CardPage() {
 
 	return (
 		<div>
-			<CardContainer columns={4} data={data.getWeeksPage.weeks} fields={cardFields} title={'Title'}></CardContainer>
+			<CardContainer
+				columns={4}
+				data={data.getWeeksPage.weeks}
+				fields={cardFields}
+				title={'week' as keyof weekCardType}></CardContainer>
 			<div className="py-4">
 				<Pagination pagesNumber={data.getWeeksPage.pages}></Pagination>
 			</div>

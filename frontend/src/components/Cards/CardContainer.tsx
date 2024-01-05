@@ -4,7 +4,7 @@ import { Card } from './Card';
 interface Props<T> {
 	data: T[];
 	fields: ICardFieldType<T>[];
-	title?: string;
+	title: keyof T;
 	columns: number;
 }
 
