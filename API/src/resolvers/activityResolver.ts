@@ -157,5 +157,15 @@ export const activityResolver: GQLResolvers = {
 
       return newActivityCount - oldActivityCount;
     },
+    getPages: async (_, { first }, context) => {
+      const count = await database.activity.count({
+        where: {
+          userId: context.auth?.user.id,
+        },
+      });
+      const pages = Math.ceil(count / first);
+
+      return pages;
+    },
   },
 };

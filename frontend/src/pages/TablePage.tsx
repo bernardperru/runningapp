@@ -1,4 +1,4 @@
-import { useGetActivityPageQuery } from '../graphql';
+import { useGetActivityPageQuery, useGetPagesQuery } from '../graphql';
 import { Table, IColumnType } from '../components/Table/Table';
 import { activityType } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
@@ -77,7 +77,11 @@ export function TablePage() {
 	});
 
 	const { paginationData, Pagination } = usePagination(10);
-
+	const { data: pages } = useGetPagesQuery({
+		variables: {
+			first: 10,
+		},
+	});
 	const { data, loading } = useGetActivityPageQuery({
 		variables: {
 			first: paginationData.first,
@@ -99,18 +103,21 @@ export function TablePage() {
 	function rowInteract(row: activityType) {}
 
 	const activities = data?.getActivityPage.activities;
-	const pages = data?.getActivityPage.pages;
 
 	return (
 		<div className="py-6">
-			{/* <Table
+			<Table
 				columns={columns}
 				data={activities}
 				headerInteract={headerInteract}
 				rowInteract={rowInteract}
 				sort={sort}
-				loading={loading}></Table> */}
-			<Pagination pagesNumber={pages}></Pagination>
+				loading={loading}></Table>
+			{pages && (
+				<div className="">
+					<Pagination pagesNumber={pages.getPages}></Pagination>
+				</div>
+			)}
 		</div>
 	);
 }
