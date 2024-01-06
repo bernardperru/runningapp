@@ -78,7 +78,7 @@ export function TablePage() {
 
 	const { paginationData, Pagination } = usePagination(10);
 
-	const { data } = useGetActivityPageQuery({
+	const { data, loading } = useGetActivityPageQuery({
 		variables: {
 			first: paginationData.first,
 			offset: paginationData.offset,
@@ -101,19 +101,18 @@ export function TablePage() {
 	const activities = data?.getActivityPage.activities;
 	const pages = data?.getActivityPage.pages;
 
-	if (activities && pages) {
-		return (
-			<div className="py-6">
-				<Table
-					columns={columns}
-					data={activities}
-					headerInteract={headerInteract}
-					rowInteract={rowInteract}
-					sort={sort}></Table>
-				<Pagination pagesNumber={pages}></Pagination>
-			</div>
-		);
-	}
+	return (
+		<div className="py-6">
+			{/* <Table
+				columns={columns}
+				data={activities}
+				headerInteract={headerInteract}
+				rowInteract={rowInteract}
+				sort={sort}
+				loading={loading}></Table> */}
+			<Pagination pagesNumber={pages}></Pagination>
+		</div>
+	);
 }
 
 export default TablePage;

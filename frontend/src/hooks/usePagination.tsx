@@ -14,11 +14,11 @@ export const usePagination = (first: number) => {
 		offset: offset,
 	};
 
-	const Pagination: React.FunctionComponent<{ pagesNumber: number }> = ({ pagesNumber }) => {
+	const Pagination: React.FunctionComponent<{ pagesNumber: number | undefined }> = ({ pagesNumber }) => {
 		const pages = Array.from({ length: pagesNumber || 0 }, (_, x) => x + 1);
 
 		return (
-			<div className="flex justify-center">
+			<div className="flex justify-center sticky">
 				{pages.map((el, index) =>
 					currentPage === el ? (
 						<button

@@ -7,6 +7,7 @@ type Query {
     order: String!
   ): PaginationActivityResponse! @access
   updateActivities: Int! @access
+  getPages(first: Int!): Int!
 }
 
 type PaginationActivityResponse {
