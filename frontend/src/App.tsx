@@ -2,7 +2,6 @@ import Navbar from './components/Navbar/Navbar';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/HomePage';
 import TablePage from './pages/TablePage';
-// import WeekCardPage from './pages/WeekCardPage';
 import RedirectPage from './pages/RedirectPage';
 import LoginPage from './pages/LoginPage';
 import ChartPage from './pages/ChartPage';
