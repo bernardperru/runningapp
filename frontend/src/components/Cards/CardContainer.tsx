@@ -6,13 +6,14 @@ interface Props<T> {
 	fields: ICardFieldType<T>[];
 	title: Array<keyof T>;
 	columns: number;
+	interact: (obj: T) => void;
 }
 
-export function CardContainer<T>({ data, fields, title, columns }: Props<T>) {
+export function CardContainer<T>({ data, fields, title, columns, interact }: Props<T>) {
 	return (
 		<div className={`grid !grid-cols-4 gap-4 place-items-center`}>
 			{data.map((week, index) => (
-				<Card data={week} fields={fields} title={title}></Card>
+				<Card data={week} fields={fields} title={title} interact={interact}></Card>
 			))}
 		</div>
 	);

@@ -64,7 +64,12 @@ export function CardPageActivities() {
 
 	return (
 		<div>
-			<CardContainer columns={3} data={data.getWeekActivities} fields={cardFields} title={title}></CardContainer>
+			<CardContainer
+				columns={3}
+				data={data.getWeekActivities}
+				fields={cardFields}
+				title={title}
+				interact={() => console.log()}></CardContainer>
 		</div>
 	);
 }

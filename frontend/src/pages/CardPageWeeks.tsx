@@ -3,6 +3,7 @@ import { weekCardType1 } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
 import { ICardFieldType } from '../components/Cards/Card';
 import { CardContainer } from '../components/Cards/CardContainer';
+import { useNavigate } from 'react-router-dom';
 
 const cardFields: ICardFieldType<weekCardType1>[] = [
 	{
@@ -49,6 +50,7 @@ const title: Array<keyof weekCardType1> = ['week', 'year'];
 
 export function CardPageWeeks() {
 	const { paginationData, Pagination } = usePagination(8);
+	const navigate = useNavigate();
 
 	const { data } = useGetWeeksPageQuery({
 		variables: {
@@ -61,9 +63,18 @@ export function CardPageWeeks() {
 		return <></>;
 	}
 
+	function interact(week: weekCardType1) {
+		navigate(`/weekly/${week.year}/${week.week}`);
+	}
+
 	return (
 		<div>
-			<CardContainer columns={3} data={data.getWeeksPage.weeks} fields={cardFields} title={title}></CardContainer>
+			<CardContainer
+				columns={3}
+				data={data.getWeeksPage.weeks}
+				fields={cardFields}
+				title={title}
+				interact={interact}></CardContainer>
 			<div className="py-4">
 				<Pagination pagesNumber={data.getWeeksPage.pages}></Pagination>
 			</div>
