@@ -47,8 +47,8 @@ const cardFields: ICardFieldType<weekCardType1>[] = [
 
 const title: Array<keyof weekCardType1> = ['week', 'year'];
 
-export function CardPage() {
-	const { paginationData, Pagination } = usePagination(20);
+export function CardPageWeeks() {
+	const { paginationData, Pagination } = usePagination(8);
 
 	const { data } = useGetWeeksPageQuery({
 		variables: {
@@ -63,7 +63,7 @@ export function CardPage() {
 
 	return (
 		<div>
-			<CardContainer columns={4} data={data.getWeeksPage.weeks} fields={cardFields} title={title}></CardContainer>
+			<CardContainer columns={3} data={data.getWeeksPage.weeks} fields={cardFields} title={title}></CardContainer>
 			<div className="py-4">
 				<Pagination pagesNumber={data.getWeeksPage.pages}></Pagination>
 			</div>
@@ -71,4 +71,4 @@ export function CardPage() {
 	);
 }
 
-export default CardPage;
+export default CardPageWeeks;

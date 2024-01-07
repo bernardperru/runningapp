@@ -24,9 +24,7 @@ export function Table<T>({ data, columns, headerInteract, rowInteract, sort, loa
 			<thead className="bg-grey-300">
 				<TableHeader columns={columns} interact={headerInteract} sort={sort}></TableHeader>
 			</thead>
-			{loading ? (
-				<SpinningCircles></SpinningCircles>
-			) : (
+			{data && (
 				<tbody className="h-5">
 					<TableRows columns={columns} data={data} interact={rowInteract}></TableRows>
 				</tbody>

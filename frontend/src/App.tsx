@@ -8,7 +8,8 @@ import TablePage from './pages/TablePage';
 import RedirectPage from './pages/RedirectPage';
 import LoginPage from './pages/LoginPage';
 import ChartPage from './pages/ChartPage';
-import CardPage from './pages/CardPage';
+import CardPageWeeks from './pages/CardPageWeeks';
+import CardPageActivities from './pages/CardPageActivities';
 
 function App() {
 	return (
@@ -20,8 +21,9 @@ function App() {
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/redirect/exchange_token" element={<RedirectPage />} />
 					<Route path="/activities" element={<TablePage />} />
-					<Route path="/weekly" element={<CardPage />} />
-					<Route path="/weekly/:yearNumber/:weekNumber" element={<ActivityCardPage />} />
+					<Route path="/weekly" element={<CardPageWeeks />} />
+					<Route path="/weekly/:yearNumber-:weekNumber" element={<CardPageActivities />} />
+					{/* <Route path="/weekly/:yearNumber/:weekNumber" element={<ActivityCardPage />} /> */}
 					{/* <Route path="/weekly/:yearNumber/:weekNumber/:activityId" element={<RunMap />} /> */}
 					<Route path="/charts" element={<ChartPage />} />
 				</Routes>
