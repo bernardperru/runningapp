@@ -9,11 +9,11 @@ export interface INavBarLink {
 	path: string;
 }
 
-interface Props<> {
-	data: INavBarLink;
+interface Props {
+	links: INavBarLink[];
 }
 
-function Navbar({ data }: Props) {
+function Navbar({ links }: Props) {
 	const navigate = useNavigate();
 	const client = useApolloClient();
 	const authToken = localStorage.getItem('token');
@@ -28,39 +28,23 @@ function Navbar({ data }: Props) {
 		<>
 			{authToken && (
 				<nav className="bg-white dark:bg-gray-800 w-full shadow flex justify-center">
-					<div className="">
-						<div className="flex items-center justify-between h-16">
-							<div className=" flex items-center">
-								<a className="flex-shrink-0" href="/">
-									<img className="w-8 h-8" src="/icons/running-man.svg" alt="Workflow" />
-								</a>
-								<div className="hidden md:block">
-									<div className="flex items-baseline ml-10 space-x-4">
-										<NavLink to="" className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
-											Home
-										</NavLink>
-
-										<NavLink to="/activities" className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
-											{' '}
-											Activities
-										</NavLink>
-
-										<NavLink to="/weekly" className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
-											{' '}
-											Weekly
-										</NavLink>
-										<NavLink to="/charts" className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
-											{' '}
-											Charts
-										</NavLink>
-										<div>
-											<button
-												className={'text-gray-500 hover:text-blue-800 hover:bg-blue-300'}
-												onClick={() => handleLogOut()}>
-												Logout
-											</button>
-										</div>
-									</div>
+					<div className=" flex items-center justify-between h-16">
+						<a className="flex-shrink-0" href="/">
+							<img className="w-8 h-8" src="/icons/running-man.svg" alt="Workflow" />
+						</a>
+						<div className="hidden md:block">
+							<div className="flex items-baseline ml-10 space-x-4">
+								{links.map(link => (
+									<NavLink to={link.path} className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
+										{link.title}
+									</NavLink>
+								))}
+								<div>
+									<button
+										className={'text-gray-500 hover:text-blue-800 hover:bg-blue-300'}
+										onClick={() => handleLogOut()}>
+										Logout
+									</button>
 								</div>
 							</div>
 						</div>
