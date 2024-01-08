@@ -4,7 +4,16 @@ import { useApolloClient } from '@apollo/client';
 const activeLink = 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium';
 const inactiveLink = 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium';
 
-function Navbar() {
+export interface INavBarLink {
+	title: string;
+	path: string;
+}
+
+interface Props<> {
+	data: INavBarLink;
+}
+
+function Navbar({ data }: Props) {
 	const navigate = useNavigate();
 	const client = useApolloClient();
 	const authToken = localStorage.getItem('token');
