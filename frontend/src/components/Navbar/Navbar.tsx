@@ -24,34 +24,28 @@ function Navbar({ links }: Props) {
 		navigate('/login');
 	}
 
+	if (!authToken) {
+		return <></>;
+	}
+
 	return (
-		<>
-			{authToken && (
-				<nav className="bg-white dark:bg-gray-800 w-full shadow flex justify-center">
-					<div className=" flex items-center justify-between h-16">
-						<a className="flex-shrink-0" href="/">
-							<img className="w-8 h-8" src="/icons/running-man.svg" alt="Workflow" />
-						</a>
-						<div className="hidden md:block">
-							<div className="flex items-baseline ml-10 space-x-4">
-								{links.map(link => (
-									<NavLink to={link.path} className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
-										{link.title}
-									</NavLink>
-								))}
-								<div>
-									<button
-										className={'text-gray-500 hover:text-blue-800 hover:bg-blue-300'}
-										onClick={() => handleLogOut()}>
-										Logout
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</nav>
-			)}
-		</>
+		<nav className="bg-white dark:bg-gray-800 w-full shadow flex items-center justify-center h-16">
+			<a className="flex-shrink-0" href="/">
+				<img className="w-8 h-8" src="/icons/running-man.svg" alt="Workflow" />
+			</a>
+			<div className="hidden md:block">
+				<div className="flex items-baseline ml-10 space-x-4 ">
+					{links.map(link => (
+						<NavLink to={link.path} className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
+							{link.title}
+						</NavLink>
+					))}
+					<button className={'text-gray-500 hover:text-blue-800 hover:bg-blue-300'} onClick={() => handleLogOut()}>
+						Logout
+					</button>
+				</div>
+			</div>
+		</nav>
 	);
 }
 
