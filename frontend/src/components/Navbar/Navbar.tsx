@@ -1,5 +1,5 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useApolloClient } from '@apollo/client';
+import { NavLink } from 'react-router-dom';
+import { Logout } from '../Login/Logout';
 
 const activeLink = 'bg-blue-300 text-black px-3 py-2 rounded-md text-sm font-medium';
 const inactiveLink = 'text-gray-300 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium';
@@ -14,15 +14,7 @@ interface Props {
 }
 
 function Navbar({ links }: Props) {
-	const navigate = useNavigate();
-	const client = useApolloClient();
 	const authToken = localStorage.getItem('token');
-
-	function handleLogOut() {
-		client.clearStore();
-		localStorage.clear();
-		navigate('/login');
-	}
 
 	if (!authToken) {
 		return <></>;
@@ -40,9 +32,7 @@ function Navbar({ links }: Props) {
 							{link.title}
 						</NavLink>
 					))}
-					<button className={'text-gray-500 hover:text-blue-800 hover:bg-blue-300'} onClick={() => handleLogOut()}>
-						Logout
-					</button>
+					<Logout />
 				</div>
 			</div>
 		</nav>
