@@ -27,8 +27,8 @@ function Navbar({ links }: Props) {
 			</a>
 			<div className="hidden md:block">
 				<div className="flex items-baseline ml-10 space-x-4 ">
-					{links.map(link => (
-						<NavLink to={link.path} className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
+					{links.map((link, index) => (
+						<NavLink key={index} to={link.path} className={({ isActive }) => (isActive ? activeLink : inactiveLink)}>
 							{link.title}
 						</NavLink>
 					))}
