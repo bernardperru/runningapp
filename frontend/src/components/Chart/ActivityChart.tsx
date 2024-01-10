@@ -19,6 +19,15 @@ import { useGetWeeksQuery } from '../../graphql';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
+export interface IAxis<T> {
+	key: keyof T;
+}
+
+interface Props<T> {
+	data: T[];
+	x: IAxis<T>;
+}
+
 const ActivityChart: React.FunctionComponent = () => {
 	const { data } = useGetWeeksQuery();
 
