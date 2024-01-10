@@ -26,11 +26,10 @@ export interface IAxis<T> {
 
 interface Props<T> {
 	data: T[];
-	x: IAxis<T>;
-	y: IAxis<T>;
+	x: string;
 }
 
-export function Chart<T>({ data, x, y }: Props<T>) {
+export function Chart<T>({ data, x }: Props<T>) {
 	// const { data } = useGetWeeksQuery();
 
 	const options: any = {
@@ -47,7 +46,7 @@ export function Chart<T>({ data, x, y }: Props<T>) {
 		},
 	};
 
-	const labels = data.map(obj => get(obj, x.key));
+	const labels = data.map(obj => get(obj, 'week'));
 
 	const datax: ChartData<keyof ChartTypeRegistry> = {
 		labels,
@@ -55,7 +54,7 @@ export function Chart<T>({ data, x, y }: Props<T>) {
 			{
 				label: 'distance',
 				data: data.map(obj => {
-					return get(obj, y.key);
+					return get(obj, x);
 				}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: 'rgba(53, 162, 235, 0.5)',
