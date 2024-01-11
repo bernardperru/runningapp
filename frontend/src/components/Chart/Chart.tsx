@@ -26,14 +26,14 @@ export interface IAxis<T> {
 
 interface Props<T> {
 	data: T[];
+	y: string;
 	x: string;
 }
 
-export function Chart<T>({ data, x }: Props<T>) {
-	// const { data } = useGetWeeksQuery();
-
+export function Chart<T>({ data, y, x }: Props<T>) {
 	const options: any = {
 		responsive: true,
+		maintainAspectRatio: false,
 		indexAxis: 'x' as const,
 		plugins: {
 			legend: {
@@ -46,15 +46,16 @@ export function Chart<T>({ data, x }: Props<T>) {
 		},
 	};
 
-	const labels = data.map(obj => get(obj, 'week'));
+	const sortedData = data.toSorted((a, b) => get(a, x) - get(b, x));
+	const labels = sortedData.map(obj => get(obj, x).toFixed(0));
 
 	const datax: ChartData<keyof ChartTypeRegistry> = {
 		labels,
 		datasets: [
 			{
-				label: 'distance',
+				label: y,
 				data: data.map(obj => {
-					return get(obj, x);
+					return get(obj, y);
 				}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: 'rgba(53, 162, 235, 0.5)',
@@ -62,7 +63,11 @@ export function Chart<T>({ data, x }: Props<T>) {
 		],
 	};
 
-	return <Line options={options} data={datax as ChartData<'line'>}></Line>;
+	return (
+		<div className="h-4/5 w-3/4">
+			<Line options={options} data={datax as ChartData<'line'>} />
+		</div>
+	);
 }
 
 export default Chart;

@@ -7,36 +7,47 @@ import React from 'react';
 // const axis: IAxis<activityType>[] = Object.keys(x);
 
 const ChartPage: React.FunctionComponent = () => {
-	const [selectedOption, setSelectedOption] = React.useState<string>('');
+	const [y, setY] = React.useState<string>('');
+	const [x, setX] = React.useState<string>('');
 	const { data } = useGetWeeksQuery();
 
 	if (!data) {
 		return <></>;
 	}
 
-	let keys = Object.keys(data.getWeeks[0]) as string[];
-	keys = keys.filter(key => {
+	const keys = (Object.keys(data.getWeeks[0]) as string[]).filter(key => {
 		return key.toString() !== '__typename';
 	});
 
-	const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+	const selectY = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const value = event.target.value;
-		setSelectedOption(value);
+		setY(value);
 	};
 
-	console.log(selectedOption);
+	const selectX = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		const value = event.target.value;
+		setX(value);
+	};
+
+	console.log(y);
 
 	return (
-		<span>
-			<select className="border border-black flex justify-center" onChange={selectChange}>
+		<div>
+			X
+			<select className="border border-black flex justify-center" onChange={selectX}>
 				{keys.map(key => (
 					<option>{key}</option>
 				))}
 			</select>
-			<Chart data={data.getWeeks} x={selectedOption}></Chart>
-		</span>
+			Y
+			<select className="border border-black flex justify-center" onChange={selectY}>
+				{keys.map(key => (
+					<option>{key}</option>
+				))}
+			</select>
+			<Chart data={data.getWeeks} y={y} x={x}></Chart>
+		</div>
 	);
-	// return <Chart data={} x={} y={}></Chart>;
 };
 
 export default ChartPage;
