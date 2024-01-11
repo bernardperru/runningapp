@@ -1,7 +1,7 @@
 import { activityType } from '@/utils/constants';
 import Chart from '../components/Chart/Chart';
 import { IAxis } from '../components/Chart/Chart';
-import { useGetWeeksQuery } from '../graphql';
+import { useGetWeeksQuery, useGetActivitiesQuery } from '../graphql';
 import React from 'react';
 
 // const axis: IAxis<activityType>[] = Object.keys(x);
@@ -9,13 +9,13 @@ import React from 'react';
 const ChartPage: React.FunctionComponent = () => {
 	const [y, setY] = React.useState<string>('');
 	const [x, setX] = React.useState<string>('');
-	const { data } = useGetWeeksQuery();
+	const { data } = useGetActivitiesQuery();
 
 	if (!data) {
 		return <></>;
 	}
 
-	const keys = (Object.keys(data.getWeeks[0]) as string[]).filter(key => {
+	const keys = (Object.keys(data.getActivities[0]) as string[]).filter(key => {
 		return key.toString() !== '__typename';
 	});
 
@@ -45,7 +45,7 @@ const ChartPage: React.FunctionComponent = () => {
 					<option>{key}</option>
 				))}
 			</select>
-			<Chart data={data.getWeeks} y={y} x={x}></Chart>
+			<Chart data={data.getActivities} y={y} x={x}></Chart>
 		</div>
 	);
 };

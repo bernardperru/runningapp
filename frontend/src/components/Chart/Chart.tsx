@@ -33,7 +33,7 @@ interface Props<T> {
 export function Chart<T>({ data, y, x }: Props<T>) {
 	const options: any = {
 		responsive: true,
-		maintainAspectRatio: false,
+		maintainAspectRatio: true,
 		indexAxis: 'x' as const,
 		plugins: {
 			legend: {
@@ -46,8 +46,8 @@ export function Chart<T>({ data, y, x }: Props<T>) {
 		},
 	};
 
-	const sortedData = data.toSorted((a, b) => get(a, x) - get(b, x));
-	const labels = sortedData.map(obj => get(obj, x).toFixed(0));
+	// const sortedData = data.sort((a, b) => get(a, x) - get(b, x));
+	const labels = data.map(obj => get(obj, x));
 
 	const datax: ChartData<keyof ChartTypeRegistry> = {
 		labels,
@@ -64,7 +64,7 @@ export function Chart<T>({ data, y, x }: Props<T>) {
 	};
 
 	return (
-		<div className="h-4/5 w-3/4">
+		<div className="w-3/4">
 			<Line options={options} data={datax as ChartData<'line'>} />
 		</div>
 	);
