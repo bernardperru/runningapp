@@ -11,30 +11,29 @@ import {
 	Legend,
 	ChartTypeRegistry,
 	ChartData,
-	ChartOptions,
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
-import { useGetWeeksQuery } from '../../graphql';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export interface IAxis<T> {
-	key: string;
+export interface IAxisType<T> {
+	key: keyof T;
 	title: string;
 }
 
 interface Props<T> {
 	data: T[];
-	y: string;
-	x: string;
+	y: IAxisType<T>;
+	x: IAxisType<T>;
 }
 
 export function Chart<T>({ data, y, x }: Props<T>) {
 	const options: any = {
 		responsive: true,
 		maintainAspectRatio: true,
-		indexAxis: 'x' as const,
+		scaleShowValues: true,
+
 		plugins: {
 			legend: {
 				position: 'top' as const,
@@ -46,16 +45,16 @@ export function Chart<T>({ data, y, x }: Props<T>) {
 		},
 	};
 
-	// const sortedData = data.sort((a, b) => get(a, x) - get(b, x));
-	const labels = data.map(obj => get(obj, x));
+	const sortedData = [...data].sort((a, b) => (get(a, x.key) > get(b, x.key) ? 1 : -1));
+	const labels = data.map(obj => get(obj, x.key));
 
 	const datax: ChartData<keyof ChartTypeRegistry> = {
 		labels,
 		datasets: [
 			{
-				label: y,
-				data: data.map(obj => {
-					return get(obj, y);
+				label: y.title,
+				data: sortedData.map(obj => {
+					return get(obj, y.key);
 				}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: 'rgba(53, 162, 235, 0.5)',
@@ -64,7 +63,7 @@ export function Chart<T>({ data, y, x }: Props<T>) {
 	};
 
 	return (
-		<div className="w-3/4">
+		<div className="h-3/4 w-3/4 overflow-x-scroll">
 			<Line options={options} data={datax as ChartData<'line'>} />
 		</div>
 	);
