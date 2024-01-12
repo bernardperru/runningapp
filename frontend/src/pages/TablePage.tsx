@@ -102,17 +102,17 @@ export function TablePage() {
 
 	function rowInteract(row: activityType) {}
 
-	const activities = data?.getActivityPage.activities;
-
 	return (
 		<div className="py-6">
-			<Table
-				columns={columns}
-				data={activities}
-				headerInteract={headerInteract}
-				rowInteract={rowInteract}
-				sort={sort}
-				loading={loading}></Table>
+			{data && (
+				<Table
+					columns={columns}
+					data={data.getActivityPage.activities}
+					headerInteract={headerInteract}
+					rowInteract={rowInteract}
+					sort={sort}
+					loading={loading}></Table>
+			)}
 			{pages && (
 				<div className="">
 					<Pagination pagesNumber={pages.getPages}></Pagination>

@@ -1,5 +1,3 @@
-import { get } from 'lodash';
-
 export interface ICardFieldType<T> {
 	key: keyof T;
 	title: string;

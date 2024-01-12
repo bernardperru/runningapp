@@ -1,6 +1,5 @@
 import { TableHeader } from './TableHeader';
 import { TableRows } from './TableRows';
-import { SpinningCircles } from 'react-loading-icons';
 
 export interface IColumnType<T> {
 	key: keyof T;
@@ -10,7 +9,7 @@ export interface IColumnType<T> {
 }
 
 interface Props<T> {
-	data: T[] | undefined;
+	data: T[];
 	columns: IColumnType<T>[];
 	headerInteract?: (value: IColumnType<T>) => void;
 	rowInteract?: (value: any) => void;

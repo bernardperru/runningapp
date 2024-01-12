@@ -1,5 +1,4 @@
 import { IColumnType } from './Table';
-import { get } from 'lodash';
 
 interface Props<T> {
 	data: T[];

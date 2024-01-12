@@ -1,6 +1,5 @@
-import { GQLActivity, useGetWeekActivitiesQuery, useGetWeeksPageQuery } from '../graphql';
-import { activityCardType, activityType, weekCardType1 } from '../utils/constants';
-import { usePagination } from '../hooks/usePagination';
+import { useGetWeekActivitiesQuery } from '../graphql';
+import { activityType } from '../utils/constants';
 import { ICardFieldType } from '../components/Cards/Card';
 import { CardContainer } from '../components/Cards/CardContainer';
 import { useParams } from 'react-router-dom';
