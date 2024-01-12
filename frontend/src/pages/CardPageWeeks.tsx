@@ -9,28 +9,28 @@ const cardFields: ICardFieldType<weekCardType1>[] = [
 	{
 		key: 'cadence',
 		title: 'Avg. Cadence',
-		render: (_, { cadence, activityCount }) => {
+		render: ({ cadence, activityCount }) => {
 			return (cadence / activityCount).toFixed(0) + ' spm';
 		},
 	},
 	{
 		key: 'distance',
 		title: 'Distance',
-		render: (_, { distance }) => {
+		render: ({ distance }) => {
 			return (distance / 1000).toFixed(2) + ' km';
 		},
 	},
 	{
 		key: 'heartrate',
 		title: 'Avg. Heartrate',
-		render: (_, { heartrate, activityCount }) => {
+		render: ({ heartrate, activityCount }) => {
 			return (heartrate / activityCount).toFixed(0) + ' bpm';
 		},
 	},
 	{
 		key: 'time',
 		title: 'Time',
-		render: (_, { time }) => {
+		render: ({ time }) => {
 			const addZero = (x: number) => {
 				if (x < 10) {
 					return '0' + x.toString();

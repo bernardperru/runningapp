@@ -9,15 +9,15 @@ const columns: IColumnType<activityType>[] = [
 		key: 'start_date',
 		title: 'Date',
 		render: value => {
-			const date = new Date(value);
-			return date.toDateString();
+			const date = new Date(value.start_date);
+			return <>{date.toDateString()}</>;
 		},
 	},
 	{
 		key: 'distance',
 		title: 'Distance',
 		render: value => {
-			return (parseFloat(value.toString()) / 1000).toFixed(2) + ' km';
+			return <>{(value.distance / 1000).toFixed(2) + ' km'}</>;
 		},
 	},
 	{
@@ -30,39 +30,39 @@ const columns: IColumnType<activityType>[] = [
 				}
 				return x.toString();
 			};
-			const hours = Math.floor(parseFloat(value.toString()) / 3600);
-			const newValue = parseFloat(value.toString()) - hours * 3600;
+			const hours = Math.floor(value.elapsed_time / 3600);
+			const newValue = value.elapsed_time - hours * 3600;
 			const minutes = Math.floor(newValue / 60);
 			const seconds = newValue - minutes * 60;
-			return addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + '';
+			return <>{addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + ''}</>;
 		},
 	},
 	{
 		key: 'average_heartrate',
 		title: 'Avg. Heartrate',
 		render: value => {
-			return parseFloat(value.toString()).toFixed(0) + ' bpm';
+			return <>{value.average_heartrate.toFixed(0) + ' bpm'}</>;
 		},
 	},
 	{
 		key: 'average_cadence',
 		title: 'Avg. Cadence',
 		render: value => {
-			return parseFloat(value.toString()).toFixed(0) + ' spm';
+			return <>{value.average_cadence.toFixed(0) + ' spm'}</>;
 		},
 	},
 	{
 		key: 'zone',
 		title: 'Zone',
 		render: value => {
-			return value;
+			return <>{value.zone}</>;
 		},
 	},
 	{
 		key: 'average_pace',
 		title: 'Avg. Pace',
 		render: value => {
-			return value;
+			return <>{value.average_pace}</>;
 		},
 	},
 ];

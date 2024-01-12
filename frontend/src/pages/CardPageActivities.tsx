@@ -9,28 +9,28 @@ const cardFields: ICardFieldType<activityType>[] = [
 	{
 		key: 'average_cadence',
 		title: 'Avg. Cadence',
-		render: (_, { average_cadence }) => {
+		render: ({ average_cadence }) => {
 			return average_cadence.toFixed(0) + ' spm';
 		},
 	},
 	{
 		key: 'distance',
 		title: 'Distance',
-		render: (_, { distance }) => {
+		render: ({ distance }) => {
 			return (distance / 1000).toFixed(2) + ' km';
 		},
 	},
 	{
 		key: 'average_heartrate',
 		title: 'Avg. Heartrate',
-		render: (_, { average_heartrate }) => {
+		render: ({ average_heartrate }) => {
 			return average_heartrate.toFixed(0) + ' bpm';
 		},
 	},
 	{
-		key: 'time',
+		key: 'elapsed_time',
 		title: 'Time',
-		render: (_, { elapsed_time }) => {
+		render: ({ elapsed_time }) => {
 			const addZero = (x: number) => {
 				if (x < 10) {
 					return '0' + x.toString();

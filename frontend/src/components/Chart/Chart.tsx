@@ -38,24 +38,21 @@ export function Chart<T>({ data, y, x }: Props<T>) {
 			legend: {
 				position: 'top' as const,
 			},
-			title: {
-				display: true,
-				text: 'Chart.js Chart',
-			},
 		},
 	};
 
-	const sortedData = [...data].sort((a, b) => (get(a, x.key) > get(b, x.key) ? 1 : -1));
-	const labels = data.map(obj => get(obj, x.key));
+	const labels = data.map(obj => obj[x.key]);
 
 	const datax: ChartData<keyof ChartTypeRegistry> = {
 		labels,
 		datasets: [
 			{
 				label: y.title,
-				data: sortedData.map(obj => {
-					return get(obj, y.key);
-				}),
+				data: [...data]
+					.sort((a, b) => (get(a, x.key) > get(b, x.key) ? 1 : -1))
+					.map(obj => {
+						return get(obj, y.key);
+					}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: 'rgba(53, 162, 235, 0.5)',
 			},

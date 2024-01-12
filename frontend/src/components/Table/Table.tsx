@@ -3,9 +3,9 @@ import { TableRows } from './TableRows';
 import { SpinningCircles } from 'react-loading-icons';
 
 export interface IColumnType<T> {
-	key: string;
+	key: keyof T;
 	title: string;
-	render: (value: number | string) => string | number;
+	render: (value: T) => JSX.Element;
 	renderHeader?: (column: IColumnType<T>, item: T) => void;
 }
 
