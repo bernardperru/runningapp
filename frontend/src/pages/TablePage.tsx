@@ -10,14 +10,20 @@ const columns: IColumnType<activityType>[] = [
 		title: 'Date',
 		render: value => {
 			const date = new Date(value.start_date);
-			return <div className="w-40 h-6 flex m-4 justify-center">{date.toDateString()}</div>;
+			return <div className="h-6 flex m-4 justify-center">{date.toDateString()}</div>;
+		},
+		renderHeader(column) {
+			return <div className="w-40 h-6 pl-3 flex m-4 justify-center">{column.title}</div>;
 		},
 	},
 	{
 		key: 'distance',
 		title: 'Distance',
 		render: value => {
-			return <div className="w-18 h-6 flex m-4 justify-center">{(value.distance / 1000).toFixed(2) + ' km'}</div>;
+			return <div className="h-6 flex m-4 justify-center">{(value.distance / 1000).toFixed(2) + ' km'}</div>;
+		},
+		renderHeader(column) {
+			return <div className="w-20 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
 		},
 	},
 	{
@@ -35,38 +41,53 @@ const columns: IColumnType<activityType>[] = [
 			const minutes = Math.floor(newValue / 60);
 			const seconds = newValue - minutes * 60;
 			return (
-				<div className="w-18 h-6 flex m-4 justify-center">
+				<div className="h-6 flex m-4 justify-center">
 					{addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + ''}
 				</div>
 			);
+		},
+		renderHeader(column) {
+			return <div className="w-20 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
 		},
 	},
 	{
 		key: 'average_heartrate',
 		title: 'Heartrate',
 		render: value => {
-			return <div className="w-18 h-6 flex m-4 justify-center">{value.average_heartrate.toFixed(0) + ' bpm'}</div>;
+			return <div className="h-6 flex m-4 justify-center">{value.average_heartrate.toFixed(0) + ' bpm'}</div>;
+		},
+		renderHeader(column) {
+			return <div className="w-20 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
 		},
 	},
 	{
 		key: 'average_cadence',
 		title: 'Cadence',
 		render: value => {
-			return <div className="w-18 h-6 flex m-4 justify-center">{value.average_cadence.toFixed(0) + ' spm'}</div>;
+			return <div className="h-6 flex m-4 justify-center">{value.average_cadence.toFixed(0) + ' spm'}</div>;
+		},
+		renderHeader(column) {
+			return <div className="w-18 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
 		},
 	},
 	{
 		key: 'zone',
 		title: 'Zone',
 		render: value => {
-			return <div className="w-18 h-6 flex m-4 justify-center">{value.zone}</div>;
+			return <div className="h-6 flex m-4 justify-center">{value.zone}</div>;
+		},
+		renderHeader(column) {
+			return <div className="w-18 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
 		},
 	},
 	{
 		key: 'average_pace',
 		title: 'Pace',
 		render: value => {
-			return <div className="w-18 h-6 flex m-4 justify-center">{value.average_pace}</div>;
+			return <div className="h-6 flex m-4 justify-center">{value.average_pace}</div>;
+		},
+		renderHeader(column) {
+			return <div className="w-20 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
 		},
 	},
 ];

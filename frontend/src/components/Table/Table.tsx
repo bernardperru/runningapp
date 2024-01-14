@@ -5,7 +5,7 @@ export interface IColumnType<T> {
 	key: keyof T;
 	title: string;
 	render: (value: T) => JSX.Element;
-	renderHeader?: (column: IColumnType<T>, item: T) => void;
+	renderHeader: (column: IColumnType<T>) => JSX.Element;
 }
 
 interface Props<T> {
@@ -23,10 +23,12 @@ export function Table<T>({ data, columns, headerInteract, rowInteract, sort, loa
 			<thead className="bg-grey-300">
 				<TableHeader columns={columns} interact={headerInteract} sort={sort}></TableHeader>
 			</thead>
-			{data && (
+			{data ? (
 				<tbody className="h-5">
 					<TableRows columns={columns} data={data} interact={rowInteract}></TableRows>
 				</tbody>
+			) : (
+				<div>{loading}</div>
 			)}
 		</table>
 	);
