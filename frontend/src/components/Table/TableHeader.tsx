@@ -15,7 +15,7 @@ export function TableHeader<T>({ columns, interact, sort }: Props<T>) {
 					key={columnindex}
 					className="border-2 border-grey-500 p-4 font-normal text-gray-900 hover:bg-sky-400"
 					onClick={() => (interact ? interact(column) : () => {})}>
-					<div className="flex">
+					<div className="flex justify-center">
 						<span>{column.title}</span>
 						{sort && sort.sort === column.key ? (
 							sort.order === 'asc' ? (
