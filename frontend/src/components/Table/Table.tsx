@@ -9,7 +9,7 @@ export interface IColumnType<T> {
 }
 
 interface Props<T> {
-	data: T[];
+	data?: T[];
 	columns: IColumnType<T>[];
 	headerInteract?: (value: IColumnType<T>) => void;
 	rowInteract?: (value: any) => void;

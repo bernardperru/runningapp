@@ -15,7 +15,7 @@ export function TableRows<T>({ data, columns, interact }: Props<T>) {
 			{data.map((item, itemIndex) => (
 				<tr key={itemIndex} className={'table-row'}>
 					{columns.map((column, columnIndex) => (
-						<td className="border p-4 text-gray-900" key={columnIndex}>
+						<td className="border text-gray-900" key={columnIndex}>
 							{column.render(item)}
 						</td>
 					))}

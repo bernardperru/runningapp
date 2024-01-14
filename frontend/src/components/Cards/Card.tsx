@@ -1,3 +1,5 @@
+import { FunctionComponent, PropsWithChildren } from 'react';
+
 export interface ICardFieldType<T> {
 	key: keyof T;
 	title: string;
@@ -13,17 +15,23 @@ interface Props<T> {
 
 export function Card<T>({ data, fields, title, interact }: Props<T>) {
 	return (
-		<div className="bg-grey-300 hover:bg-sky-300 shadow-lg rounded-md py-7 px-12 mt-6" onClick={() => interact(data)}>
-			<h1 className="text-2xl text-gray-900 font-normal border-b-2 border-black w-fit">
-				{title.map(a => data[a] + ' ')}
-			</h1>
-			<ul className="">
-				{fields.map((field, fieldIndex) => (
-					<li key={fieldIndex}>
-						{field.title} : {field.render(data)}
-					</li>
-				))}
-			</ul>
-		</div>
+		<TestComponent>
+			<div className="bg-grey-300 hover:bg-sky-300 shadow-lg rounded-md py-7 px-12 mt-6" onClick={() => interact(data)}>
+				<h1 className="text-2xl text-gray-900 font-normal border-b-2 border-black w-fit">
+					{title.map(a => data[a] + ' ')}
+				</h1>
+				<ul className="">
+					{fields.map((field, fieldIndex) => (
+						<li key={fieldIndex}>
+							{field.title} : {field.render(data)}
+						</li>
+					))}
+				</ul>
+			</div>
+		</TestComponent>
 	);
 }
+
+const TestComponent: FunctionComponent<PropsWithChildren> = Props => {
+	return <div>{Props.children}</div>;
+};

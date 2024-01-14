@@ -10,14 +10,14 @@ const columns: IColumnType<activityType>[] = [
 		title: 'Date',
 		render: value => {
 			const date = new Date(value.start_date);
-			return <>{date.toDateString()}</>;
+			return <div className="w-40 h-6 flex m-4 justify-center">{date.toDateString()}</div>;
 		},
 	},
 	{
 		key: 'distance',
 		title: 'Distance',
 		render: value => {
-			return <>{(value.distance / 1000).toFixed(2) + ' km'}</>;
+			return <div className="w-18 h-6 flex m-4 justify-center">{(value.distance / 1000).toFixed(2) + ' km'}</div>;
 		},
 	},
 	{
@@ -34,35 +34,39 @@ const columns: IColumnType<activityType>[] = [
 			const newValue = value.elapsed_time - hours * 3600;
 			const minutes = Math.floor(newValue / 60);
 			const seconds = newValue - minutes * 60;
-			return <>{addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + ''}</>;
+			return (
+				<div className="w-18 h-6 flex m-4 justify-center">
+					{addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + ''}
+				</div>
+			);
 		},
 	},
 	{
 		key: 'average_heartrate',
-		title: 'Avg. Heartrate',
+		title: 'Heartrate',
 		render: value => {
-			return <>{value.average_heartrate.toFixed(0) + ' bpm'}</>;
+			return <div className="w-18 h-6 flex m-4 justify-center">{value.average_heartrate.toFixed(0) + ' bpm'}</div>;
 		},
 	},
 	{
 		key: 'average_cadence',
-		title: 'Avg. Cadence',
+		title: 'Cadence',
 		render: value => {
-			return <>{value.average_cadence.toFixed(0) + ' spm'}</>;
+			return <div className="w-18 h-6 flex m-4 justify-center">{value.average_cadence.toFixed(0) + ' spm'}</div>;
 		},
 	},
 	{
 		key: 'zone',
 		title: 'Zone',
 		render: value => {
-			return <>{value.zone}</>;
+			return <div className="w-18 h-6 flex m-4 justify-center">{value.zone}</div>;
 		},
 	},
 	{
 		key: 'average_pace',
-		title: 'Avg. Pace',
+		title: 'Pace',
 		render: value => {
-			return <>{value.average_pace}</>;
+			return <div className="w-18 h-6 flex m-4 justify-center">{value.average_pace}</div>;
 		},
 	},
 ];
@@ -77,6 +81,7 @@ export function TablePage() {
 	});
 
 	const { paginationData, Pagination } = usePagination(10);
+
 	const { data: pages } = useGetPagesQuery({
 		variables: {
 			first: 10,
@@ -104,15 +109,14 @@ export function TablePage() {
 
 	return (
 		<div className="py-6">
-			{data && (
-				<Table
-					columns={columns}
-					data={data.getActivityPage.activities}
-					headerInteract={headerInteract}
-					rowInteract={rowInteract}
-					sort={sort}
-					loading={loading}></Table>
-			)}
+			<Table
+				columns={columns}
+				data={data?.getActivityPage.activities}
+				headerInteract={headerInteract}
+				rowInteract={rowInteract}
+				sort={sort}
+				loading={loading}></Table>
+
 			{pages && (
 				<div className="">
 					<Pagination pagesNumber={pages.getPages}></Pagination>
