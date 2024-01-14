@@ -138,10 +138,12 @@ export function TablePage() {
 				sort={sort}
 				loading={loading}></Table>
 
-			{pages && (
-				<div className="">
+			{pages && data ? (
+				<div className="flex justify-center relative">
 					<Pagination pagesNumber={pages.getPages}></Pagination>
 				</div>
+			) : (
+				<div className="h-72" />
 			)}
 		</div>
 	);
