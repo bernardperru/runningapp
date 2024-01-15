@@ -11,8 +11,8 @@ export interface IColumnType<T> {
 interface Props<T> {
 	data?: T[];
 	columns: IColumnType<T>[];
-	headerInteract?: (value: IColumnType<T>) => void;
-	rowInteract?: (value: any) => void;
+	headerInteract: (value: IColumnType<T>) => void;
+	rowInteract: (value: any) => void;
 	sort: { sort: keyof T; order: 'asc' | 'desc' };
 	loading: boolean;
 }
@@ -23,12 +23,10 @@ export function Table<T>({ data, columns, headerInteract, rowInteract, sort, loa
 			<thead className="bg-grey-300">
 				<TableHeader columns={columns} interact={headerInteract} sort={sort}></TableHeader>
 			</thead>
-			{data ? (
+			{data && (
 				<tbody className="h-5">
 					<TableRows columns={columns} data={data} interact={rowInteract}></TableRows>
 				</tbody>
-			) : (
-				<div>{loading}</div>
 			)}
 		</table>
 	);

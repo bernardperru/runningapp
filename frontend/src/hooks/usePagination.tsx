@@ -18,7 +18,7 @@ export const usePagination = (first: number) => {
 		const pages = Array.from({ length: pagesNumber || 0 }, (_, x) => x + 1);
 
 		return (
-			<div className="flex justify-center sticky">
+			<div className="flex justify-center ">
 				{pages.map((el, index) =>
 					currentPage === el ? (
 						<button

@@ -1,7 +1,9 @@
-import { useGetActivityPageQuery, useGetPagesQuery } from '../graphql';
+import { GQLActivity, useGetActivityPageQuery, useGetPagesQuery } from '../graphql';
 import { Table, IColumnType } from '../components/Table/Table';
 import { activityType } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
+import { useNavigate } from 'react-router-dom';
+
 import React from 'react';
 
 const columns: IColumnType<activityType>[] = [
@@ -93,6 +95,7 @@ const columns: IColumnType<activityType>[] = [
 ];
 
 export function TablePage() {
+	const navigate = useNavigate();
 	const [sort, setSort] = React.useState<{
 		sort: keyof activityType;
 		order: 'asc' | 'desc';
@@ -126,7 +129,13 @@ export function TablePage() {
 		}
 	}
 
-	function rowInteract(row: activityType) {}
+	function rowInteract(row: GQLActivity) {
+		navigate(`/activities/${row.id}`, {
+			state: {
+				activity: row,
+			},
+		});
+	}
 
 	return (
 		<div className="py-6">
@@ -137,7 +146,7 @@ export function TablePage() {
 				rowInteract={rowInteract}
 				sort={sort}
 				loading={loading}></Table>
-			{!data && (
+			{loading && (
 				<>
 					<div className="h-80" />
 					<div className="h-64"></div>

@@ -8,7 +8,7 @@ import ChartPage from './pages/ChartPage';
 import CardPageWeeks from './pages/CardPageWeeks';
 import CardPageActivities from './pages/CardPageActivities';
 import { INavBarLink } from './components/Navbar/Navbar';
-import { useApolloClient } from '@apollo/client';
+import { ActivityPage } from './pages/ActivityPage';
 
 const navbarLinks: INavBarLink[] = [
 	{ path: '/', title: 'Home' },
@@ -18,16 +18,6 @@ const navbarLinks: INavBarLink[] = [
 ];
 
 function App() {
-	const navigate = useNavigate();
-	const client = useApolloClient();
-	const authToken = localStorage.getItem('token');
-
-	function handleLogOut() {
-		client.clearStore();
-		localStorage.clear();
-		navigate('/login');
-	}
-
 	return (
 		<div className="">
 			<Navbar links={navbarLinks} />
@@ -37,9 +27,9 @@ function App() {
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/redirect/exchange_token" element={<RedirectPage />} />
 					<Route path="/activities" element={<TablePage />} />
+					<Route path="/activities/:activityId" element={<ActivityPage />} />
 					<Route path="/weekly" element={<CardPageWeeks />} />
 					<Route path="/weekly/:yearNumber/:weekNumber" element={<CardPageActivities />} />
-					{/* <Route path="/weekly/:yearNumber/:weekNumber/:activityId" element={<RunMap />} /> */}
 					<Route path="/charts" element={<ChartPage />} />
 				</Routes>
 			</div>
