@@ -2,7 +2,6 @@ import { GQLActivity, useGetActivityPageQuery, useGetPagesQuery } from '../graph
 import { Table, IColumnType } from '../components/Table/Table';
 import { activityType } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
-import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Cards/Card';
 import { cardFields } from './CardPageActivities';
 import React from 'react';
@@ -84,7 +83,6 @@ const columns: IColumnType<GQLActivity>[] = [
 ];
 
 export function TablePage() {
-	const navigate = useNavigate();
 	const [sort, setSort] = React.useState<{
 		sort: keyof activityType;
 		order: 'asc' | 'desc';

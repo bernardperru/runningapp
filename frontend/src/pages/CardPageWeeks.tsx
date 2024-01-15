@@ -4,49 +4,40 @@ import { usePagination } from '../hooks/usePagination';
 import { ICardField } from '../components/Cards/Card';
 import { CardContainer } from '../components/Cards/CardContainer';
 import { useNavigate } from 'react-router-dom';
+import { formatTime } from '../utils/utils';
 
 const cardFields: ICardField<GQLWeek>[] = [
 	{
 		key: 'cadence',
 		title: 'Avg. Cadence',
 		render: ({ cadence, activityCount }) => {
-			return (cadence / activityCount).toFixed(0) + ' spm';
+			return <>{(cadence / activityCount).toFixed(0)} spm</>;
 		},
 	},
 	{
 		key: 'distance',
 		title: 'Distance',
 		render: ({ distance }) => {
-			return (distance / 1000).toFixed(2) + ' km';
+			return <>{(distance / 1000).toFixed(2)} km</>;
 		},
 	},
 	{
 		key: 'heartrate',
 		title: 'Avg. Heartrate',
 		render: ({ heartrate, activityCount }) => {
-			return (heartrate / activityCount).toFixed(0) + ' bpm';
+			return <>{(heartrate / activityCount).toFixed(0)} bpm</>;
 		},
 	},
 	{
 		key: 'time',
 		title: 'Time',
 		render: ({ time }) => {
-			const addZero = (x: number) => {
-				if (x < 10) {
-					return '0' + x.toString();
-				}
-				return x.toString();
-			};
-			const hours = Math.floor(time / 3600);
-			const newValue = time - hours * 3600;
-			const minutes = Math.floor(newValue / 60);
-			const seconds = newValue - minutes * 60;
-			return addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + '';
+			return <>{formatTime(time)}</>;
 		},
 	},
 ];
 
-const title: Array<keyof weekCardType1> = ['week', 'year'];
+const title: Array<keyof GQLWeek> = ['week', 'year'];
 
 export function CardPageWeeks() {
 	const { paginationData, Pagination } = usePagination(8);

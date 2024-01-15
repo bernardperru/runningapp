@@ -10,28 +10,28 @@ export const cardFields: ICardField<GQLActivity>[] = [
 		key: 'average_cadence',
 		title: 'Avg. Cadence',
 		render: ({ average_cadence }) => {
-			return average_cadence.toFixed(0) + ' spm';
+			return <>{average_cadence.toFixed(0)} spm</>;
 		},
 	},
 	{
 		key: 'distance',
 		title: 'Distance',
 		render: ({ distance }) => {
-			return (distance / 1000).toFixed(2) + ' km';
+			return <>{(distance / 1000).toFixed(2)} km</>;
 		},
 	},
 	{
 		key: 'average_heartrate',
 		title: 'Avg. Heartrate',
 		render: ({ average_heartrate }) => {
-			return average_heartrate.toFixed(0) + ' bpm';
+			return <>{average_heartrate.toFixed(0)} bpm</>;
 		},
 	},
 	{
 		key: 'elapsed_time',
 		title: 'Time',
 		render: ({ elapsed_time }) => {
-			return formatTime(elapsed_time);
+			return <>{formatTime(elapsed_time)}</>;
 		},
 	},
 ];

@@ -3,7 +3,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 export interface ICardField<T> {
 	key: keyof T;
 	title: string;
-	render: (item: T) => string;
+	render: (obj: T) => JSX.Element;
 }
 
 interface Props<T> {
