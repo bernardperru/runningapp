@@ -1,5 +1,4 @@
 import { GQLActivity, useGetWeekActivitiesQuery } from '../graphql';
-import { activityType } from '../utils/constants';
 import { ICardField } from '../components/Cards/Card';
 import { CardContainer } from '../components/Cards/CardContainer';
 import { useParams } from 'react-router-dom';
@@ -36,7 +35,7 @@ export const cardFields: ICardField<GQLActivity>[] = [
 	},
 ];
 
-const title: Array<keyof activityType> = ['start_date'];
+const title: Array<keyof GQLActivity> = ['start_date'];
 
 export function CardPageActivities() {
 	const { yearNumber, weekNumber } = useParams();

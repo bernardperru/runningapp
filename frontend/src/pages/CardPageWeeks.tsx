@@ -1,5 +1,4 @@
 import { GQLWeek, useGetWeeksPageQuery } from '../graphql';
-import { weekCardType1 } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
 import { ICardField } from '../components/Cards/Card';
 import { CardContainer } from '../components/Cards/CardContainer';
