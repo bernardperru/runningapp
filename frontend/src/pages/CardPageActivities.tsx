@@ -4,7 +4,7 @@ import { ICardFieldType } from '../components/Cards/Card';
 import { CardContainer } from '../components/Cards/CardContainer';
 import { useParams } from 'react-router-dom';
 
-const cardFields: ICardFieldType<activityType>[] = [
+export const cardFields: ICardFieldType<activityType>[] = [
 	{
 		key: 'average_cadence',
 		title: 'Avg. Cadence',

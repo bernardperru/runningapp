@@ -3,7 +3,8 @@ import { Table, IColumnType } from '../components/Table/Table';
 import { activityType } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
 import { useNavigate } from 'react-router-dom';
-
+import { Card } from '../components/Cards/Card';
+import { cardFields } from './CardPageActivities';
 import React from 'react';
 import RunMap from '../components/Map/RunMap';
 
@@ -139,8 +140,14 @@ export function TablePage() {
 	if (viewActivity) {
 		return (
 			<>
-				<button onClick={() => setViewActivity(undefined)}> Return </button>
-				<RunMap activity={viewActivity}></RunMap>
+				<div className="hover:bg-sky-500 " onClick={() => setViewActivity(undefined)}>
+					{' '}
+					Return{' '}
+				</div>
+				<div className="flex justify-evenly">
+					<Card data={viewActivity} fields={cardFields} interact={() => {}} title={['id' as keyof GQLActivity]}></Card>
+					<RunMap activity={viewActivity}></RunMap>
+				</div>
 			</>
 		);
 	}
