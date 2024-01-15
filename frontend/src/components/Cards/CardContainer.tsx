@@ -1,15 +1,14 @@
-import { ICardFieldType } from './Card';
+import { ICardField } from './Card';
 import { Card } from './Card';
 
 interface Props<T> {
 	data: T[];
-	fields: ICardFieldType<T>[];
+	fields: ICardField<T>[];
 	title: Array<keyof T>;
-	columns: number;
 	interact: (obj: T) => void;
 }
 
-export function CardContainer<T>({ data, fields, title, columns, interact }: Props<T>) {
+export function CardContainer<T>({ data, fields, title, interact }: Props<T>) {
 	return (
 		<div className={`grid !grid-cols-4 gap-4 place-items-center`}>
 			{data.map((week, index) => (

@@ -1,11 +1,11 @@
-import { useGetWeeksPageQuery } from '../graphql';
+import { GQLWeek, useGetWeeksPageQuery } from '../graphql';
 import { weekCardType1 } from '../utils/constants';
 import { usePagination } from '../hooks/usePagination';
-import { ICardFieldType } from '../components/Cards/Card';
+import { ICardField } from '../components/Cards/Card';
 import { CardContainer } from '../components/Cards/CardContainer';
 import { useNavigate } from 'react-router-dom';
 
-const cardFields: ICardFieldType<weekCardType1>[] = [
+const cardFields: ICardField<GQLWeek>[] = [
 	{
 		key: 'cadence',
 		title: 'Avg. Cadence',
@@ -59,18 +59,17 @@ export function CardPageWeeks() {
 		},
 	});
 
-	if (!data) {
-		return <></>;
+	function interact(week: GQLWeek) {
+		navigate(`/weekly/${week.year}/${week.week}`);
 	}
 
-	function interact(week: weekCardType1) {
-		navigate(`/weekly/${week.year}/${week.week}`);
+	if (!data) {
+		return <></>;
 	}
 
 	return (
 		<div>
 			<CardContainer
-				columns={3}
 				data={data.getWeeksPage.weeks}
 				fields={cardFields}
 				title={title}

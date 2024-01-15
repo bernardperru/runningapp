@@ -1,10 +1,11 @@
-import { useGetWeekActivitiesQuery } from '../graphql';
+import { GQLActivity, useGetWeekActivitiesQuery } from '../graphql';
 import { activityType } from '../utils/constants';
-import { ICardFieldType } from '../components/Cards/Card';
+import { ICardField } from '../components/Cards/Card';
 import { CardContainer } from '../components/Cards/CardContainer';
 import { useParams } from 'react-router-dom';
+import { formatTime } from '../utils/utils';
 
-export const cardFields: ICardFieldType<activityType>[] = [
+export const cardFields: ICardField<GQLActivity>[] = [
 	{
 		key: 'average_cadence',
 		title: 'Avg. Cadence',
@@ -30,17 +31,7 @@ export const cardFields: ICardFieldType<activityType>[] = [
 		key: 'elapsed_time',
 		title: 'Time',
 		render: ({ elapsed_time }) => {
-			const addZero = (x: number) => {
-				if (x < 10) {
-					return '0' + x.toString();
-				}
-				return x.toString();
-			};
-			const hours = Math.floor(elapsed_time / 3600);
-			const newValue = elapsed_time - hours * 3600;
-			const minutes = Math.floor(newValue / 60);
-			const seconds = newValue - minutes * 60;
-			return addZero(hours) + ':' + addZero(minutes) + ':' + addZero(seconds) + '';
+			return formatTime(elapsed_time);
 		},
 	},
 ];
@@ -64,11 +55,10 @@ export function CardPageActivities() {
 	return (
 		<div>
 			<CardContainer
-				columns={3}
 				data={data.getWeekActivities}
 				fields={cardFields}
 				title={title}
-				interact={() => console.log()}></CardContainer>
+				interact={() => {}}></CardContainer>
 		</div>
 	);
 }

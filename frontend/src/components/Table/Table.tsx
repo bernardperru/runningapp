@@ -12,7 +12,7 @@ interface Props<T> {
 	data?: T[];
 	columns: IColumnType<T>[];
 	headerInteract: (value: IColumnType<T>) => void;
-	rowInteract: (value: any) => void;
+	rowInteract: (value: T) => void;
 	sort: { sort: keyof T; order: 'asc' | 'desc' };
 	loading: boolean;
 }
