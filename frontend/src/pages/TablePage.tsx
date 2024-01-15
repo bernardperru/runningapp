@@ -5,6 +5,7 @@ import { usePagination } from '../hooks/usePagination';
 import { useNavigate } from 'react-router-dom';
 
 import React from 'react';
+import RunMap from '../components/Map/RunMap';
 
 const columns: IColumnType<activityType>[] = [
 	{
@@ -104,6 +105,8 @@ export function TablePage() {
 		order: 'desc',
 	});
 
+	const [viewActivity, setViewActivity] = React.useState<GQLActivity | undefined>(undefined);
+
 	const { paginationData, Pagination } = usePagination(10);
 
 	const { data: pages } = useGetPagesQuery({
@@ -130,11 +133,16 @@ export function TablePage() {
 	}
 
 	function rowInteract(row: GQLActivity) {
-		navigate(`/activities/${row.id}`, {
-			state: {
-				activity: row,
-			},
-		});
+		setViewActivity(row);
+	}
+
+	if (viewActivity) {
+		return (
+			<>
+				<button onClick={() => setViewActivity(undefined)}> Return </button>
+				<RunMap activity={viewActivity}></RunMap>
+			</>
+		);
 	}
 
 	return (
