@@ -116,6 +116,7 @@ export function TablePage() {
 		},
 	});
 
+	//defines function that occurs when clicking on a tableheader (sorting)
 	function headerInteract(column: IColumnType<GQLActivity>) {
 		if (column) {
 			setSort({
@@ -129,6 +130,7 @@ export function TablePage() {
 		setViewActivity(row);
 	}
 
+	//shows a map and activity stats when clicking on a table row
 	if (viewActivity) {
 		return (
 			<>
