@@ -12,72 +12,79 @@ const columns: IColumnType<GQLActivity>[] = [
 	{
 		key: 'start_date',
 		title: 'Date',
+		width: 40,
 		render: ({ start_date }) => {
 			const date = new Date(start_date);
-			return <div className="h-6 flex m-4 justify-center">{date.toDateString()}</div>;
+			return <div className="">{date.toDateString()}</div>;
 		},
 		renderHeader(column) {
-			return <div className="w-40 h-6 pl-3 flex m-4 justify-center">{column.title}</div>;
+			return <div className="">{column.title}</div>;
 		},
 	},
 	{
 		key: 'distance',
 		title: 'Distance',
+		width: 20,
 		render: ({ distance }) => {
-			return <div className="h-6 flex m-4 justify-center">{(distance / 1000).toFixed(2) + ' km'}</div>;
+			return <div className="">{(distance / 1000).toFixed(2) + ' km'}</div>;
 		},
 		renderHeader: column => {
-			return <div className="w-20 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
+			return <div className="">{column.title}</div>;
 		},
 	},
 	{
 		key: 'elapsed_time',
 		title: 'Time',
+		width: 20,
 		render: ({ elapsed_time }) => {
-			return <div className="h-6 flex m-4 justify-center">{formatTime(elapsed_time)}</div>;
+			return <div className="">{formatTime(elapsed_time)}</div>;
 		},
 		renderHeader: column => {
-			return <div className="w-20 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
+			return <div className="">{column.title}</div>;
 		},
 	},
 	{
 		key: 'average_heartrate',
 		title: 'Heartrate',
+		width: 20,
 		render: ({ average_heartrate }) => {
-			return <div className="h-6 flex m-4 justify-center">{average_heartrate.toFixed(0) + ' bpm'}</div>;
+			return <div className="">{average_heartrate.toFixed(0) + ' bpm'}</div>;
 		},
 		renderHeader: column => {
-			return <div className="w-20 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
+			return <div className="">{column.title}</div>;
 		},
 	},
 	{
 		key: 'average_cadence',
 		title: 'Cadence',
+		width: 18,
 		render: ({ average_cadence }) => {
-			return <div className="h-6 flex m-4 justify-center">{average_cadence.toFixed(0) + ' spm'}</div>;
+			return <div className="">{average_cadence.toFixed(0) + ' spm'}</div>;
 		},
 		renderHeader: column => {
-			return <div className="w-18 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
+			return <div className="">{column.title}</div>;
 		},
 	},
 	{
 		key: 'zone',
 		title: 'Zone',
+		width: 18,
 		render: ({ zone }) => {
-			return <div className="h-6 flex m-4 justify-center">{zone}</div>;
+			return <div className="">{zone}</div>;
 		},
 		renderHeader: column => {
-			return <div className="w-18 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
+			return <div className="">{column.title}</div>;
 		},
 	},
 	{
 		key: 'average_pace',
 		title: 'Pace',
+		width: 20,
 		render: ({ average_pace }) => {
-			return <div className="h-6 flex m-4 justify-center">{average_pace}</div>;
+			return <div className="">{average_pace}</div>;
 		},
 		renderHeader: column => {
-			return <div className="w-20 pl-3 h-6 flex m-4 justify-center">{column.title}</div>;
+			return <div className="">{column.title}</div>;
 		},
 	},
 ];
@@ -144,17 +151,16 @@ export function TablePage() {
 				data={data?.getActivityPage.activities}
 				headerInteract={headerInteract}
 				rowInteract={rowInteract}
-				sort={sort}
-				loading={loading}></Table>
+				sort={sort}></Table>
+
 			{loading && (
 				<>
-					<div className="h-80" />
-					<div className="h-64"></div>
-					<div className="pt-3.5"></div>
+					<div className="h-60" />
+					<div className="h-80"></div>
 				</>
 			)}
 			{pages && (
-				<div className="flex justify-center relative">
+				<div className="flex justify-center ">
 					<Pagination pagesNumber={pages.getPages}></Pagination>
 				</div>
 			)}

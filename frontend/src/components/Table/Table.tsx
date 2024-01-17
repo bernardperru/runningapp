@@ -4,6 +4,7 @@ import { TableRows } from './TableRows';
 export interface IColumnType<T> {
 	key: keyof T;
 	title: string;
+	width: number;
 	render: (value: T) => JSX.Element;
 	renderHeader: (column: IColumnType<T>) => JSX.Element;
 }
@@ -14,17 +15,16 @@ interface Props<T> {
 	headerInteract: (value: IColumnType<T>) => void;
 	rowInteract: (value: T) => void;
 	sort: { sort: keyof T; order: 'asc' | 'desc' };
-	loading: boolean;
 }
 
-export function Table<T>({ data, columns, headerInteract, rowInteract, sort, loading }: Props<T>) {
+export function Table<T>({ data, columns, headerInteract, rowInteract, sort }: Props<T>) {
 	return (
 		<table className=" bg-white m-auto">
 			<thead className="bg-grey-300">
 				<TableHeader columns={columns} interact={headerInteract} sort={sort}></TableHeader>
 			</thead>
 			{data && (
-				<tbody className="h-5">
+				<tbody>
 					<TableRows columns={columns} data={data} interact={rowInteract}></TableRows>
 				</tbody>
 			)}
