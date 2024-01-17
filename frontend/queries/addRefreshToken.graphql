@@ -1,6 +1,0 @@
-mutation AddRefreshToken($accessToken: String!) {
-	addRefreshToken(accessToken: $accessToken) {
-		token
-		hasRefreshToken
-	}
-}
