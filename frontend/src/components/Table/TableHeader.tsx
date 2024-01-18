@@ -13,9 +13,9 @@ export function TableHeader<T>({ columns, interact, sort }: Props<T>) {
 			{columns.map((column, columnindex) => (
 				<th
 					key={columnindex}
-					className={`border-2 border-grey-500 font-normal text-gray-900 hover:bg-sky-400 h-14 pl-3 `}
+					className={`w-${column.width} border-2 border-grey-500 font-normal text-gray-900 hover:bg-sky-400 h-14 pl-3 `}
 					onClick={() => (interact ? interact(column) : () => {})}>
-					<div className={`flex justify-center w-${column.width}`}>
+					<div className={`flex justify-center`}>
 						<span>{column.renderHeader(column)}</span>
 						{sort && sort.sort === column.key ? (
 							sort.order === 'asc' ? (
