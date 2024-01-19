@@ -13,15 +13,19 @@ export function TableHeader<T>({ columns, interact, sort }: Props<T>) {
 			{columns.map((column, columnindex) => (
 				<th
 					key={columnindex}
-					className={`w-${column.width} border-2 border-grey-500 font-normal text-gray-900 hover:bg-sky-400 h-14 pl-3 `}
+					className={`border-2 border-grey-500 font-normal text-gray-900 hover:bg-sky-400 h-14 pl-3 hover:cursor-pointer`}
 					onClick={() => (interact ? interact(column) : () => {})}>
-					<div className={`flex justify-center`}>
-						<span>{column.renderHeader(column)}</span>
+					<div className={`w-40 flex justify-center`}>
+						<span className="">{column.renderHeader(column)}</span>
 						{sort && sort.sort === column.key ? (
 							sort.order === 'asc' ? (
-								<BsFillCaretUpFill />
+								<span>
+									<BsFillCaretUpFill />
+								</span>
 							) : (
-								<BsFillCaretDownFill />
+								<span>
+									<BsFillCaretDownFill />
+								</span>
 							)
 						) : (
 							<div className="px-2"></div>
