@@ -12,7 +12,7 @@ const columns: IColumnType<GQLActivity>[] = [
 	{
 		key: 'start_date',
 		title: 'Date',
-		width: 40,
+		width: 'w-40',
 		render: ({ start_date }) => {
 			const date = new Date(start_date);
 			return <div className="">{date.toDateString()}</div>;
@@ -24,7 +24,7 @@ const columns: IColumnType<GQLActivity>[] = [
 	{
 		key: 'distance',
 		title: 'Distance',
-		width: 20,
+		width: 'w-20',
 		render: ({ distance }) => {
 			return <div className="">{(distance / 1000).toFixed(2) + ' km'}</div>;
 		},
@@ -35,7 +35,7 @@ const columns: IColumnType<GQLActivity>[] = [
 	{
 		key: 'elapsed_time',
 		title: 'Time',
-		width: 20,
+		width: 'w-20',
 		render: ({ elapsed_time }) => {
 			return <div className="">{formatTime(elapsed_time)}</div>;
 		},
@@ -46,7 +46,7 @@ const columns: IColumnType<GQLActivity>[] = [
 	{
 		key: 'average_heartrate',
 		title: 'Heartrate',
-		width: 20,
+		width: 'w-20',
 		render: ({ average_heartrate }) => {
 			return <div className="">{average_heartrate.toFixed(0) + ' bpm'}</div>;
 		},
@@ -57,7 +57,7 @@ const columns: IColumnType<GQLActivity>[] = [
 	{
 		key: 'average_cadence',
 		title: 'Cadence',
-		width: 18,
+		width: 'w-20',
 		render: ({ average_cadence }) => {
 			return <div className="">{average_cadence.toFixed(0) + ' spm'}</div>;
 		},
@@ -68,7 +68,7 @@ const columns: IColumnType<GQLActivity>[] = [
 	{
 		key: 'zone',
 		title: 'Zone',
-		width: 18,
+		width: 'w-18',
 		render: ({ zone }) => {
 			return <div className="">{zone}</div>;
 		},
@@ -79,7 +79,7 @@ const columns: IColumnType<GQLActivity>[] = [
 	{
 		key: 'average_pace',
 		title: 'Pace',
-		width: 20,
+		width: 'w-18',
 		render: ({ average_pace }) => {
 			return <div className="">{average_pace}</div>;
 		},

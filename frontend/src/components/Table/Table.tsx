@@ -4,7 +4,7 @@ import { TableRows } from './TableRows';
 export interface IColumnType<T> {
 	key: keyof T;
 	title: string;
-	width: number;
+	width: string;
 	render: (value: T) => JSX.Element;
 	renderHeader: (column: IColumnType<T>) => JSX.Element;
 }
