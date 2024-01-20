@@ -11,6 +11,7 @@ import {
 	Legend,
 	ChartTypeRegistry,
 	ChartData,
+	ChartOptions,
 } from 'chart.js';
 
 import { Line } from 'react-chartjs-2';
@@ -29,11 +30,9 @@ interface Props<T> {
 }
 
 export function Chart<T>({ data, y, x }: Props<T>) {
-	const options: any = {
+	const options: ChartOptions<'line'> = {
 		responsive: true,
 		maintainAspectRatio: true,
-		scaleShowValues: true,
-
 		plugins: {
 			legend: {
 				position: 'top' as const,
@@ -41,17 +40,17 @@ export function Chart<T>({ data, y, x }: Props<T>) {
 		},
 	};
 
-	const labels = data.map(obj => obj[x.key]);
+	const labels = [...data].sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1)).map(obj => obj[x.key]);
 
-	const datax: ChartData<keyof ChartTypeRegistry> = {
+	const datax: ChartData<'line'> = {
 		labels,
 		datasets: [
 			{
-				label: y.title,
+				label: y.title + ' over ' + x.title,
 				data: [...data]
-					.sort((a, b) => (get(a, x.key) > get(b, x.key) ? 1 : -1))
+					.sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1))
 					.map(obj => {
-						return get(obj, y.key);
+						return obj[y.key] as number;
 					}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: 'rgba(53, 162, 235, 0.5)',
@@ -60,8 +59,8 @@ export function Chart<T>({ data, y, x }: Props<T>) {
 	};
 
 	return (
-		<div className="h-3/4 w-3/4 overflow-x-scroll">
-			<Line options={options} data={datax as ChartData<'line'>} />
+		<div className="h-3/4 w-3/4">
+			<Line options={options} data={datax} />
 		</div>
 	);
 }

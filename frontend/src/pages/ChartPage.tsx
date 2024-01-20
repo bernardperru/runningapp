@@ -7,7 +7,6 @@ const yAxis: IAxisType<GQLActivity>[] = [
 	{ key: 'distance', title: 'Distance' },
 	{ key: 'average_cadence', title: 'Cadence' },
 	{ key: 'average_heartrate', title: 'Heartrate' },
-	// { key: 'average_pace', title: 'Pace' },
 	{ key: 'elapsed_time', title: 'Time' },
 ];
 
@@ -42,7 +41,7 @@ const ChartPage: React.FunctionComponent = () => {
 	};
 
 	return (
-		<div>
+		<div className="">
 			X
 			<select className="border border-black flex justify-center" onChange={selectX}>
 				{xAxis.map((el, index) => (
@@ -55,7 +54,9 @@ const ChartPage: React.FunctionComponent = () => {
 					<option key={index}>{el.title}</option>
 				))}
 			</select>
-			<Chart data={data.getActivities} y={y} x={x}></Chart>
+			<div className="flex justify-center">
+				<Chart data={data.getActivities} y={y} x={x} />
+			</div>
 		</div>
 	);
 };
