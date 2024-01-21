@@ -54,6 +54,12 @@ const ChartPage: React.FunctionComponent = () => {
 					<option key={index}>{el.title}</option>
 				))}
 			</select>
+			Actvity or week?
+			<select className="border border-black flex justify-center" onChange={selectY}>
+				{yAxis.map((el, index) => (
+					<option key={index}>{el.title}</option>
+				))}
+			</select>
 			<div className="flex justify-center">
 				<Chart data={data.getActivities} y={y} x={x} />
 			</div>
