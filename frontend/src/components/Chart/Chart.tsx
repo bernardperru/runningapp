@@ -1,5 +1,3 @@
-import { get } from 'lodash';
-
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -9,7 +7,6 @@ import {
 	Title,
 	Tooltip,
 	Legend,
-	ChartTypeRegistry,
 	ChartData,
 	ChartOptions,
 	LogarithmicScale,
