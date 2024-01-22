@@ -22,7 +22,7 @@ const xAxis: IAxisType<GQLActivity>[] = [
 ];
 
 const ChartPage: React.FunctionComponent = () => {
-	const [y, setY] = React.useState<IAxisType<GQLActivity>[]>([yAxis[0], yAxis[1]]);
+	const [y, setY] = React.useState<IAxisType<GQLActivity>[]>([yAxis[0], yAxis[2]]);
 	const [x, setX] = React.useState<IAxisType<GQLActivity>>(xAxis[0]);
 	const { data } = useGetActivitiesQuery();
 
