@@ -22,7 +22,7 @@ const xAxis: IAxisType<GQLActivity>[] = [
 ];
 
 const ChartPage: React.FunctionComponent = () => {
-	const [y, setY] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
+	const [y, setY] = React.useState<IAxisType<GQLActivity>[]>([yAxis[0], yAxis[1]]);
 	const [x, setX] = React.useState<IAxisType<GQLActivity>>(xAxis[0]);
 	const { data } = useGetActivitiesQuery();
 
@@ -32,7 +32,7 @@ const ChartPage: React.FunctionComponent = () => {
 
 	const selectY = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const value = event.target.value;
-		setY(yAxis.filter(x => x.title === value)[0]);
+		setY([yAxis.filter(x => x.title === value)[0]]);
 	};
 
 	const selectX = (event: React.ChangeEvent<HTMLSelectElement>) => {

@@ -25,7 +25,7 @@ export interface IAxisType<T> {
 
 interface Props<T> {
 	data: T[];
-	y: IAxisType<T>;
+	y: IAxisType<T>[];
 	x: IAxisType<T>;
 }
 
@@ -44,18 +44,18 @@ export function Chart<T>({ data, y, x }: Props<T>) {
 
 	const datax: ChartData<'line'> = {
 		labels,
-		datasets: [
-			{
-				label: y.title + ' over ' + x.title,
+		datasets: y.map(axis => {
+			return {
+				label: axis.title + ' over ' + x.title,
 				data: [...data]
 					.sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1))
 					.map(obj => {
-						return obj[y.key] as number;
+						return obj[axis.key] as number;
 					}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: 'rgba(53, 162, 235, 0.5)',
-			},
-		],
+			};
+		}),
 	};
 
 	return (
