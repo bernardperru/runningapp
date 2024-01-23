@@ -21,6 +21,11 @@ export interface IAxisType<T> {
 	title: string;
 }
 
+export interface IAxisType<T> {
+	key: keyof T;
+	title: string;
+}
+
 interface Props<T> {
 	data: T[];
 	y: IAxisType<T>[];

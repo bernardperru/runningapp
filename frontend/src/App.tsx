@@ -1,5 +1,5 @@
 import Navbar from './components/Navbar/Navbar';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Home from './pages/HomePage';
 import TablePage from './pages/TablePage';
 import RedirectPage from './pages/RedirectPage';
