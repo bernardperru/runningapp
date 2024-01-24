@@ -22,9 +22,7 @@ const xAxis: IAxisType<GQLActivity>[] = [
 ];
 
 const ChartPage: React.FunctionComponent = () => {
-	const [y1, setY1] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
-	const [y2, setY2] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
-
+	const [y, setY] = React.useState<IAxisType<GQLActivity>[]>([yAxis[0], yAxis[2]]);
 	const [x, setX] = React.useState<IAxisType<GQLActivity>>(xAxis[0]);
 	const { data } = useGetActivitiesQuery();
 
@@ -32,14 +30,9 @@ const ChartPage: React.FunctionComponent = () => {
 		return <></>;
 	}
 
-	const selectY1 = (event: React.ChangeEvent<HTMLSelectElement>) => {
+	const selectY = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const value = event.target.value;
-		setY1(yAxis.filter(x => x.title === value)[0]);
-	};
-
-	const selectY2 = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		const value = event.target.value;
-		setY2(yAxis.filter(x => x.title === value)[0]);
+		setY([yAxis.filter(x => x.title === value)[0]]);
 	};
 
 	const selectX = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -55,20 +48,20 @@ const ChartPage: React.FunctionComponent = () => {
 					<option key={index}>{el.title}</option>
 				))}
 			</select>
-			Y1
-			<select className="border border-black flex justify-center" onChange={selectY1}>
+			Y
+			<select className="border border-black flex justify-center" onChange={selectY}>
 				{yAxis.map((el, index) => (
 					<option key={index}>{el.title}</option>
 				))}
 			</select>
-			Y2
-			<select className="border border-black flex justify-center" onChange={selectY2}>
+			Actvity or week?
+			<select className="border border-black flex justify-center" onChange={selectY}>
 				{yAxis.map((el, index) => (
 					<option key={index}>{el.title}</option>
 				))}
 			</select>
 			<div className="flex justify-center">
-				<Chart data={data.getActivities} y1={y1} y2={y2} x={x} />
+				<Chart data={data.getActivities} y={y} x={x} />
 			</div>
 		</div>
 	);

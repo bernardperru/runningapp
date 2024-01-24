@@ -24,16 +24,16 @@ export interface IAxisType<T> {
 export interface IAxisType<T> {
 	key: keyof T;
 	title: string;
+	color?: string;
 }
 
 interface Props<T> {
 	data: T[];
-	y1: IAxisType<T>;
-	y2: IAxisType<T>;
+	y: IAxisType<T>[];
 	x: IAxisType<T>;
 }
 
-export function Chart<T>({ data, y1, y2, x }: Props<T>) {
+export function Chart<T>({ data, y, x }: Props<T>) {
 	const options: ChartOptions<'line'> = {
 		responsive: true,
 		maintainAspectRatio: true,
@@ -48,30 +48,19 @@ export function Chart<T>({ data, y1, y2, x }: Props<T>) {
 
 	const datax: ChartData<'line'> = {
 		labels,
-		datasets: [
-			{
-				label: y1.title + ' over ' + x.title,
+		datasets: y.map(yField => {
+			return {
+				label: yField.title + ' over ' + x.title,
 				data: [...data]
 					.sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1))
 					.map(obj => {
-						return obj[y1.key] as number;
+						return obj[yField.key] as number;
 					}),
 				borderColor: 'rgb(53, 162, 235)',
-				backgroundColor: 'rgba(53, 162, 235, 0.5)',
-				yAxisID: y1.title,
-			},
-			{
-				label: y2.title + ' over ' + x.title,
-				data: [...data]
-					.sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1))
-					.map(obj => {
-						return obj[y2.key] as number;
-					}),
-				borderColor: 'rgb(233, 21, 21)',
-				backgroundColor: 'rgba(233, 21, 21, 0.8)',
-				yAxisID: y2.title,
-			},
-		],
+				backgroundColor: yField.color ? yField.color : 'rgba(53, 162, 235, 0.5)',
+				yAxisID: yField.title,
+			};
+		}),
 	};
 
 	return (
