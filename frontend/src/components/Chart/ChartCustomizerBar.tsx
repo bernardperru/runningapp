@@ -1,7 +1,12 @@
-interface Props<T> {
-	tempSelect: JSX.Element[];
+interface ISelectField<T> {
+	key: keyof T;
+	title: string;
 }
 
-export function ChartCustomizerBar<T>({ tempSelect }: Props<T>) {
+interface Props<T> {
+	selectFields: ISelectField<T>[];
+}
+
+export function ChartCustomizerBar() {
 	return <div></div>;
 }
