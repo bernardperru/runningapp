@@ -1,6 +1,7 @@
 import Chart from '../components/Chart/Chart';
 import { IAxisType } from '../components/Chart/Chart';
 import { useGetActivitiesQuery, GQLActivity } from '../graphql';
+import { ChartSelectField } from '../components/Chart/ChartSelectField';
 import React from 'react';
 
 const yAxis: IAxisType<GQLActivity>[] = [
@@ -22,7 +23,8 @@ const xAxis: IAxisType<GQLActivity>[] = [
 ];
 
 const ChartPage: React.FunctionComponent = () => {
-	const [y, setY] = React.useState<IAxisType<GQLActivity>[]>([yAxis[0], yAxis[2]]);
+	const [yLeft, setYLeft] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
+	const [yRight, setYRight] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
 	const [x, setX] = React.useState<IAxisType<GQLActivity>>(xAxis[0]);
 	const { data } = useGetActivitiesQuery();
 
@@ -30,9 +32,14 @@ const ChartPage: React.FunctionComponent = () => {
 		return <></>;
 	}
 
-	const selectY = (event: React.ChangeEvent<HTMLSelectElement>) => {
+	const selectYRight = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const value = event.target.value;
-		setY([yAxis.filter(x => x.title === value)[0]]);
+		setYRight(yAxis.filter(x => x.title === value)[0]);
+	};
+
+	const selectYLeft = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		const value = event.target.value;
+		setYLeft(yAxis.filter(x => x.title === value)[0]);
 	};
 
 	const selectX = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,26 +49,12 @@ const ChartPage: React.FunctionComponent = () => {
 
 	return (
 		<div className="">
-			X
-			<select className="border border-black flex justify-center" onChange={selectX}>
-				{xAxis.map((el, index) => (
-					<option key={index}>{el.title}</option>
-				))}
-			</select>
-			Y
-			<select className="border border-black flex justify-center" onChange={selectY}>
-				{yAxis.map((el, index) => (
-					<option key={index}>{el.title}</option>
-				))}
-			</select>
-			Actvity or week?
-			<select className="border border-black flex justify-center" onChange={selectY}>
-				{yAxis.map((el, index) => (
-					<option key={index}>{el.title}</option>
-				))}
-			</select>
+			<ChartSelectField interact={selectYLeft} selectField={yAxis} name="Y Left" />
+			<ChartSelectField interact={selectYRight} selectField={yAxis} name="Y Right" />
+			<ChartSelectField interact={selectX} selectField={xAxis} name="x" />
+
 			<div className="flex justify-center">
-				<Chart data={data.getActivities} y={y} x={x} />
+				<Chart data={data.getActivities} x={x} yLeft={yLeft} yRight={yRight} />
 			</div>
 		</div>
 	);
