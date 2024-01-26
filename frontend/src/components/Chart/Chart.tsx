@@ -43,6 +43,14 @@ export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
 				position: 'top' as const,
 			},
 		},
+		scales: {
+			yRight: {
+				position: 'right',
+			},
+			yLeft: {
+				position: 'left',
+			},
+		},
 	};
 
 	const labels = [...data].sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1)).map(obj => obj[x.key]);
@@ -59,7 +67,7 @@ export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
 					}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: yLeft.color ? yLeft.color : 'rgba(53, 162, 235, 0.5)',
-				yAxisID: yLeft.title,
+				yAxisID: 'yLeft',
 			},
 			{
 				label: yRight.title + ' over ' + x.title,
@@ -70,7 +78,7 @@ export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
 					}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: yRight.color ? yRight.color : 'rgba(53, 162, 235, 0.5)',
-				yAxisID: yRight.title,
+				yAxisID: 'yRight',
 			},
 		],
 	};
