@@ -1,5 +1,3 @@
-import { FunctionComponent, PropsWithChildren } from 'react';
-
 export interface ICardField<T> {
 	key: keyof T;
 	title: string;
@@ -9,7 +7,7 @@ export interface ICardField<T> {
 interface Props<T> {
 	data: T;
 	fields: ICardField<T>[];
-	title: Array<keyof T>;
+	title: Array<keyof T>; //probably should change this
 	interact: (obj: T) => void;
 }
 

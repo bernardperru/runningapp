@@ -19,11 +19,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Logarith
 export interface IAxisType<T> {
 	key: keyof T;
 	title: string;
-}
-
-export interface IAxisType<T> {
-	key: keyof T;
-	title: string;
 	color?: string;
 }
 

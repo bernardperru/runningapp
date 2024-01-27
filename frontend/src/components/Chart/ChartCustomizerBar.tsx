@@ -9,8 +9,9 @@ interface Props<T> {
 	add: () => void;
 }
 
-//I want this component to be able to add and remove "select fields" so that unlimited data points can be added to the chart
-
 export function ChartCustomizerBar<T>({ selectFields, remove, add }: Props<T>) {
+	//add a date range --> 2 fields [] - []
+	//specify a range for runs , bottom cap and top cap
+	//same for heartrate, cadence, pace
 	return <div></div>;
 }

@@ -2,6 +2,7 @@ import Chart from '../components/Chart/Chart';
 import { IAxisType } from '../components/Chart/Chart';
 import { useGetActivitiesQuery, GQLActivity } from '../graphql';
 import { ChartSelectField } from '../components/Chart/ChartSelectField';
+import { ChartFilter } from '../components/Chart/ChartFilter';
 import React from 'react';
 
 const yAxis: IAxisType<GQLActivity>[] = [
@@ -26,11 +27,8 @@ const ChartPage: React.FunctionComponent = () => {
 	const [yLeft, setYLeft] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
 	const [yRight, setYRight] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
 	const [x, setX] = React.useState<IAxisType<GQLActivity>>(xAxis[0]);
-	const { data } = useGetActivitiesQuery();
 
-	if (!data) {
-		return <></>;
-	}
+	const { data } = useGetActivitiesQuery();
 
 	const selectYRight = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const value = event.target.value;
@@ -47,12 +45,18 @@ const ChartPage: React.FunctionComponent = () => {
 		setX(xAxis.filter(x => x.title === value)[0]);
 	};
 
+	const filterActivities = () => {};
+
+	if (!data) {
+		return <></>;
+	}
+
 	return (
 		<div className="">
 			<ChartSelectField interact={selectYLeft} selectField={yAxis} name="Y Left" />
 			<ChartSelectField interact={selectYRight} selectField={yAxis} name="Y Right" />
 			<ChartSelectField interact={selectX} selectField={xAxis} name="x" />
-
+			<ChartFilter type="date"></ChartFilter>
 			<div className="flex justify-center">
 				<Chart data={data.getActivities} x={x} yLeft={yLeft} yRight={yRight} />
 			</div>
