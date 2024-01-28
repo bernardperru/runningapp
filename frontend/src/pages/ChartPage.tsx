@@ -57,7 +57,15 @@ const ChartPage: React.FunctionComponent = () => {
 		console.log(event.target.value);
 	};
 
-	const filterActivities = () => {};
+	const filterActivities = () => {
+		if (data && dateFilterLower && dateFilterHigher) {
+			return [...data.getActivities].filter(val => {
+				return val.start_date >= dateFilterLower && val.start_date <= dateFilterHigher;
+			});
+		}
+
+		return data?.getActivities;
+	};
 
 	if (!data) {
 		return <></>;
@@ -73,7 +81,7 @@ const ChartPage: React.FunctionComponent = () => {
 				<input type="date" onChange={handleDateChangeHigher} value={dateFilterHigher}></input>
 			</div>
 			<div className="flex justify-center">
-				<Chart data={data.getActivities} x={x} yLeft={yLeft} yRight={yRight} />
+				<Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
 			</div>
 		</div>
 	);

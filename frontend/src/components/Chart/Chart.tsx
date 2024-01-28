@@ -23,7 +23,7 @@ export interface IAxisType<T> {
 }
 
 interface Props<T> {
-	data: T[];
+	data?: T[];
 	yLeft: IAxisType<T>;
 	yRight: IAxisType<T>;
 	x: IAxisType<T>;
@@ -47,6 +47,10 @@ export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
 			},
 		},
 	};
+
+	if (!data) {
+		return <div>no data</div>;
+	}
 
 	const labels = [...data].sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1)).map(obj => obj[x.key]);
 
