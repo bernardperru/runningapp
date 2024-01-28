@@ -12,10 +12,5 @@ export function ChartFilter({ type }: Props) {
 		console.log(event.target.value);
 	};
 
-	return (
-		<div>
-			<input type="date" onChange={handleDateChange} value={dateFilter} name="date"></input>
-			<input type="date"></input>
-		</div>
-	);
+	return <></>;
 }
