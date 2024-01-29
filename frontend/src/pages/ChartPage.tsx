@@ -19,7 +19,6 @@ const xAxis: IAxisType<GQLActivity>[] = [
 	{ key: 'average_pace', title: 'Pace' },
 	{ key: 'elapsed_time', title: 'Time' },
 	{ key: 'start_date', title: 'Date' },
-	{ key: 'week', title: 'Week' },
 ];
 
 const ChartPage: React.FunctionComponent = () => {
@@ -28,15 +27,31 @@ const ChartPage: React.FunctionComponent = () => {
 	const [x, setX] = React.useState<IAxisType<GQLActivity>>(xAxis[0]);
 
 	const [filter, setFilter] = React.useState<{
-		dateFilterLower: string;
-		dateFilterUpper: string;
-		distanceFilterLower: number;
-		distanceFilterUpper: number;
+		dateLower: string;
+		dateUpper: string;
+		distanceLower: number;
+		distanceUpper: number;
+		cadenceLower: number;
+		cadenceUpper: number;
+		heartrateLower: number;
+		heartrateUpper: number;
+		paceLower: string;
+		paceUpper: string;
+		timeLower: number;
+		timeUpper: number;
 	}>({
-		dateFilterLower: '',
-		dateFilterUpper: new Date().toString(),
-		distanceFilterLower: 0,
-		distanceFilterUpper: 100000,
+		dateLower: '',
+		dateUpper: new Date().toString(),
+		distanceLower: 0,
+		distanceUpper: 100000,
+		cadenceLower: 140,
+		cadenceUpper: 210,
+		heartrateLower: 40,
+		heartrateUpper: 200,
+		paceLower: '',
+		paceUpper: '',
+		timeLower: 0,
+		timeUpper: 9000,
 	});
 
 	const { data } = useGetActivitiesQuery();
@@ -54,29 +69,61 @@ const ChartPage: React.FunctionComponent = () => {
 	};
 
 	const handleDateChangeLower = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFilter({ ...filter, dateFilterLower: event.target.value });
+		setFilter({ ...filter, dateLower: event.target.value });
 	};
 
 	const handleDateChangeUpper = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFilter({ ...filter, dateFilterUpper: event.target.value });
+		setFilter({ ...filter, dateUpper: event.target.value });
 	};
 
 	const handleDistanceLower = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFilter({ ...filter, distanceFilterLower: parseFloat(event.target.value) });
+		setFilter({ ...filter, distanceLower: parseFloat(event.target.value) });
 	};
 
 	const handleDistanceUpper = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFilter({ ...filter, distanceFilterUpper: parseFloat(event.target.value) });
+		setFilter({ ...filter, distanceUpper: parseFloat(event.target.value) });
+	};
+
+	const handleCadenceLower = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter({ ...filter, cadenceLower: parseFloat(event.target.value) });
+	};
+
+	const handleCadenceUpper = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter({ ...filter, cadenceUpper: parseFloat(event.target.value) });
+	};
+
+	const handleHeartrateLower = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter({ ...filter, heartrateLower: parseFloat(event.target.value) });
+	};
+
+	const handleHeartrateUpper = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter({ ...filter, heartrateUpper: parseFloat(event.target.value) });
+	};
+
+	const handlePaceLower = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter({ ...filter, paceLower: event.target.value });
+	};
+
+	const handlePaceUpper = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter({ ...filter, paceUpper: event.target.value });
+	};
+
+	const handleTimeLower = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter({ ...filter, timeLower: parseFloat(event.target.value) });
+	};
+
+	const handleTimeUpper = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setFilter({ ...filter, timeUpper: parseFloat(event.target.value) });
 	};
 
 	const filterActivities = () => {
 		if (data) {
 			return [...data.getActivities].filter(val => {
 				return (
-					val.start_date >= filter.dateFilterLower &&
-					val.start_date <= filter.dateFilterUpper &&
-					val.distance >= filter.distanceFilterLower &&
-					val.distance <= filter.distanceFilterUpper
+					val.start_date >= filter.dateLower &&
+					val.start_date <= filter.dateUpper &&
+					val.distance >= filter.distanceLower &&
+					val.distance <= filter.distanceUpper
 				);
 			});
 		}
@@ -87,33 +134,51 @@ const ChartPage: React.FunctionComponent = () => {
 	}
 
 	return (
-		<div className="">
+		<div className="m-4">
 			<ChartSelectField interact={selectYLeft} selectField={yAxis} name="Y Left" />
 			<ChartSelectField interact={selectYRight} selectField={yAxis} name="Y Right" />
 			<ChartSelectField interact={selectX} selectField={xAxis} name="x" />
-			<div>
+			<div className="my-4">
+				<div>Date</div>
 				<input
 					type="date"
 					onChange={handleDateChangeLower}
-					value={filter.dateFilterLower}
-					className="border-black border-2"></input>
+					value={filter.dateLower}
+					className="border-gray-400 border-2"></input>
+				<> - </>
 				<input
 					type="date"
 					onChange={handleDateChangeUpper}
-					value={filter.dateFilterUpper}
-					className="border-black border-2"></input>
+					value={filter.dateUpper}
+					className="border-gray-400 border-2"></input>
 			</div>
-			<div className="">
+			<div className="my-4">
+				<div>Distance</div>
 				<input
 					type="number"
 					onChange={handleDistanceLower}
-					value={filter.distanceFilterLower}
-					className="border-black border-2"></input>
+					value={filter.distanceLower}
+					className="border-gray-400 border-2"></input>
+				<> - </>
 				<input
 					type="number"
 					onChange={handleDistanceUpper}
-					value={filter.distanceFilterUpper}
-					className="border-black border-2"></input>
+					value={filter.distanceUpper}
+					className="border-gray-400 border-2"></input>
+			</div>
+			<div className="my-4">
+				<div>Cadence</div>
+				<input
+					type="number"
+					onChange={handleCadenceLower}
+					value={filter.cadenceLower}
+					className="border-gray-400 border-2"></input>
+				<> - </>
+				<input
+					type="number"
+					onChange={handleCadenceUpper}
+					value={filter.cadenceUpper}
+					className="border-gray-400 border-2"></input>
 			</div>
 			<div className="flex justify-center">
 				<Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />

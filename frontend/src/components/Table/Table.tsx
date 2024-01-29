@@ -20,7 +20,7 @@ interface Props<T> {
 export function Table<T>({ data, columns, headerInteract, rowInteract, sort }: Props<T>) {
 	return (
 		<table className=" bg-white m-auto">
-			<thead className="bg-gray-300">
+			<thead className="bg-blue-200">
 				<TableHeader columns={columns} interact={headerInteract} sort={sort}></TableHeader>
 			</thead>
 			{data && (
