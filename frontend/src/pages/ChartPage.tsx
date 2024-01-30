@@ -180,6 +180,20 @@ const ChartPage: React.FunctionComponent = () => {
 					value={filter.cadenceUpper}
 					className="border-gray-400 border-2"></input>
 			</div>
+			<div className="my-4">
+				<div>Heartrate</div>
+				<input
+					type="number"
+					onChange={handleHeartrateLower}
+					value={filter.heartrateLower}
+					className="border-gray-400 border-2"></input>
+				<> - </>
+				<input
+					type="number"
+					onChange={handleHeartrateUpper}
+					value={filter.heartrateUpper}
+					className="border-gray-400 border-2"></input>
+			</div>
 			<div className="flex justify-center">
 				<Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
 			</div>
