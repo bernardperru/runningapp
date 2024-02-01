@@ -4,6 +4,7 @@ import { useGetActivitiesQuery, GQLActivity } from '../graphql';
 import { ChartSelectField } from '../components/Chart/ChartSelectField';
 import { useChartFilter } from '../components/Chart/useChartFilter';
 import React from 'react';
+import { IFilter } from '../components/Chart/useChartFilter';
 
 const yAxis: IAxisType<GQLActivity>[] = [
 	{ key: 'distance', title: 'Distance' },
@@ -21,12 +22,20 @@ const xAxis: IAxisType<GQLActivity>[] = [
 	{ key: 'start_date', title: 'Date' },
 ];
 
+const filters: IFilter<GQLActivity>[] = [
+	{ key: 'distance', title: 'Distance', type: 'number' },
+	{ key: 'average_cadence', title: 'Cadence', type: 'number' },
+	{ key: 'average_heartrate', title: 'Heartrate', type: 'number' },
+	{ key: 'average_pace', title: 'Pace', type: 'number' },
+	{ key: 'elapsed_time', title: 'Time', type: 'number' },
+	{ key: 'start_date', title: 'Date', type: 'date' },
+];
 const ChartPage: React.FunctionComponent = () => {
 	const [yLeft, setYLeft] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
 	const [yRight, setYRight] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
 	const [x, setX] = React.useState<IAxisType<GQLActivity>>(xAxis[0]);
 
-	const { lower, upper, FilterInput } = useChartFilter('date', 'Date');
+	const { FilterInput } = useChartFilter(filters);
 	const { data } = useGetActivitiesQuery();
 
 	const selectYRight = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -44,7 +53,7 @@ const ChartPage: React.FunctionComponent = () => {
 	const filterActivities = () => {
 		if (data) {
 			return [...data.getActivities].filter(val => {
-				return lower <= val.start_date && upper >= val.start_date;
+				return true;
 			});
 		}
 	};
