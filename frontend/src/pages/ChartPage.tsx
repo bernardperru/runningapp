@@ -34,7 +34,7 @@ const filters: IFilter<Omit<GQLActivity, 'week'>>[] = [
 	{ key: 'distance', title: 'Distance', type: 'number' },
 	{ key: 'average_cadence', title: 'Cadence', type: 'number' },
 	{ key: 'average_heartrate', title: 'Heartrate', type: 'number' },
-	{ key: 'average_pace', title: 'Pace', type: 'number' },
+	// { key: 'average_pace', title: 'Pace', type: 'number' },
 	{ key: 'elapsed_time', title: 'Time', type: 'number' },
 	{ key: 'start_date', title: 'Date', type: 'date' },
 ];
@@ -91,11 +91,15 @@ const ChartPage: React.FunctionComponent = () => {
 	const filterActivities = () => {
 		if (data) {
 			return [...data.getActivities].filter(val => {
-				const filter = filterValues[0];
-				if (filter.lower <= val[filter.key] && val[filter.key] <= filter.upper) {
-					return true;
+				//const filter = filterValues[0];
+				for (var filter of filterValues) {
+					if (filter.lower > val[filter.key] || val[filter.key] > filter.upper) {
+						return false;
+					}
 				}
-				return false;
+
+				return true;
+
 				// filterValues.forEach(filter => {
 				// 	if (filter.lower <= val[filter.key] && val[filter.key] <= filter.upper) {
 
