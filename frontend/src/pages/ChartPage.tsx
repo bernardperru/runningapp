@@ -6,6 +6,14 @@ import { useChartFilter } from '../components/Chart/useChartFilter';
 import React from 'react';
 import { IFilter } from '../components/Chart/useChartFilter';
 
+interface filterValues<T> {
+	key: keyof T;
+	title: string;
+	type: 'date' | 'number';
+	lower: number | string;
+	upper: number | string;
+}
+
 const yAxis: IAxisType<GQLActivity>[] = [
 	{ key: 'distance', title: 'Distance' },
 	{ key: 'average_cadence', title: 'Cadence' },
@@ -34,8 +42,6 @@ const ChartPage: React.FunctionComponent = () => {
 	const [yLeft, setYLeft] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
 	const [yRight, setYRight] = React.useState<IAxisType<GQLActivity>>(yAxis[0]);
 	const [x, setX] = React.useState<IAxisType<GQLActivity>>(xAxis[0]);
-
-	const { FilterInput } = useChartFilter(filters);
 	const { data } = useGetActivitiesQuery();
 
 	const selectYRight = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -48,6 +54,38 @@ const ChartPage: React.FunctionComponent = () => {
 
 	const selectX = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setX(xAxis.filter(x => x.title === event.target.value)[0]);
+	};
+
+	const [filterValues, setFilterValues] = React.useState<filterValues<GQLActivity>[]>(
+		filters.map(filter => {
+			return {
+				key: filter.key,
+				lower: filter.type === 'date' ? '' : 0,
+				upper: filter.type === 'date' ? '' : 0,
+				title: filter.title,
+				type: filter.type,
+			};
+		})
+	);
+
+	const handleLower = (event: React.ChangeEvent<HTMLInputElement>, filter: IFilter<GQLActivity>) => {
+		setFilterValues(
+			filterValues.map(currentFilter => {
+				return filter.key === currentFilter.key
+					? { ...currentFilter, lower: filter.type === 'date' ? event.target.value : parseFloat(event.target.value) }
+					: currentFilter;
+			})
+		);
+	};
+
+	const handleUpper = (event: React.ChangeEvent<HTMLInputElement>, filter: IFilter<GQLActivity>) => {
+		setFilterValues(
+			filterValues.map(currentFilter => {
+				return filter.key === currentFilter.key
+					? { ...currentFilter, upper: filter.type === 'date' ? event.target.value : parseFloat(event.target.value) }
+					: currentFilter;
+			})
+		);
 	};
 
 	const filterActivities = () => {
@@ -64,13 +102,33 @@ const ChartPage: React.FunctionComponent = () => {
 
 	return (
 		<div className="m-4">
-			<ChartSelectField interact={selectYLeft} selectField={yAxis} name="Y Left" />
-			<ChartSelectField interact={selectYRight} selectField={yAxis} name="Y Right" />
-			<ChartSelectField interact={selectX} selectField={xAxis} name="x" />
-			<FilterInput></FilterInput>
-			<div className="flex justify-center">
-				<Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
+			<Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
+			<div className="flex justify-evenly">
+				<span>
+					<ChartSelectField interact={selectYLeft} selectField={yAxis} name="Y Left" />
+					<ChartSelectField interact={selectYRight} selectField={yAxis} name="Y Right" />
+					<ChartSelectField interact={selectX} selectField={xAxis} name="x" />
+				</span>
 			</div>
+			<span className="">
+				{filterValues.map((filter, index) => (
+					<div key={index}>
+						{filter.title}
+						<input
+							name={filter.title}
+							type={filter.type}
+							onChange={e => handleLower(e, filter)}
+							value={filter.lower}
+							className="border-gray-400 border-2"></input>
+						<input
+							name={filter.title}
+							type={filter.type}
+							onChange={e => handleUpper(e, filter)}
+							value={filter.upper}
+							className="border-gray-400 border-2"></input>
+					</div>
+				))}
+			</span>
 		</div>
 	);
 };

@@ -58,7 +58,7 @@ export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
 		labels,
 		datasets: [
 			{
-				label: yLeft.title + ' over ' + x.title,
+				label: yLeft.title,
 				data: [...data]
 					.sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1))
 					.map(obj => {
@@ -69,21 +69,21 @@ export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
 				yAxisID: 'yLeft',
 			},
 			{
-				label: yRight.title + ' over ' + x.title,
+				label: yRight.title,
 				data: [...data]
 					.sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1))
 					.map(obj => {
 						return obj[yRight.key] as number;
 					}),
-				borderColor: 'rgb(53, 162, 235)',
-				backgroundColor: yRight.color ? yRight.color : 'rgba(53, 162, 235, 0.5)',
+				borderColor: 'rgba(215, 17, 17, 0.8)',
+				backgroundColor: yRight.color ? yRight.color : 'rgba(215, 17, 17, 0.8)',
 				yAxisID: 'yRight',
 			},
 		],
 	};
 
 	return (
-		<div className="h-3/4 w-3/4">
+		<div className="h-auto w-auto">
 			<Line options={options} data={datax} />
 		</div>
 	);
