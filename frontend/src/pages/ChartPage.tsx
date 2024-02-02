@@ -2,11 +2,9 @@ import Chart from '../components/Chart/Chart';
 import { IAxisType } from '../components/Chart/Chart';
 import { useGetActivitiesQuery, GQLActivity, GQLGetActivitiesQuery } from '../graphql';
 import { ChartSelectField } from '../components/Chart/ChartSelectField';
-import { useChartFilter } from '../components/Chart/useChartFilter';
 import React from 'react';
-import { IFilter } from '../components/Chart/useChartFilter';
 
-interface filterValues<T> {
+interface IFilter<T> {
 	key: keyof T;
 	title: string;
 	type: 'date' | 'number';
@@ -31,12 +29,12 @@ const xAxis: IAxisType<Omit<GQLActivity, 'week'>>[] = [
 ];
 
 const filters: IFilter<Omit<GQLActivity, 'week'>>[] = [
-	{ key: 'distance', title: 'Distance', type: 'number' },
-	{ key: 'average_cadence', title: 'Cadence', type: 'number' },
-	{ key: 'average_heartrate', title: 'Heartrate', type: 'number' },
+	{ key: 'distance', title: 'Distance', type: 'number', lower: 0, upper: 42000 },
+	{ key: 'average_cadence', title: 'Cadence', type: 'number', lower: 0, upper: 200 },
+	{ key: 'average_heartrate', title: 'Heartrate', type: 'number', lower: 0, upper: 200 },
 	// { key: 'average_pace', title: 'Pace', type: 'number' },
-	{ key: 'elapsed_time', title: 'Time', type: 'number' },
-	{ key: 'start_date', title: 'Date', type: 'date' },
+	{ key: 'elapsed_time', title: 'Time', type: 'number', lower: 0, upper: 20000 },
+	{ key: 'start_date', title: 'Date', type: 'date', lower: '', upper: 42000 },
 ];
 const ChartPage: React.FunctionComponent = () => {
 	const [yLeft, setYLeft] = React.useState<IAxisType<Omit<GQLActivity, 'week'>>>(yAxis[0]);
@@ -56,17 +54,7 @@ const ChartPage: React.FunctionComponent = () => {
 		setX(xAxis.filter(x => x.title === event.target.value)[0]);
 	};
 
-	const [filterValues, setFilterValues] = React.useState<filterValues<Omit<GQLActivity, 'week'>>[]>(
-		filters.map(filter => {
-			return {
-				key: filter.key,
-				lower: filter.type === 'date' ? '' : 0,
-				upper: filter.type === 'date' ? '' : 0,
-				title: filter.title,
-				type: filter.type,
-			};
-		})
-	);
+	const [filterValues, setFilterValues] = React.useState<IFilter<Omit<GQLActivity, 'week'>>[]>(filters);
 
 	const handleLower = (event: React.ChangeEvent<HTMLInputElement>, filter: IFilter<Omit<GQLActivity, 'week'>>) => {
 		setFilterValues(
@@ -91,23 +79,12 @@ const ChartPage: React.FunctionComponent = () => {
 	const filterActivities = () => {
 		if (data) {
 			return [...data.getActivities].filter(val => {
-				//const filter = filterValues[0];
 				for (var filter of filterValues) {
 					if (filter.lower > val[filter.key] || val[filter.key] > filter.upper) {
 						return false;
 					}
 				}
-
 				return true;
-
-				// filterValues.forEach(filter => {
-				// 	if (filter.lower <= val[filter.key] && val[filter.key] <= filter.upper) {
-
-				// 	} else {
-				// 		return false;
-				// 	}
-				// });
-				// return true;
 			});
 		}
 		return [];
