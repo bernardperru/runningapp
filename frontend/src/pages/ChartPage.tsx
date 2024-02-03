@@ -2,6 +2,8 @@ import Chart from '../components/Chart/Chart';
 import { IAxisType } from '../components/Chart/Chart';
 import { useGetActivitiesQuery, GQLActivity, GQLGetActivitiesQuery } from '../graphql';
 import { ChartSelectField } from '../components/Chart/ChartSelectField';
+import ReactRanger from 'react-ranger';
+
 import React from 'react';
 
 interface IFilter<T> {
@@ -96,6 +98,7 @@ const ChartPage: React.FunctionComponent = () => {
 
 	return (
 		<div className="m-4">
+			<Slider></Slider>
 			<Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
 			<div className="flex justify-evenly">
 				<span>

@@ -9,6 +9,7 @@
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
+		"@types/react-ranger": "^2.0.4",
 		"axios": "^1.5.1",
 		"bcryptjs": "^2.4.3",
 		"chart.js": "^4.4.0",
@@ -24,6 +25,9 @@
 		"react-icons": "^4.11.0",
 		"react-leaflet": "^4.2.1",
 		"react-loading-icons": "^1.1.0",
+		"react-range-slider-input": "^3.0.7",
+		"react-ranger": "^2.1.0",
+		"react-rangeslider": "^2.2.0",
 		"react-router-dom": "^6.17.0",
 		"react-scripts": "^5.0.1",
 		"web-vitals": "^2.1.4"
