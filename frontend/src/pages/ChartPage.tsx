@@ -13,7 +13,7 @@ interface IFilter<T> {
 	lower: number | string;
 	upper: number | string;
 }
-
+//
 const yAxis: IAxisType<Omit<GQLActivity, 'week'>>[] = [
 	{ key: 'distance', title: 'Distance' },
 	{ key: 'average_cadence', title: 'Cadence' },
@@ -34,7 +34,6 @@ const filters: IFilter<Omit<GQLActivity, 'week'>>[] = [
 	{ key: 'distance', title: 'Distance', type: 'number', lower: 0, upper: 42000 },
 	{ key: 'average_cadence', title: 'Cadence', type: 'number', lower: 0, upper: 200 },
 	{ key: 'average_heartrate', title: 'Heartrate', type: 'number', lower: 0, upper: 200 },
-	// { key: 'average_pace', title: 'Pace', type: 'number' },
 	{ key: 'elapsed_time', title: 'Time', type: 'number', lower: 0, upper: 20000 },
 	{ key: 'start_date', title: 'Date', type: 'date', lower: '', upper: 42000 },
 ];
@@ -98,7 +97,6 @@ const ChartPage: React.FunctionComponent = () => {
 
 	return (
 		<div className="m-4">
-			<Slider></Slider>
 			<Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
 			<div className="flex justify-evenly">
 				<span>
