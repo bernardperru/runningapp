@@ -2,8 +2,8 @@ import Chart from '../components/Chart/Chart';
 import { IAxisType } from '../components/Chart/Chart';
 import { useGetActivitiesQuery, GQLActivity, GQLGetActivitiesQuery } from '../graphql';
 import { ChartSelectField } from '../components/Chart/ChartSelectField';
-import ReactRanger from 'react-ranger';
-
+import MultiRangeSlider from 'multi-range-slider-react';
+import ReactSlider from 'react-slider';
 import React from 'react';
 
 interface IFilter<T> {
@@ -13,7 +13,7 @@ interface IFilter<T> {
 	lower: number | string;
 	upper: number | string;
 }
-//
+
 const yAxis: IAxisType<Omit<GQLActivity, 'week'>>[] = [
 	{ key: 'distance', title: 'Distance' },
 	{ key: 'average_cadence', title: 'Cadence' },
@@ -97,15 +97,29 @@ const ChartPage: React.FunctionComponent = () => {
 
 	return (
 		<div className="m-4">
-			<Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
+			<ReactSlider
+				className="w-1/2 h-6 bg-slate-500"
+				thumbClassName="example-thumb"
+				trackClassName="example-track"
+				defaultValue={[0, 100]}
+				ariaLabel={['Leftmost thumb', 'Middle thumb', 'Rightmost thumb']}
+				renderThumb={(props, state) => (
+					<div className="" {...props}>
+						{state.valueNow}
+					</div>
+				)}
+				pearling
+				minDistance={10}
+			/>{' '}
+			{/* <Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
 			<div className="flex justify-evenly">
 				<span>
 					<ChartSelectField interact={selectYLeft} selectField={yAxis} name="Y Left" />
 					<ChartSelectField interact={selectYRight} selectField={yAxis} name="Y Right" />
 					<ChartSelectField interact={selectX} selectField={xAxis} name="x" />
 				</span>
-			</div>
-			<span className="">
+			</div> */}
+			{/* <span className="">
 				{filterValues.map((filter, index) => (
 					<div key={index}>
 						{filter.title}
@@ -123,7 +137,7 @@ const ChartPage: React.FunctionComponent = () => {
 							className="border-gray-400 border-2"></input>
 					</div>
 				))}
-			</span>
+			</span> */}
 		</div>
 	);
 };
