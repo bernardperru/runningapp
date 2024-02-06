@@ -9,7 +9,7 @@ import React from 'react';
 interface IFilter<T> {
 	key: keyof T;
 	title: string;
-	type: 'date' | 'number';
+	type: 'number';
 	lower: number | string;
 	upper: number | string;
 }
@@ -35,7 +35,6 @@ const filters: IFilter<Omit<GQLActivity, 'week'>>[] = [
 	{ key: 'average_cadence', title: 'Cadence', type: 'number', lower: 0, upper: 200 },
 	{ key: 'average_heartrate', title: 'Heartrate', type: 'number', lower: 0, upper: 200 },
 	{ key: 'elapsed_time', title: 'Time', type: 'number', lower: 0, upper: 20000 },
-	{ key: 'start_date', title: 'Date', type: 'date', lower: '', upper: 42000 },
 ];
 const ChartPage: React.FunctionComponent = () => {
 	const [yLeft, setYLeft] = React.useState<IAxisType<Omit<GQLActivity, 'week'>>>(yAxis[0]);
@@ -57,21 +56,11 @@ const ChartPage: React.FunctionComponent = () => {
 
 	const [filterValues, setFilterValues] = React.useState<IFilter<Omit<GQLActivity, 'week'>>[]>(filters);
 
-	const handleLower = (event: React.ChangeEvent<HTMLInputElement>, filter: IFilter<Omit<GQLActivity, 'week'>>) => {
+	const handleUpper = (event: number[], filter: IFilter<Omit<GQLActivity, 'week'>>) => {
 		setFilterValues(
 			filterValues.map(currentFilter => {
 				return filter.key === currentFilter.key
-					? { ...currentFilter, lower: filter.type === 'date' ? event.target.value : parseFloat(event.target.value) }
-					: currentFilter;
-			})
-		);
-	};
-
-	const handleUpper = (event: React.ChangeEvent<HTMLInputElement>, filter: IFilter<Omit<GQLActivity, 'week'>>) => {
-		setFilterValues(
-			filterValues.map(currentFilter => {
-				return filter.key === currentFilter.key
-					? { ...currentFilter, upper: filter.type === 'date' ? event.target.value : parseFloat(event.target.value) }
+					? { ...currentFilter, upper: event[1], lower: event[0] }
 					: currentFilter;
 			})
 		);
@@ -97,47 +86,35 @@ const ChartPage: React.FunctionComponent = () => {
 
 	return (
 		<div className="m-4">
-			<ReactSlider
-				className="w-1/2 h-6 bg-slate-500"
-				thumbClassName="example-thumb"
-				trackClassName="example-track"
-				defaultValue={[0, 100]}
-				ariaLabel={['Leftmost thumb', 'Middle thumb', 'Rightmost thumb']}
-				renderThumb={(props, state) => (
-					<div className="" {...props}>
-						{state.valueNow}
-					</div>
-				)}
-				pearling
-				minDistance={10}
-			/>{' '}
-			{/* <Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
+			{filterValues.map(filter => (
+				<ReactSlider
+					className="w-1/2 h-6 bg-slate-500"
+					thumbClassName="example-thumb"
+					trackClassName="example-track"
+					defaultValue={[
+						typeof filter.lower === 'number' ? filter.lower : parseFloat(filter.lower),
+						typeof filter.upper === 'number' ? filter.upper : parseFloat(filter.upper),
+					]}
+					ariaLabel={['Leftmost thumb', 'Middle thumb', 'Rightmost thumb']}
+					renderThumb={(props, state) => (
+						<div className="" {...props}>
+							{state.valueNow}
+						</div>
+					)}
+					pearling
+					onChange={e => handleUpper(e, filter)}
+					max={typeof filter.upper === 'number' ? filter.upper : parseFloat(filter.upper)}
+					minDistance={10}
+				/>
+			))}
+			<Chart data={filterActivities()} x={x} yLeft={yLeft} yRight={yRight} />
 			<div className="flex justify-evenly">
 				<span>
 					<ChartSelectField interact={selectYLeft} selectField={yAxis} name="Y Left" />
 					<ChartSelectField interact={selectYRight} selectField={yAxis} name="Y Right" />
 					<ChartSelectField interact={selectX} selectField={xAxis} name="x" />
 				</span>
-			</div> */}
-			{/* <span className="">
-				{filterValues.map((filter, index) => (
-					<div key={index}>
-						{filter.title}
-						<input
-							name={filter.title}
-							type={filter.type}
-							onChange={e => handleLower(e, filter)}
-							value={filter.lower}
-							className="border-gray-400 border-2"></input>
-						<input
-							name={filter.title}
-							type={filter.type}
-							onChange={e => handleUpper(e, filter)}
-							value={filter.upper}
-							className="border-gray-400 border-2"></input>
-					</div>
-				))}
-			</span> */}
+			</div>
 		</div>
 	);
 };
