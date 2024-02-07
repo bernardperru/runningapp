@@ -8,7 +8,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-	uri: 'http://localhost:4000/',
+	uri: 'https://runningapp-service.onrender.com',
 });
 
 const authLink = setContext((_, { headers }) => {
