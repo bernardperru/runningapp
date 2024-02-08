@@ -43,5 +43,6 @@ export const usePagination = (first: number) => {
 			</div>
 		);
 	};
+
 	return { paginationData, Pagination };
 };

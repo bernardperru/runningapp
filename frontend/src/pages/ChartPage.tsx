@@ -1,8 +1,7 @@
 import Chart from '../components/Chart/Chart';
 import { IAxisType } from '../components/Chart/Chart';
-import { useGetActivitiesQuery, GQLActivity, GQLGetActivitiesQuery } from '../graphql';
+import { useGetActivitiesQuery, GQLActivity } from '../graphql';
 import { ChartSelectField } from '../components/Chart/ChartSelectField';
-import MultiRangeSlider from 'multi-range-slider-react';
 import ReactSlider from 'react-slider';
 import React from 'react';
 
@@ -12,6 +11,7 @@ interface IFilter<T> {
 	type: 'number';
 	lower: number | string;
 	upper: number | string;
+	multiplier: number;
 }
 
 const yAxis: IAxisType<Omit<GQLActivity, 'week'>>[] = [
@@ -31,10 +31,10 @@ const xAxis: IAxisType<Omit<GQLActivity, 'week'>>[] = [
 ];
 
 const filters: IFilter<Omit<GQLActivity, 'week'>>[] = [
-	{ key: 'distance', title: 'Distance', type: 'number', lower: 0, upper: 42000 },
-	{ key: 'average_cadence', title: 'Cadence', type: 'number', lower: 0, upper: 200 },
-	{ key: 'average_heartrate', title: 'Heartrate', type: 'number', lower: 0, upper: 200 },
-	{ key: 'elapsed_time', title: 'Time', type: 'number', lower: 0, upper: 20000 },
+	{ key: 'distance', title: 'Distance', type: 'number', lower: 0, upper: 42, multiplier: 1000 },
+	{ key: 'average_cadence', title: 'Cadence', type: 'number', lower: 0, upper: 200, multiplier: 1 },
+	{ key: 'average_heartrate', title: 'Heartrate', type: 'number', lower: 0, upper: 200, multiplier: 1 },
+	{ key: 'elapsed_time', title: 'Time', type: 'number', lower: 0, upper: 20, multiplier: 1000 },
 ];
 const ChartPage: React.FunctionComponent = () => {
 	const [yLeft, setYLeft] = React.useState<IAxisType<Omit<GQLActivity, 'week'>>>(yAxis[0]);
@@ -92,8 +92,8 @@ const ChartPage: React.FunctionComponent = () => {
 					thumbClassName="example-thumb"
 					trackClassName="example-track"
 					defaultValue={[
-						typeof filter.lower === 'number' ? filter.lower : parseFloat(filter.lower),
-						typeof filter.upper === 'number' ? filter.upper : parseFloat(filter.upper),
+						typeof filter.lower === 'number' ? filter.lower : parseFloat(filter.lower) * filter.multiplier,
+						typeof filter.upper === 'number' ? filter.upper : parseFloat(filter.upper) * filter.multiplier,
 					]}
 					ariaLabel={['Leftmost thumb', 'Middle thumb', 'Rightmost thumb']}
 					renderThumb={(props, state) => (
