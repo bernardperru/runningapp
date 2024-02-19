@@ -1,8 +1,7 @@
+import { CardContainer, ICardField } from '../components';
 import { GQLActivity, useGetWeekActivitiesQuery } from '../graphql';
-import { ICardField } from '../components/Cards/Card';
-import { CardContainer } from '../components/Cards/CardContainer';
+import { formatTime } from '../utils';
 import { useParams } from 'react-router-dom';
-import { formatTime } from '../utils/utils';
 
 export const cardFields: ICardField<GQLActivity>[] = [
 	{

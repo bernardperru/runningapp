@@ -1,9 +1,8 @@
+import { usePagination } from '../hooks';
+import { CardContainer, ICardField } from '../components';
 import { GQLWeek, useGetWeeksPageQuery } from '../graphql';
-import { usePagination } from '../hooks/usePagination';
-import { ICardField } from '../components/Cards/Card';
-import { CardContainer } from '../components/Cards/CardContainer';
+import { formatTime } from '../utils';
 import { useNavigate } from 'react-router-dom';
-import { formatTime } from '../utils/utils';
 
 const cardFields: ICardField<GQLWeek>[] = [
 	{
