@@ -70,5 +70,3 @@ export function CardPageWeeks() {
 		</div>
 	);
 }
-
-export default CardPageWeeks;

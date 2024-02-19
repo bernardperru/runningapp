@@ -1,14 +1,15 @@
-import Navbar from './components/Navbar/Navbar';
 import { Route, Routes } from 'react-router-dom';
-import Home from './pages/HomePage';
-import TablePage from './pages/TablePage';
-import RedirectPage from './pages/RedirectPage';
-import LoginPage from './pages/LoginPage';
-import ChartPage from './pages/ChartPage';
-import CardPageWeeks from './pages/CardPageWeeks';
-import CardPageActivities from './pages/CardPageActivities';
-import { INavBarLink } from './components/Navbar/Navbar';
-import { ActivityPage } from './pages/ActivityPage';
+import { INavBarLink, Navbar } from './components';
+import {
+	ActivityPage,
+	CardPageActivities,
+	CardPageWeeks,
+	ChartPage,
+	HomePage,
+	LoginPage,
+	RedirectPage,
+	TablePage,
+} from './pages';
 
 const navbarLinks: INavBarLink[] = [
 	{ path: '/', title: 'Home' },
@@ -23,7 +24,7 @@ function App() {
 			<Navbar links={navbarLinks} />
 			<div>
 				<Routes>
-					<Route path="/" element={<Home />} />
+					<Route path="/" element={<HomePage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/redirect/exchange_token" element={<RedirectPage />} />
 					<Route path="/activities" element={<TablePage />} />

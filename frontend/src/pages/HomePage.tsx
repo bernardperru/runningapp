@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useUpdateActivitiesQuery, useUpdateWeeksQuery } from '../graphql';
 
-function Home() {
+export function HomePage() {
 	const { data } = useUpdateActivitiesQuery();
 	const { data: weeks } = useUpdateWeeksQuery();
 
@@ -34,5 +34,3 @@ function Home() {
 		</div>
 	);
 }
-
-export default Home;

@@ -13,7 +13,7 @@ interface Props {
 	links: INavBarLink[];
 }
 
-function Navbar({ links }: Props) {
+export function Navbar({ links }: Props) {
 	const authToken = localStorage.getItem('token');
 
 	if (!authToken) {
@@ -38,5 +38,3 @@ function Navbar({ links }: Props) {
 		</nav>
 	);
 }
-
-export default Navbar;

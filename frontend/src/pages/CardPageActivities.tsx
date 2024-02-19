@@ -61,5 +61,3 @@ export function CardPageActivities() {
 		</div>
 	);
 }
-
-export default CardPageActivities;

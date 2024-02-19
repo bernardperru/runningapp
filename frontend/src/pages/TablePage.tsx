@@ -169,5 +169,3 @@ export function TablePage() {
 		</div>
 	);
 }
-
-export default TablePage;

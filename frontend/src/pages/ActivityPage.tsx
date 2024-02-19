@@ -1,9 +1,4 @@
-import { GQLActivity } from '../graphql';
 import { useLocation } from 'react-router-dom';
-
-interface Props {
-	activity?: GQLActivity;
-}
 
 export function ActivityPage() {
 	const location = useLocation();
