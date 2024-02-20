@@ -1,6 +1,6 @@
 import Chart from '../components/Chart/Chart';
 import { IAxisType } from '../components/Chart/Chart';
-import { useGetActivitiesQuery, GQLActivity } from '../graphql';
+import { useGetActivitiesQuery } from '../graphql';
 import { ChartSelectField } from '../components/Chart/ChartSelectField';
 import ReactSlider from 'react-slider';
 import React from 'react';
