@@ -26,7 +26,7 @@ interface IFilter<T> {
 	upper: number;
 	multiplier: number;
 }
-
+//
 const yAxis: IAxisType<Activity>[] = [
 	{ key: 'distance', title: 'Distance' },
 	{ key: 'average_cadence', title: 'Cadence' },
