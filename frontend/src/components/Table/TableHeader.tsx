@@ -9,7 +9,7 @@ interface Props<T> {
 
 export function TableHeader<T>({ columns, interact, sort }: Props<T>) {
 	return (
-		<tr>
+		<tr className="">
 			{columns.map((column, columnindex) => (
 				<th
 					key={columnindex}
