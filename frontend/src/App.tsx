@@ -20,10 +20,8 @@ function App() {
 						<Route path="/" element={<HomePage />} />
 						<Route path="/login" element={<LoginPage />} />
 						<Route path="/redirect/exchange_token" element={<RedirectPage />} />
-						<Route path="/activities" element={<TablePage />}></Route>
-						<Route path="/weekly" element={<CardPageWeeks />}>
-							{' '}
-						</Route>
+						<Route path="/activities" element={<TablePage />} />
+						<Route path="/weekly" element={<CardPageWeeks />} />
 						<Route path="/weekly/:yearNumber/:weekNumber" element={<CardPageActivities />} />
 					</Route>
 				</Routes>

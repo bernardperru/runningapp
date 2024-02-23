@@ -155,14 +155,9 @@ export function TablePage() {
 				rowInteract={rowInteract}
 				sort={sort}></Table>
 
-			{loading && (
-				<>
-					<div className="h-60" />
-					<div className="h-80"></div>
-				</>
-			)}
+			{loading && <div className="h-[560px]" />}
 			{pages && (
-				<div className="flex justify-center ">
+				<div className="flex justify-center p-2">
 					<Pagination pagesNumber={pages.getPages}></Pagination>
 				</div>
 			)}
