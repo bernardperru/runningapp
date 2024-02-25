@@ -131,6 +131,7 @@ export function TablePage() {
 	}
 
 	//shows a map and activity stats when clicking on a table row
+	//
 	if (viewActivity) {
 		return (
 			<>
