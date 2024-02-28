@@ -7,6 +7,8 @@ import { cardFields } from './CardPageActivities';
 import React from 'react';
 import RunMap from '../components/Map/RunMap';
 import { formatTime } from '../utils/utils';
+import { Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const columns: IColumnType<GQLActivity>[] = [
 	{
@@ -90,6 +92,7 @@ const columns: IColumnType<GQLActivity>[] = [
 ];
 
 export function TablePage() {
+	const navigate = useNavigate();
 	const [sort, setSort] = React.useState<{
 		sort: keyof activityType;
 		order: 'asc' | 'desc';
@@ -127,25 +130,26 @@ export function TablePage() {
 	}
 
 	function rowInteract(row: GQLActivity) {
-		setViewActivity(row);
+		// setViewActivity(row);
+		navigate('/activities/' + row.activityId);
 	}
 
-	//shows a map and activity stats when clicking on a table row
-	//
-	if (viewActivity) {
-		return (
-			<>
-				<div className="hover:bg-sky-500 " onClick={() => setViewActivity(undefined)}>
-					{' '}
-					Return{' '}
-				</div>
-				<div className="flex justify-evenly">
-					<Card data={viewActivity} fields={cardFields} interact={() => {}} title={['id' as keyof GQLActivity]}></Card>
-					<RunMap activity={viewActivity}></RunMap>
-				</div>
-			</>
-		);
-	}
+	// //shows a map and activity stats when clicking on a table row
+	// if (viewActivity) {
+	// 	return <Outlet context={viewActivity}></Outlet>;
+	// 	// return (
+	// 	// 	<>
+	// 	// 		<div className="hover:bg-sky-500 " onClick={() => setViewActivity(undefined)}>
+	// 	// 			{' '}
+	// 	// 			Return{' '}
+	// 	// 		</div>
+	// 	// 		<div className="flex justify-evenly">
+	// 	// 			<Card data={viewActivity} fields={cardFields} interact={() => {}} title={['id' as keyof GQLActivity]}></Card>
+	// 	// 			<RunMap activity={viewActivity}></RunMap>
+	// 	// 		</div>
+	// 	// 	</>
+	// 	// );
+	// }
 
 	return (
 		<div className="py-6">
