@@ -10,5 +10,5 @@ export function ActivityPage() {
 		return <div></div>;
 	}
 
-	return <div>ye</div>;
+	return <div></div>;
 }
