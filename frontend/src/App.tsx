@@ -22,7 +22,6 @@ function App() {
 						<Route path="/redirect/exchange_token" element={<RedirectPage />} />
 						<Route path="/activities" element={<TablePage />} />
 						<Route path="/activities/:activityId" element={<ActivityPage />} />
-
 						<Route path="/weekly" element={<CardPageWeeks />} />
 						<Route path="/weekly/:yearNumber/:weekNumber" element={<CardPageActivities />} />
 					</Route>
