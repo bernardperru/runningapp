@@ -24,6 +24,7 @@ function App() {
 						<Route path="/activities/:activityId" element={<ActivityPage />} />
 						<Route path="/weekly" element={<CardPageWeeks />} />
 						<Route path="/weekly/:yearNumber/:weekNumber" element={<CardPageActivities />} />
+						<Route path="/charts" element={<ChartPage />} />
 					</Route>
 				</Routes>
 			</div>

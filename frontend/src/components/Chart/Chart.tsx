@@ -1,3 +1,4 @@
+import { AxisType } from '../../utils';
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -16,17 +17,11 @@ import { Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LogarithmicScale, Title, Tooltip, Legend);
 
-export interface IAxisType<T> {
-	key: keyof T;
-	title: string;
-	color?: string;
-}
-
 interface Props<T> {
 	data?: T[];
-	yLeft: IAxisType<T>;
-	yRight: IAxisType<T>;
-	x: IAxisType<T>;
+	yLeft: AxisType<T>;
+	yRight: AxisType<T>;
+	x: AxisType<T>;
 }
 
 export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
@@ -82,11 +77,7 @@ export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
 		],
 	};
 
-	return (
-		<div className="h-auto w-auto">
-			<Line options={options} data={datax} />
-		</div>
-	);
+	return <Line options={options} data={datax} />;
 }
 
 export default Chart;
