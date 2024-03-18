@@ -12,7 +12,7 @@ interface Props<T> {
 	id: keyof ChartForm;
 	register: UseFormRegister<ChartForm>;
 }
-
+//
 export function ChartSelect<T>({ label, options, register, id }: Props<T>) {
 	return (
 		<div>
