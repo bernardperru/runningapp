@@ -19,9 +19,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Logarith
 
 interface Props<T> {
 	data?: T[];
-	y1?: AxisType<T>;
-	y2?: AxisType<T>;
-	x?: AxisType<T>;
+	y1: keyof T;
+	y2: keyof T;
+	x: keyof T;
 }
 
 export function Chart<T>({ data, y1, y2, x }: Props<T>) {
@@ -47,31 +47,31 @@ export function Chart<T>({ data, y1, y2, x }: Props<T>) {
 		return <div>no data</div>;
 	}
 
-	const labels = [...data].sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1)).map(obj => obj[x.key]);
+	const labels = [...data].sort((a, b) => (a[x] > b[x] ? 1 : -1)).map(obj => obj[x]);
 
 	const datax: ChartData<'line'> = {
 		labels,
 		datasets: [
 			{
-				label: y1?.title,
+				label: '1',
 				data: [...data]
-					.sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1))
+					.sort((a, b) => (a[x] > b[x] ? 1 : -1))
 					.map(obj => {
-						return obj[y1.key] as number;
+						return obj[y1] as number;
 					}),
 				borderColor: 'rgb(53, 162, 235)',
-				backgroundColor: yLeft.color ? yLeft.color : 'rgba(53, 162, 235, 0.5)',
+				backgroundColor: 'rgba(53, 162, 235, 0.5)',
 				yAxisID: 'yLeft',
 			},
 			{
-				label: yRight.title,
+				label: '2',
 				data: [...data]
-					.sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1))
+					.sort((a, b) => (a[x] > b[x] ? 1 : -1))
 					.map(obj => {
-						return obj[yRight.key] as number;
+						return obj[y2] as number;
 					}),
 				borderColor: 'rgba(215, 17, 17, 0.8)',
-				backgroundColor: yRight.color ? yRight.color : 'rgba(215, 17, 17, 0.8)',
+				backgroundColor: 'rgba(215, 17, 17, 0.8)',
 				yAxisID: 'yRight',
 			},
 		],
