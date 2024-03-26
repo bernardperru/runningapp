@@ -19,12 +19,12 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Logarith
 
 interface Props<T> {
 	data?: T[];
-	yLeft: AxisType<T>;
-	yRight: AxisType<T>;
-	x: AxisType<T>;
+	y1?: AxisType<T>;
+	y2?: AxisType<T>;
+	x?: AxisType<T>;
 }
 
-export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
+export function Chart<T>({ data, y1, y2, x }: Props<T>) {
 	const options: ChartOptions<'line'> = {
 		responsive: true,
 		maintainAspectRatio: true,
@@ -53,11 +53,11 @@ export function Chart<T>({ data, yLeft, yRight, x }: Props<T>) {
 		labels,
 		datasets: [
 			{
-				label: yLeft.title,
+				label: y1?.title,
 				data: [...data]
 					.sort((a, b) => (a[x.key] > b[x.key] ? 1 : -1))
 					.map(obj => {
-						return obj[yLeft.key] as number;
+						return obj[y1.key] as number;
 					}),
 				borderColor: 'rgb(53, 162, 235)',
 				backgroundColor: yLeft.color ? yLeft.color : 'rgba(53, 162, 235, 0.5)',
