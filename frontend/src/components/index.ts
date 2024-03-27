@@ -5,3 +5,4 @@ export * from './Map';
 export * from './Navbar';
 export * from './Table';
 export * from './Layout';
+export * from './Inputs';

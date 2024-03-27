@@ -1,10 +1,9 @@
-import Chart from '../components/Chart/Chart';
 import { useGetActivitiesQuery } from '../graphql';
-import { ChartSelect } from '../components/Chart/ChartSelect';
 import { useForm } from 'react-hook-form';
 
 import React from 'react';
 import { ChartActivity, xAxis, yAxis } from '../utils';
+import { ChartSelect, Chart, InputRange } from '../components';
 
 export type ChartForm = {
 	x: keyof ChartActivity;
@@ -30,6 +29,9 @@ export const ChartPage: React.FunctionComponent = () => {
 			</form>
 			<div className="flex justify-center items-center w-1/2">
 				<Chart data={data.getActivities} x={getValues().x} y1={getValues().y1} y2={getValues().y2} />
+			</div>
+			<div>
+				<InputRange />
 			</div>
 		</div>
 	);
