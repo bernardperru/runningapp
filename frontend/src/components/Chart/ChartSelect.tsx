@@ -6,18 +6,18 @@ interface SelectField<T> {
 	title: string;
 }
 
-interface Props<T> {
+export interface ChartSelectProps<T, B> {
 	label: string;
 	options: SelectField<T>[];
-	id: keyof T;
+	id: keyof B;
 }
 
-export function ChartSelect<T>({ label, options, id }: Props<T>) {
+export function ChartSelect<T, B>({ label, options, id }: ChartSelectProps<T, B>) {
 	const { register } = useFormContext();
 	return (
 		<div>
 			{label}
-			<select className="border border-black flex justify-center" {...register(id.toString())}>
+			<select className="border border-black flex justify-center" {...register(id as string)}>
 				{options.map((el, index) => (
 					<option value={el.key.toString()} key={index}>
 						{el.title}
