@@ -9,8 +9,10 @@ export type ChartForm = {
 	x: keyof ChartActivity;
 	y1: keyof ChartActivity;
 	y2: keyof ChartActivity;
-	distanceFrom: number;
-	distanceTo: number;
+	distanceLower: number;
+	distanceUpper: number;
+	heartrateLower: number;
+	heartrateUpper: number;
 };
 
 export const ChartPage: React.FunctionComponent = () => {
@@ -23,8 +25,8 @@ export const ChartPage: React.FunctionComponent = () => {
 	}
 
 	return (
-		<div className="m-4 flex flex-row justify-center items-center">
-			<div className="flex items-start justify-start">
+		<div className="pt-4 flex flex-row justify-evenly ">
+			<div className="flex items-start justify-start border border-black rounded-md p-4">
 				<form className="flex flex-col gap-2 ">
 					<div className="flex flex-row gap-2">
 						<ChartSelect label="X" controlProps={{ control: control, name: 'x' }} options={xAxis}></ChartSelect>
@@ -35,7 +37,19 @@ export const ChartPage: React.FunctionComponent = () => {
 						<InputRange
 							label="Distance"
 							id={{ from: 'distanceFrom', to: 'distanceTo' }}
-							placeholder={{ from: 'from km', to: 'to km' }}
+							placeholder={{ from: 'km', to: 'km' }}
+							type="text"
+						/>
+						<InputRange
+							label="Date"
+							id={{ from: 'distanceFrom', to: 'distanceTo' }}
+							placeholder={{ from: 'from', to: 'to' }}
+							type="date"
+						/>
+						<InputRange
+							label="Heartrate"
+							id={{ from: 'distanceFrom', to: 'distanceTo' }}
+							placeholder={{ from: 'bpm', to: 'bpm' }}
 							type="text"
 						/>
 					</div>

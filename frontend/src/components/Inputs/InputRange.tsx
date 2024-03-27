@@ -1,5 +1,3 @@
-import { UseFormRegister, useFormContext } from 'react-hook-form';
-
 type InputRangeProps<T> = {
 	id: {
 		to: keyof T;
@@ -18,9 +16,9 @@ export function InputRange<T>({ id, placeholder, type, label }: InputRangeProps<
 		<div className="flex flex-col">
 			{label}
 			<div>
-				<input type={type} placeholder={placeholder.from} />
-				-
-				<input type={type} placeholder={placeholder.to} />
+				<input className="border border-black" type={type} placeholder={placeholder.from} />
+				{' - '}
+				<input className="border border-black" type={type} placeholder={placeholder.to} />
 			</div>
 		</div>
 	);

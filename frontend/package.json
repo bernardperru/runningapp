@@ -5,6 +5,7 @@
 	"dependencies": {
 		"@apollo/client": "^3.8.6",
 		"@graphql-codegen/typescript-react-apollo": "^4.0.0",
+		"@headlessui/react": "^1.7.18",
 		"@hookform/resolvers": "^3.3.4",
 		"@mapbox/polyline": "^1.2.1",
 		"@testing-library/jest-dom": "^5.17.0",
