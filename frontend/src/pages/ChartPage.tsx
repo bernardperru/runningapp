@@ -16,7 +16,13 @@ export type ChartForm = {
 };
 
 export const ChartPage: React.FunctionComponent = () => {
-	const { control, watch, getValues } = useForm<ChartForm>();
+	const { control, watch, getValues } = useForm<ChartForm>({
+		defaultValues: {
+			x: 'start_date',
+			y1: 'distance',
+			y2: 'distance',
+		},
+	});
 	const { data } = useGetActivitiesQuery();
 	const watchAllFields = watch();
 
