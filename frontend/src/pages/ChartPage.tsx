@@ -1,5 +1,5 @@
 import { useGetActivitiesQuery } from '../graphql';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
 import React from 'react';
 import { ChartActivity, xAxis, yAxis } from '../utils';
@@ -12,9 +12,9 @@ export type ChartForm = {
 };
 
 export const ChartPage: React.FunctionComponent = () => {
-	const { register, getValues, watch } = useForm<ChartForm>();
+	const methods = useForm<ChartForm>();
 	const { data } = useGetActivitiesQuery();
-	const watchAllFields = watch();
+	const watchAllFields = methods.watch();
 
 	if (!data) {
 		return <></>;
@@ -22,16 +22,31 @@ export const ChartPage: React.FunctionComponent = () => {
 
 	return (
 		<div className="m-4 flex flex-row justify-center items-center">
-			<form className="flex flex-col justify-center items-center">
-				<ChartSelect register={register} id="x" options={xAxis} label="X" />
-				<ChartSelect register={register} id="y1" options={yAxis} label="Y1" />
-				<ChartSelect register={register} id="y2" options={yAxis} label="Y2" />
-			</form>
+			<FormProvider {...methods}>
+				<div>
+					<form className="flex flex-col justify-center items-center">
+						<ChartSelect id="x" options={xAxis} label="X" />
+						<ChartSelect id="y1" options={yAxis} label="Y1" />
+						<ChartSelect id="y2" options={yAxis} label="Y2" />
+					</form>
+					<div>
+						<InputRange
+							label="Distance"
+							id={{ from: 'distanceFrom', to: 'distanceTo' }}
+							placeholder={{ from: 'from km', to: 'to km' }}
+							type="text"
+						/>
+					</div>
+				</div>
+			</FormProvider>
+
 			<div className="flex justify-center items-center w-1/2">
-				<Chart data={data.getActivities} x={getValues().x} y1={getValues().y1} y2={getValues().y2} />
-			</div>
-			<div>
-				<InputRange />
+				<Chart
+					data={data.getActivities}
+					x={methods.getValues().x}
+					y1={methods.getValues().y1}
+					y2={methods.getValues().y2}
+				/>
 			</div>
 		</div>
 	);
