@@ -14,15 +14,13 @@ type InputRangeProps<T> = {
 };
 
 export function InputRange<T>({ id, placeholder, type, label }: InputRangeProps<T>) {
-	const { register } = useFormContext();
-
 	return (
 		<div className="flex flex-col">
 			{label}
 			<div>
-				<input type={type} placeholder={placeholder.from} {...register(id.from.toString())} />
+				<input type={type} placeholder={placeholder.from} />
 				-
-				<input type={type} placeholder={placeholder.to} {...register(id.to.toString())} />
+				<input type={type} placeholder={placeholder.to} />
 			</div>
 		</div>
 	);

@@ -1,26 +1,22 @@
 import { useGetActivitiesQuery } from '../graphql';
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import React from 'react';
 import { ChartActivity, xAxis, yAxis } from '../utils';
-import { ChartSelect, Chart, InputRange, ChartSelectProps } from '../components';
+import { ChartSelect, Chart, InputRange } from '../components';
 
 export type ChartForm = {
 	x: keyof ChartActivity;
 	y1: keyof ChartActivity;
 	y2: keyof ChartActivity;
+	distanceFrom: number;
+	distanceTo: number;
 };
 
-const chartProps: ChartSelectProps<ChartActivity, ChartForm>[] = [
-	{ id: 'x', label: 'X', options: xAxis },
-	{ id: 'y1', label: 'Y1', options: yAxis },
-	{ id: 'y2', label: 'Y2', options: yAxis },
-];
-
 export const ChartPage: React.FunctionComponent = () => {
-	const methods = useForm<ChartForm>();
+	const { control, watch, getValues } = useForm<ChartForm>();
 	const { data } = useGetActivitiesQuery();
-	const watchAllFields = methods.watch();
+	const watchAllFields = watch();
 
 	if (!data) {
 		return <></>;
@@ -28,13 +24,13 @@ export const ChartPage: React.FunctionComponent = () => {
 
 	return (
 		<div className="m-4 flex flex-row justify-center items-center">
-			<FormProvider {...methods}>
-				<div>
-					<form className="flex flex-col justify-center items-center">
-						{chartProps.map(select => (
-							<ChartSelect id={select.id} options={select.options} label={select.label} />
-						))}
-					</form>
+			<div className="flex items-start justify-start">
+				<form className="flex flex-col gap-2 ">
+					<div className="flex flex-row gap-2">
+						<ChartSelect label="X" controlProps={{ control: control, name: 'x' }} options={xAxis}></ChartSelect>
+						<ChartSelect label="Y1" controlProps={{ control: control, name: 'y1' }} options={yAxis}></ChartSelect>
+						<ChartSelect label="Y2" controlProps={{ control: control, name: 'y2' }} options={yAxis}></ChartSelect>
+					</div>
 					<div>
 						<InputRange
 							label="Distance"
@@ -43,16 +39,11 @@ export const ChartPage: React.FunctionComponent = () => {
 							type="text"
 						/>
 					</div>
-				</div>
-			</FormProvider>
+				</form>
+			</div>
 
 			<div className="flex justify-center items-center w-1/2">
-				<Chart
-					data={data.getActivities}
-					x={methods.getValues().x}
-					y1={methods.getValues().y1}
-					y2={methods.getValues().y2}
-				/>
+				<Chart data={data.getActivities} x={getValues().x} y1={getValues().y1} y2={getValues().y2} />
 			</div>
 		</div>
 	);
