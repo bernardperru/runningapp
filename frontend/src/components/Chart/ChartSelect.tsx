@@ -1,18 +1,19 @@
 import { ChartForm } from '@/pages';
-import { UseControllerProps, useController } from 'react-hook-form';
+import { ChartActivity } from '@/utils';
+import { FieldValue, FieldValues, UseControllerProps, useController } from 'react-hook-form';
 
 interface SelectField<T> {
 	key: keyof T;
 	title: string;
 }
 
-type ChartSelectProps<T> = {
+type ChartSelectProps = {
 	controlProps: UseControllerProps<ChartForm>;
-	options: SelectField<T>[];
+	options: SelectField<ChartActivity>[];
 	label: string;
 };
 
-export function ChartSelect<T>({ controlProps, options, label }: ChartSelectProps<T>) {
+export function ChartSelect({ controlProps, options, label }: ChartSelectProps) {
 	const { field, fieldState } = useController(controlProps);
 
 	return (

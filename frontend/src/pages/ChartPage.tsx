@@ -21,6 +21,10 @@ export const ChartPage: React.FunctionComponent = () => {
 			x: 'start_date',
 			y1: 'distance',
 			y2: 'distance',
+			distanceLower: 0,
+			distanceUpper: 42,
+			heartrateLower: 50,
+			heartrateUpper: 200,
 		},
 	});
 	const { data } = useGetActivitiesQuery();
