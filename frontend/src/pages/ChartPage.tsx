@@ -1,4 +1,4 @@
-import { useGetActivitiesQuery } from '../graphql';
+import { GQLActivity, useGetActivitiesQuery } from '../graphql';
 import { useForm } from 'react-hook-form';
 
 import React from 'react';
@@ -13,6 +13,8 @@ export type ChartForm = {
 	distanceUpper: number;
 	heartrateLower: number;
 	heartrateUpper: number;
+	dateLower: string;
+	dateUpper: string;
 };
 
 export const ChartPage: React.FunctionComponent = () => {
@@ -34,6 +36,20 @@ export const ChartPage: React.FunctionComponent = () => {
 		return <></>;
 	}
 
+	function filterActivities(activities: ChartActivity[]) {
+		console.log(getValues());
+		console.log(activities[0]);
+		return activities.filter(
+			activity =>
+				activity.distance >= getValues().distanceLower &&
+				activity.distance <= getValues().distanceUpper &&
+				activity.average_heartrate >= getValues().heartrateLower &&
+				activity.average_heartrate <= getValues().heartrateUpper
+			// activity.start_date >= getValues().dateLower &&
+			// activity.start_date <= getValues().dateUpper
+		);
+	}
+
 	return (
 		<div className="pt-4 flex flex-row justify-evenly ">
 			<div className="flex items-start justify-start border border-black rounded-md p-4">
@@ -46,19 +62,22 @@ export const ChartPage: React.FunctionComponent = () => {
 					<div>
 						<InputRange
 							label="Distance"
-							id={{ from: 'distanceFrom', to: 'distanceTo' }}
+							from={{ control: control, name: 'distanceLower' }}
+							to={{ control: control, name: 'distanceUpper' }}
 							placeholder={{ from: 'km', to: 'km' }}
 							type="text"
 						/>
 						<InputRange
 							label="Date"
-							id={{ from: 'distanceFrom', to: 'distanceTo' }}
+							from={{ control: control, name: 'dateLower' }}
+							to={{ control: control, name: 'dateUpper' }}
 							placeholder={{ from: 'from', to: 'to' }}
 							type="date"
 						/>
 						<InputRange
 							label="Heartrate"
-							id={{ from: 'distanceFrom', to: 'distanceTo' }}
+							from={{ control: control, name: 'heartrateLower' }}
+							to={{ control: control, name: 'heartrateUpper' }}
 							placeholder={{ from: 'bpm', to: 'bpm' }}
 							type="text"
 						/>
@@ -67,7 +86,12 @@ export const ChartPage: React.FunctionComponent = () => {
 			</div>
 
 			<div className="flex justify-center items-center w-1/2">
-				<Chart data={data.getActivities} x={getValues().x} y1={getValues().y1} y2={getValues().y2} />
+				<Chart
+					data={filterActivities([...data.getActivities] as ChartActivity[])}
+					x={getValues().x}
+					y1={getValues().y1}
+					y2={getValues().y2}
+				/>
 			</div>
 		</div>
 	);

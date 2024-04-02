@@ -18,7 +18,7 @@ import { Line } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, LogarithmicScale, Title, Tooltip, Legend);
 
 interface Props<T> {
-	data?: T[];
+	data: T[];
 	y1: keyof T;
 	y2: keyof T;
 	x: keyof T;
