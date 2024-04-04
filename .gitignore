@@ -1,5 +1,4 @@
 node_modules
-#///
 
 API/prisma/dev.db
 yarn-error.log
