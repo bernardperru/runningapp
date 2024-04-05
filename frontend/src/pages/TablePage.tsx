@@ -110,7 +110,7 @@ export function TablePage() {
 			first: 10,
 		},
 	});
-	
+
 	const { data, loading } = useGetActivityPageQuery({
 		variables: {
 			first: paginationData.first,
