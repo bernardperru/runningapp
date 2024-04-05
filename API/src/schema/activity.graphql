@@ -25,7 +25,7 @@ type Activity {
   summary_polyline: String!
   average_cadence: Float!
   average_heartrate: Float!
-  average_pace: String!
+  average_pace: Float!
   week: Week
   zone: Int!
 }

@@ -31,17 +31,23 @@ export function getYear(start_date: string) {
   return date.getFullYear();
 }
 
-export function calculateRunningPace(time: number, meters: number): string {
+export function calculateRunningPace(time: number, meters: number): number {
   // Calculate pace in seconds per kilometer
   const kilometers = meters / 1000;
   const paceInSeconds = time / kilometers;
 
-  // Calculate minutes and seconds
-  const minutes = Math.floor(paceInSeconds / 60);
-  const seconds = Math.round(paceInSeconds % 60);
+  // Convert pace to minutes per kilometer
+  const paceInMinutes = paceInSeconds / 60;
 
-  // Format the result as a string (MM:SS)
-  const formattedPace = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  // Extract the integer part (minutes) and the fractional part (seconds)
+  const minutes = Math.floor(paceInMinutes);
+  const seconds = (paceInMinutes - minutes) * 60;
 
-  return formattedPace;
+  // Round seconds to two decimal places
+  const roundedSeconds = Math.round(seconds * 100) / 100;
+
+  // Combine minutes and rounded seconds into a float
+  const paceFloat = parseFloat(`${minutes}.${roundedSeconds}`);
+
+  return paceFloat;
 }

@@ -31,7 +31,7 @@ model Activity {
   summary_polyline String
   average_cadence Int
   average_heartrate Int
-  average_pace String
+  average_pace Float
   week Week? @relation(fields: [weekId], references: [id])
   weekId Int?
   zone Int
