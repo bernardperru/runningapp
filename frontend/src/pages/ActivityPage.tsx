@@ -8,5 +8,5 @@ export function ActivityPage() {
 		return <div></div>;
 	}
 
-	return <div></div>;
+	return <div>This is activity-city</div>;
 }
