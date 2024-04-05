@@ -23,7 +23,7 @@ export type ChartActivity = {
 	summary_polyline: string;
 	average_cadence: number;
 	average_heartrate: number;
-	average_pace: string;
+	average_pace: number;
 	zone: number;
 };
 
