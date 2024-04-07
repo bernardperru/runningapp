@@ -129,7 +129,7 @@ export function TablePage() {
 			});
 		}
 	}
-	//
+
 	function rowInteract(row: GQLActivity) {
 		// setViewActivity(row);
 		navigate('/activities/' + row.activityId);
