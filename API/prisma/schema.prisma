@@ -18,6 +18,15 @@ model User {
   refresh_token String?
   activities Activity[]
   weeks Week[]
+  weekGoals WeekGoal[]
+}
+
+model WeekGoal {
+  id Int @id 
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  goalDistance Float
+  currentDistance Float
 }
 
 model Activity {

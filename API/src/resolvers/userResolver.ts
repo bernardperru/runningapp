@@ -22,13 +22,43 @@ export const userResolver: GQLResolvers = {
 
       return distanceAgg._sum.distance ? distanceAgg._sum.distance : 0;
     },
-    getWeeklyGoal: async (_, args, context) => {
+    getWeeklyGoal: async (_, { week, year }, context) => {
       // check database if there is a goal for this week
 
-      // if not create one based on the previous week
+      if (!context.auth) {
+        throw new Error("User not logged in");
+      }
 
-      //return WeekGoal
-      return { currentDistance: 0, goalDistance: 20, id: 1 };
+      const temp = parseInt(context.auth?.user.id + "" + year + "" + week);
+
+      const upsertWeekGoal = await database.weekGoal.upsert({
+        where: { id: temp },
+        update: {},
+        create: {
+          user: {
+            connect: {
+              id: context.auth.user.id,
+            },
+          },
+          currentDistance: 0,
+          goalDistance: 20,
+          id: temp,
+        },
+      });
+
+      console.log({ upsertWeekGoal });
+
+      const weekGoal = await database.weekGoal.findFirst({
+        where: {
+          userId: context.auth.user.id,
+        },
+      });
+
+      if (weekGoal) {
+        return weekGoal;
+      }
+
+      return { currentDistance: 0, goalDistance: 0, id: context.auth.user.id };
     },
   },
 };

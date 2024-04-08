@@ -6,8 +6,10 @@ export function WeekGoal() {
 	const { data } = useGetWeeklyGoalQuery({ variables: getCurrentWeekAndYear() });
 
 	if (!data) {
+		console.log(data);
 		return 'no data found';
 	}
+
 	return (
 		<div>
 			<h2>Weekly Goal</h2>

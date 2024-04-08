@@ -13,7 +13,7 @@ type User {
   refreshToken: String
   activities: [Activity]
   weeks: [Week]
-  weeklyGoals: [WeekGoal]
+  weekGoals: [WeekGoal]
 }
 
 type WeekGoal {
