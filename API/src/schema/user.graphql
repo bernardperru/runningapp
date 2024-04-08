@@ -2,7 +2,7 @@ type Query {
   getUserInfo: User! @access
   getDistanceSum: Float! @access
   getYears: [Year]! @access
-  getWeeklyGoal: WeekGoal @access
+  getWeeklyGoal(year: Int!, week: Int!): WeekGoal! @access
 }
 
 type User {

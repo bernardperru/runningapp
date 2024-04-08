@@ -22,5 +22,13 @@ export const userResolver: GQLResolvers = {
 
       return distanceAgg._sum.distance ? distanceAgg._sum.distance : 0;
     },
+    getWeeklyGoal: async (_, args, context) => {
+      // check database if there is a goal for this week
+
+      // if not create one based on the previous week
+
+      //return WeekGoal
+      return { currentDistance: 0, goalDistance: 20, id: 1 };
+    },
   },
 };

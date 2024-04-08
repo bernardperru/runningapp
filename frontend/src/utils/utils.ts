@@ -5,6 +5,16 @@ export function averageOrSum(value: number, denominator: number, type: string): 
 	return value;
 }
 
+export function getCurrentWeekAndYear(): { week: number; year: number } {
+	const now = new Date();
+	const startOfYear = new Date(now.getFullYear(), 0, 0);
+	const diff = now.getTime() - startOfYear.getTime();
+	const oneWeek = 1000 * 60 * 60 * 24 * 7;
+	const week = Math.floor(diff / oneWeek) + 1;
+	const year = now.getFullYear();
+	return { week, year };
+}
+
 function addZero(value: number): string {
 	if (value < 10) {
 		return '0' + value.toString();
