@@ -2,6 +2,7 @@ type Query {
   getUserInfo: User! @access
   getDistanceSum: Float! @access
   getYears: [Year]! @access
+  getWeeklyGoal: WeekGoal @access
 }
 
 type User {
@@ -12,4 +13,11 @@ type User {
   refreshToken: String
   activities: [Activity]
   weeks: [Week]
+  weeklyGoals: [WeekGoal]
+}
+
+type WeekGoal {
+  id: Int!
+  goalDistance: Float!
+  currentDistance: Float!
 }

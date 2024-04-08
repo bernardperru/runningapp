@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { INavBarLink, Navbar } from './Navbar';
+import { WeekGoal } from './WeekGoal/WeekGoal';
 
 const navbarLinks: INavBarLink[] = [
 	{ path: '/', title: 'Home' },
@@ -13,6 +14,7 @@ export function Layout() {
 		<>
 			<Navbar links={navbarLinks}></Navbar>
 			<Outlet />
+			<WeekGoal />
 		</>
 	);
 }
