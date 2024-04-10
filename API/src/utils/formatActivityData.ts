@@ -15,15 +15,19 @@ export function getZone(heartRate: number): number {
   }
 }
 
-export function getWeek(start_date: string) {
-  const currentDate = new Date(start_date);
-  const startDate = new Date(currentDate.getFullYear(), 0, 1);
-  const days = Math.floor(
-    (currentDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000)
-  );
-  const weekNumber = Math.ceil(days / 7);
+export function getWeek(start_date: string): number {
+  const date = new Date(start_date);
+  const yearStart = new Date(date.getFullYear(), 0, 1);
+  const day = (yearStart.getDay() + 6) % 7; // Day of week (0 - 6) where Monday is 0
 
-  return weekNumber;
+  const days = Math.floor(
+    (date.getTime() -
+      yearStart.getTime() -
+      (date.getTimezoneOffset() - yearStart.getTimezoneOffset()) * 60000) /
+      86400000
+  );
+
+  return Math.ceil((days + day + 1) / 7);
 }
 
 export function getYear(start_date: string) {

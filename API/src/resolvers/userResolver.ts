@@ -30,23 +30,28 @@ export const userResolver: GQLResolvers = {
       }
 
       const temp = parseInt(context.auth?.user.id + "" + year + "" + week);
+      const weekId = parseInt(year + "" + week + "" + context.auth?.user.id);
+
+      const currentMileage = await database.week.findUnique({
+        where: { id: weekId },
+      });
 
       const upsertWeekGoal = await database.weekGoal.upsert({
         where: { id: temp },
-        update: {},
+        update: {
+          currentDistance: currentMileage ? currentMileage.distance : 0,
+        },
         create: {
           user: {
             connect: {
               id: context.auth.user.id,
             },
           },
-          currentDistance: 0,
+          currentDistance: currentMileage ? currentMileage.distance : 0,
           goalDistance: 20,
           id: temp,
         },
       });
-
-      console.log({ upsertWeekGoal });
 
       const weekGoal = await database.weekGoal.findFirst({
         where: {
@@ -54,8 +59,8 @@ export const userResolver: GQLResolvers = {
         },
       });
 
-      if (weekGoal) {
-        return weekGoal;
+      if (upsertWeekGoal) {
+        return upsertWeekGoal;
       }
 
       return { currentDistance: 0, goalDistance: 0, id: context.auth.user.id };

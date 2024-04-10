@@ -13,7 +13,7 @@ export function WeekGoal() {
 	return (
 		<div>
 			<h2>Weekly Goal</h2>
-			{data.getWeeklyGoal.currentDistance} km / {data.getWeeklyGoal.goalDistance} km
+			{(data.getWeeklyGoal.currentDistance / 1000).toFixed(0)} km / {data.getWeeklyGoal.goalDistance} km
 		</div>
 	);
 }
