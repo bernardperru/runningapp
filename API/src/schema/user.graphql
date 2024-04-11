@@ -3,6 +3,7 @@ type Query {
   getDistanceSum: Float! @access
   getYears: [Year]! @access
   getWeeklyGoal(year: Int!, week: Int!): WeekGoal! @access
+  changeWeeklyGoal(goal: Float!): Boolean! @access
 }
 
 type User {

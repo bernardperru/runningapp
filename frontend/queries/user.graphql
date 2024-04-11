@@ -15,3 +15,7 @@ query GetWeeklyGoal($year: Int!, $week: Int!) {
 		goalDistance
 	}
 }
+
+query changeWeeklyGoal($goal: Float!) {
+	changeWeeklyGoal(goal: $goal)
+}
