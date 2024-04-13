@@ -1,5 +1,6 @@
 import { GQLResolvers } from "../resolvers-types";
 import { database } from "../database.js";
+import { getCurrentWeekAndYear } from "../utils/formatActivityData.js";
 
 export const userResolver: GQLResolvers = {
   Query: {
@@ -64,6 +65,40 @@ export const userResolver: GQLResolvers = {
       }
 
       return { currentDistance: 0, goalDistance: 0, id: context.auth.user.id };
+    },
+  },
+  Mutation: {
+    changeWeeklyGoal: async (_, args, context) => {
+      if (!context.auth) {
+        throw new Error("User not logged in");
+      }
+
+      const { week, year } = getCurrentWeekAndYear();
+      const temp = parseInt(context.auth?.user.id + "" + year + "" + week);
+      const weekId = parseInt(year + "" + week + "" + context.auth?.user.id);
+
+      const currentMileage = await database.week.findUnique({
+        where: { id: weekId },
+      });
+
+      const upsertWeekGoal = await database.weekGoal.upsert({
+        where: { id: temp },
+        update: {
+          goalDistance: args.goal,
+        },
+        create: {
+          user: {
+            connect: {
+              id: context.auth.user.id,
+            },
+          },
+          currentDistance: 0,
+          goalDistance: args.goal,
+          id: temp,
+        },
+      });
+
+      return true;
     },
   },
 };

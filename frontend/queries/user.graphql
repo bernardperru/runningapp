@@ -16,6 +16,6 @@ query GetWeeklyGoal($year: Int!, $week: Int!) {
 	}
 }
 
-query changeWeeklyGoal($goal: Float!) {
+mutation changeWeeklyGoal($goal: Float!) {
 	changeWeeklyGoal(goal: $goal)
 }

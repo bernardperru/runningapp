@@ -3,6 +3,9 @@ type Query {
   getDistanceSum: Float! @access
   getYears: [Year]! @access
   getWeeklyGoal(year: Int!, week: Int!): WeekGoal! @access
+}
+
+type Mutation {
   changeWeeklyGoal(goal: Float!): Boolean! @access
 }
 
