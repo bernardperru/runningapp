@@ -20,6 +20,7 @@ export function WeekGoal() {
 
 	return (
 		<div className="border border-black">
+			{getCurrentWeekAndYear().week}
 			<h2>Weekly Goal</h2>
 			{(data.getWeeklyGoal.currentDistance / 1000).toFixed(0)} km / {data.getWeeklyGoal.goalDistance} km
 			<input

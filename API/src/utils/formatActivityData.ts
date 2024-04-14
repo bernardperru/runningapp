@@ -16,13 +16,22 @@ export function getZone(heartRate: number): number {
 }
 
 export function getCurrentWeekAndYear(): { week: number; year: number } {
-  const now = new Date();
-  const startOfYear = new Date(now.getFullYear(), 0, 0);
-  const diff = now.getTime() - startOfYear.getTime();
-  const oneWeek = 1000 * 60 * 60 * 24 * 7;
-  const week = Math.floor(diff / oneWeek) + 1;
-  const year = now.getFullYear();
-  return { week, year };
+  const today = new Date();
+
+  const oneDay = 24 * 60 * 60 * 1000;
+  const firstThursday = new Date(today.getFullYear(), 0, 4); // Set to a Thursday
+
+  // Adjust to Thursday in the same week
+  firstThursday.setDate(
+    firstThursday.getDate() -
+      (firstThursday.getDay() === 4 ? 0 : (firstThursday.getDay() || 7) - 4)
+  );
+
+  const daysSinceStart =
+    Math.floor((today.getTime() - firstThursday.getTime()) / oneDay) + 1;
+  const weekNumber = Math.ceil(daysSinceStart / 7);
+
+  return { week: weekNumber, year: today.getFullYear() };
 }
 
 export function getWeek(start_date: string): number {
