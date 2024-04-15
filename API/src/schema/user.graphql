@@ -2,11 +2,6 @@ type Query {
   getUserInfo: User! @access
   getDistanceSum: Float! @access
   getYears: [Year]! @access
-  getWeeklyGoal(year: Int!, week: Int!): WeekGoal! @access
-}
-
-type Mutation {
-  changeWeeklyGoal(goal: Float!): Boolean! @access
 }
 
 type User {
@@ -17,11 +12,4 @@ type User {
   refreshToken: String
   activities: [Activity]
   weeks: [Week]
-  weekGoals: [WeekGoal]
-}
-
-type WeekGoal {
-  id: Int!
-  goalDistance: Float!
-  currentDistance: Float!
 }

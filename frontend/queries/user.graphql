@@ -8,14 +8,3 @@ query GetUserInfo {
 query getDistanceSum {
 	getDistanceSum
 }
-
-query GetWeeklyGoal($year: Int!, $week: Int!) {
-	getWeeklyGoal(year: $year, week: $week) {
-		currentDistance
-		goalDistance
-	}
-}
-
-mutation changeWeeklyGoal($goal: Float!) {
-	changeWeeklyGoal(goal: $goal)
-}

@@ -22,7 +22,7 @@ export function WeekGoal() {
 		<div className="border border-black">
 			{getCurrentWeekAndYear().week}
 			<h2>Weekly Goal</h2>
-			{(data.getWeeklyGoal.currentDistance / 1000).toFixed(0)} km / {data.getWeeklyGoal.goalDistance} km
+			{(data.getWeeklyGoal.distance / 1000).toFixed(0)} km / {data.getWeeklyGoal.goal} km
 			<input
 				className="pointer button"
 				type="number"

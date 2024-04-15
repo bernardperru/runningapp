@@ -3,6 +3,11 @@ type Query {
   getWeeksPage(first: Int!, offset: Int!): PaginationWeekResponse!
   getWeekActivities(year: Int!, week: Int!): [Activity!]!
   updateWeeks: Int! @access
+  getWeeklyGoal(year: Int!, week: Int!): WeekGoal! @access
+}
+
+type Mutation {
+  changeWeeklyGoal(goal: Float!): Boolean! @access
 }
 
 type PaginationWeekResponse {
@@ -15,9 +20,15 @@ type Week {
   week: Int!
   year: Int!
   distance: Float!
+  goalDistance: Float!
   heartrate: Int!
   time: Float!
   cadence: Int!
   activities: [Activity!]
   activityCount: Int!
+}
+
+type WeekGoal {
+  goal: Float!
+  distance: Float!
 }

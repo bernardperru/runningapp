@@ -41,6 +41,7 @@ query GetWeeksPage($first: Int!, $offset: Int!) {
 			week
 			year
 			distance
+			goalDistance
 			heartrate
 			time
 			cadence
@@ -51,4 +52,15 @@ query GetWeeksPage($first: Int!, $offset: Int!) {
 
 query UpdateWeeks {
 	updateWeeks
+}
+
+query GetWeeklyGoal($year: Int!, $week: Int!) {
+	getWeeklyGoal(year: $year, week: $week) {
+		goal
+		distance
+	}
+}
+
+mutation ChangeWeeklyGoal($goal: Float!) {
+	changeWeeklyGoal(goal: $goal)
 }

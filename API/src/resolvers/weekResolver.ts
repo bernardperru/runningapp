@@ -1,6 +1,7 @@
 import { GQLResolvers } from "../resolvers-types";
 import { database } from "../database.js";
 import { getWeek, getYear } from "../utils/formatActivityData.js";
+import { getCurrentWeekAndYear } from "../utils/formatActivityData.js";
 
 export const weekResolver: GQLResolvers = {
   Query: {
@@ -44,6 +45,7 @@ export const weekResolver: GQLResolvers = {
               time: activity.elapsed_time,
               week: getWeek(activity.start_date),
               year: getYear(activity.start_date),
+              goalDistance: 20,
               activityCount: 1,
               activities: {
                 connect: { activityId: activity.activityId },
@@ -152,6 +154,7 @@ export const weekResolver: GQLResolvers = {
               id: weekId,
               cadence: activity.average_cadence,
               distance: activity.distance,
+              goalDistance: 20,
               heartrate: activity.average_heartrate,
               time: activity.elapsed_time,
               week: getWeek(activity.start_date),
@@ -171,6 +174,48 @@ export const weekResolver: GQLResolvers = {
       );
 
       return activites.length;
+    },
+    getWeeklyGoal: async (_, { week, year }, context) => {
+      // check database if there is a goal for this week
+
+      if (!context.auth) {
+        throw new Error("User not logged in");
+      }
+
+      const weekId = parseInt(year + "" + week + "" + context.auth?.user.id);
+
+      const currentMileage = await database.week.findUnique({
+        where: { id: weekId },
+      });
+
+      if (currentMileage) {
+        return {
+          distance: currentMileage.distance,
+          goal: currentMileage.goalDistance,
+        };
+      }
+
+      return { distance: 0, goal: 0 };
+    },
+  },
+  Mutation: {
+    changeWeeklyGoal: async (_, args, context) => {
+      if (!context.auth) {
+        throw new Error("User not logged in");
+      }
+      const { week, year } = getCurrentWeekAndYear();
+      const weekId = parseInt(year + "" + week + "" + context.auth?.user.id);
+
+      const currentMileage = await database.week.findUnique({
+        where: { id: weekId },
+      });
+
+      const upsertWeekGoal = await database.week.update({
+        where: { id: weekId },
+        data: { goalDistance: args.goal },
+      });
+
+      return true;
     },
   },
 };
