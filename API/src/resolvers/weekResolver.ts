@@ -176,14 +176,13 @@ export const weekResolver: GQLResolvers = {
       return activites.length;
     },
     getWeeklyGoal: async (_, { week, year }, context) => {
-      // check database if there is a goal for this week
-
       if (!context.auth) {
         throw new Error("User not logged in");
       }
 
       const weekId = parseInt(year + "" + week + "" + context.auth?.user.id);
 
+      //should upsert, and create a week!
       const currentMileage = await database.week.findUnique({
         where: { id: weekId },
       });
