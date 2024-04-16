@@ -15,6 +15,7 @@ export function getCurrentWeekAndYear(): { week: number; year: number } {
 	const oneWeek = 1000 * 60 * 60 * 24 * 7;
 	const week = Math.floor(diff / oneWeek) + 1; // Adding 1 to adjust for the first week
 	const year = currentDate.getFullYear();
+	//
 	return { week: week, year: year };
 }
 
