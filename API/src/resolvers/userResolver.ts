@@ -1,6 +1,5 @@
 import { GQLResolvers } from "../resolvers-types";
 import { database } from "../database.js";
-import { getCurrentWeekAndYear } from "../utils/formatActivityData.js";
 
 export const userResolver: GQLResolvers = {
   Query: {
