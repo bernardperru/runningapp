@@ -51,7 +51,7 @@ export const ChartPage: React.FunctionComponent = () => {
 	}
 
 	return (
-		<div className="pt-4 flex flex-row justify-evenly ">
+		<div className="pt-4 flex flex-row  ">
 			<div className="flex items-start justify-start border border-black rounded-md p-4">
 				<form className="flex flex-col gap-2 ">
 					<div className="flex flex-row gap-2">

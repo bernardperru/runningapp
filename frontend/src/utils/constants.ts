@@ -38,6 +38,7 @@ export const yAxis: AxisType<ChartActivity>[] = [
 	{ key: 'average_cadence', title: 'Cadence' },
 	{ key: 'average_heartrate', title: 'Heartrate' },
 	{ key: 'elapsed_time', title: 'Time' },
+	{ key: 'average_pace', title: 'Pace' },
 ];
 
 export const xAxis: AxisType<ChartActivity>[] = [
